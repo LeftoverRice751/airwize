@@ -1,15 +1,15 @@
 /**
- * "Energy optimization": the area reserved for AI-generated suggestions.
+ * "Energy optimization": suggestions from the provider configured on the
+ * server (webapp/services/energy_optimization.py). By default that is the
+ * "rules" provider, which reuses the Solar outlook's rules-based
+ * recommendations. This panel generates nothing itself.
  *
- * For the MVP it is an empty placeholder. It generates nothing and, while
- * `enabled` is false (no provider configured on the server), makes no request.
- *
- * INTEGRATION POINT. When a collaborator registers a provider in
- * webapp/services/energy_optimization.py and sets AIRWIZE_ENERGY_OPTIMIZER,
- * the page config gets optimization_enabled: true. This panel then POSTs the
- * context from lib/energy/context.js to /api/energy/suggestions (at most once
- * per REQUEST_EVERY_MS, or when the site, mode or scenario changes) and lists
- * the returned {title, body} items. The API key stays on the server.
+ * When optimization_enabled is true it POSTs the context from
+ * lib/energy/context.js to /api/energy/suggestions (at most once per
+ * REQUEST_EVERY_MS, or right away when the site, mode or scenario changes) and
+ * lists the returned {title, body, basis} items. With no provider configured
+ * it stays an empty placeholder and makes no request. Swapping in an AI
+ * provider needs no change here; its API key stays on the server.
  */
 import { h } from '../../lib/dom.js'
 
@@ -23,13 +23,13 @@ export class OptimizationPanel {
     this.lastAt = 0
     this.ctrl = null
 
-    this.status = h('span', { class: 'energy-tag' }, enabled ? 'Connected' : 'Not connected')
+    this.status = h('span', { class: 'energy-tag' }, enabled ? 'Loading' : 'Not connected')
     this.list = h('ul', { class: 'energy-suggestions', hidden: true })
     this.placeholder = h(
       'div',
       { class: 'energy-placeholder' },
       h('p', {}, 'Suggestions for making the most of the available energy will appear here.'),
-      h('p', { class: 'source-note' }, enabled ? 'Waiting for the optimization service.' : 'No optimization service is connected yet.'),
+      h('p', { class: 'source-note' }, enabled ? 'Checking the current conditions…' : 'No optimization service is connected yet.'),
     )
     this.el = h(
       'section',
@@ -63,12 +63,12 @@ export class OptimizationPanel {
     }
   }
 
-  render({ status, suggestions = [], message }) {
+  render({ status, label, suggestions = [], message }) {
     const has = status === 'ok' && suggestions.length > 0
-    this.status.textContent = status === 'ok' ? 'Suggestions' : status === 'error' ? 'Unavailable' : 'Not connected'
+    this.status.textContent = status === 'ok' ? (label ?? 'Suggestions') : status === 'error' ? 'Unavailable' : 'Not connected'
     this.placeholder.hidden = has
     this.placeholder.lastChild.textContent = message ?? (status === 'ok' ? 'No suggestions right now.' : '')
     this.list.hidden = !has
-    this.list.replaceChildren(...suggestions.map((sg) => h('li', {}, h('p', { class: 'energy-suggestion__title' }, sg.title), h('p', { class: 'energy-suggestion__body' }, sg.body))))
+    this.list.replaceChildren(...suggestions.map((sg) => h('li', { class: 'energy-suggestion' }, h('p', { class: 'energy-suggestion__title' }, sg.title), h('p', { class: 'energy-suggestion__body' }, sg.body), sg.basis && h('p', { class: 'energy-why__basis' }, sg.basis))))
   }
 }

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/energy.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/solar.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/motion.css') }}" />
     <script type="application/json" id="client-config">{{ client_config | tojson }}</script>
     <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
@@ -52,6 +53,7 @@
           <div class="workspace" id="workspace">
             <div id="ledger-slot" class="ledger-slot"></div>
           </div>
+          {% include 'partials/solar_card.html' %}
         </section>
 
         <section id="view-alerts" class="alerts" aria-labelledby="alerts-title" hidden>

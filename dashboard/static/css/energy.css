@@ -80,6 +80,7 @@
   border: 1px dashed var(--color-rule-2); border-radius: var(--radius-md); text-align: center; color: var(--color-ink-2);
 }
 .energy-suggestions { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+.energy-suggestion { display: grid; gap: 2px; padding: var(--space-sm) var(--space-md); border-left: 3px solid var(--color-success); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--color-surface-2); }
 .energy-suggestion__title { font-weight: 600; }
 .energy-suggestion__body { color: var(--color-ink-2); font-size: var(--text-sm); }
 

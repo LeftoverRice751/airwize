@@ -7,6 +7,8 @@ import unittest
 from datetime import datetime, timezone
 from unittest import mock
 
+from tests.fake_scraper import FakeScraper
+from tests.test_webapp import free_port
 from webapp import create_app
 from webapp.services import energy_device, energy_optimization
 from webapp.services.energy_device import DeviceError, DeviceUnavailable, EnergyReading
@@ -100,7 +102,7 @@ class SuggestionsTests(unittest.TestCase):
 
         with mock.patch.dict(energy_optimization.PROVIDERS, {"fake-ai": lambda cfg: Provider()}):
             resp = make_app(ENERGY_OPTIMIZER="fake-ai").test_client().post("/api/energy/suggestions", json={"site_type": "grid"})
-        self.assertEqual(resp.get_json(), {"status": "ok", "suggestions": [{"title": "For grid", "body": "Example"}], "message": None})
+        self.assertEqual(resp.get_json(), {"status": "ok", "label": "Suggestions", "suggestions": [{"title": "For grid", "body": "Example", "basis": None}], "message": None})
 
 
 class EnergyPageTests(unittest.TestCase):
@@ -122,6 +124,41 @@ class EnergyPageTests(unittest.TestCase):
         self.assertFalse(self.config(make_app(ENERGY_OPTIMIZER="missing"))["optimization_enabled"])
         with mock.patch.dict(energy_optimization.PROVIDERS, {"fake-ai": lambda cfg: None}):
             self.assertTrue(self.config(make_app(ENERGY_OPTIMIZER="fake-ai"))["optimization_enabled"])
+
+
+class RulesProviderTests(unittest.TestCase):
+    """The built-in provider reuses the Solar outlook's recommendations."""
+
+    def post(self, fake, site, mode="live"):
+        app = make_app(SCRAPER_URL=fake.url, ENERGY_OPTIMIZER="rules")
+        return app.test_client().post("/api/energy/suggestions", json={"site_type": site, "mode": mode}).get_json()
+
+    def test_hazy_air_gives_solar_site_suggestions_with_basis(self):
+        with FakeScraper(scenario="hazy") as fake:
+            data = self.post(fake, "solar", mode="simulation")
+            outlook = make_app(SCRAPER_URL=fake.url).test_client().get("/api/solar-forecast").get_json()
+        self.assertEqual(data["status"], "ok")
+        self.assertTrue(data["suggestions"])
+        solar_texts = {r["text"] for r in outlook["recommendations"] if r["category"] == "solar"}
+        for sg in data["suggestions"]:
+            self.assertIn(sg["body"], solar_texts)  # same text as the Solar outlook card
+            self.assertIn("not the demo scenario", sg["basis"])
+
+    def test_grid_site_gets_no_panel_or_battery_advice(self):
+        with FakeScraper(scenario="hazy") as fake:
+            data = self.post(fake, "grid")
+        self.assertEqual(data["status"], "ok")
+        self.assertEqual(data["suggestions"], [])
+        self.assertEqual(data["label"], "Rules, not a model")
+
+    def test_scraper_down_is_reported_not_invented(self):
+        app = make_app(SCRAPER_URL=f"http://127.0.0.1:{free_port()}", ENERGY_OPTIMIZER="rules")
+        data = app.test_client().post("/api/energy/suggestions", json={"site_type": "solar"}).get_json()
+        self.assertEqual(data["status"], "error")
+        self.assertEqual(data["suggestions"], [])
+
+    def test_enabled_by_default(self):
+        self.assertTrue(energy_optimization.is_enabled(create_app({"TESTING": True}).config))
 
 
 if __name__ == "__main__":

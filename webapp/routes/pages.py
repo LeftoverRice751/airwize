@@ -19,5 +19,7 @@ def index():
         "energy_poll_interval_ms": cfg["ENERGY_POLL_INTERVAL_MS"],
         "energy_suggestions_url": url_for("energy.suggestions"),
         "optimization_enabled": energy_optimization.is_enabled(cfg),
+        "solar_forecast_url": url_for("api.solar_forecast"),
+        "poll_interval_ms": cfg["POLL_INTERVAL_MS"],
     }
     return render_template("index.html", client_config=client_config)

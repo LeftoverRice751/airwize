@@ -1,8 +1,16 @@
-"""Integration point for AI-generated energy optimization suggestions.
+"""Suggestions for the Energy tab's "Energy optimization" area.
 
-**Nothing is implemented here yet, on purpose.** The Energy tab renders an
-empty "Energy optimization" area and makes no request while no provider is
-configured. To connect an AI service later:
+Providers are looked up by name from ``AIRWIZE_ENERGY_OPTIMIZER``:
+
+``rules`` (the default)
+    The Solar outlook's rules-based recommendations
+    (webapp/services/recommendations.py), computed from the live Go scraper
+    snapshot and the synthetic solar forecast, filtered to the ones that apply
+    to the selected site type. No model and no API key.
+empty
+    The area stays an empty placeholder and the page makes no request.
+
+To connect an AI service instead:
 
 1. Write a provider class with ``suggest(context) -> list[Suggestion]``. Keep
    the API key on the server: read it from an environment variable inside the
@@ -45,14 +53,55 @@ from typing import Any, Protocol
 class Suggestion:
     title: str
     body: str
+    basis: str | None = None  # what the suggestion was derived from, shown under it
 
 
 class OptimizationProvider(Protocol):
     def suggest(self, context: Mapping[str, Any]) -> list[Suggestion]: ...
 
 
-#: Provider name -> factory taking the Flask config. Empty for the MVP.
-PROVIDERS: dict[str, Callable[[Mapping[str, Any]], OptimizationProvider]] = {}
+class RulesProvider:
+    """The Solar outlook's recommendations, tailored to the Energy tab's site type.
+
+    Uses the *live* air-quality snapshot even in simulation mode (the rules
+    have no notion of a demo scenario), and says so in each suggestion's basis.
+    Only energy-related ("solar") rules are offered; the air-quality actions
+    stay on the Solar outlook card.
+    """
+
+    label = "Rules, not a model"  # shown as the panel's badge
+
+    # Which site types each solar rule applies to, keyed by its evidence.
+    CLEAN_PANELS = {"solar"}  # needs panels
+    SHIFT_LOADS = {"solar", "battery", "generator"}  # needs storage to pre-charge
+
+    def __init__(self, cfg: Mapping[str, Any]):
+        self.cfg = cfg
+
+    def suggest(self, context: Mapping[str, Any]) -> list[Suggestion]:
+        from .solar_outlook import build_outlook, fetch_snapshot
+
+        outlook = build_outlook(fetch_snapshot(self.cfg), self.cfg["AIRWIZE_SOLAR_SITE_NAME"])
+        site = context.get("site_type")
+        where = outlook.get("municipality") or "Laguna"
+        basis = f"Rules-based, from live air quality in {where} and the Solar outlook forecast"
+        if context.get("mode") == "simulation":
+            basis += " (live conditions, not the demo scenario)"
+
+        out: list[Suggestion] = []
+        for rec in outlook["recommendations"]:
+            if rec.get("category") != "solar":
+                continue
+            evidence = rec.get("evidence") or {}
+            if "estimated_recovery_kwh_day" in evidence and site in self.CLEAN_PANELS:
+                out.append(Suggestion("Clean the panels", rec["text"], basis))
+            elif "window_start" in evidence and site in self.SHIFT_LOADS:
+                out.append(Suggestion("Pre-charge before the haze window", rec["text"], basis))
+        return out
+
+
+#: Provider name -> factory taking the Flask config.
+PROVIDERS: dict[str, Callable[[Mapping[str, Any]], OptimizationProvider]] = {"rules": RulesProvider}
 
 
 def is_enabled(cfg: Mapping[str, Any], providers: Mapping[str, Callable] | None = None) -> bool:
@@ -62,12 +111,16 @@ def is_enabled(cfg: Mapping[str, Any], providers: Mapping[str, Callable] | None 
 
 def suggest(cfg: Mapping[str, Any], context: Mapping[str, Any], providers: Mapping[str, Callable] | None = None) -> dict[str, Any]:
     """Ask the configured provider for suggestions. ``status`` is
-    ``not_configured``, ``ok`` or ``error``; ``suggestions`` is empty unless ``ok``."""
+    ``not_configured``, ``ok`` or ``error``; ``suggestions`` is empty unless ``ok``.
+    ``label`` (when ok) is the provider's ``label`` attribute, shown as the panel badge."""
     providers = PROVIDERS if providers is None else providers
     if not is_enabled(cfg, providers):
         return {"status": "not_configured", "suggestions": [], "message": "No optimization service is connected."}
     try:
-        items = providers[cfg["ENERGY_OPTIMIZER"]](cfg).suggest(context)
+        provider = providers[cfg["ENERGY_OPTIMIZER"]](cfg)
+        items = provider.suggest(context)
     except Exception as exc:
-        return {"status": "error", "suggestions": [], "message": f"The optimization service failed: {exc}"}
-    return {"status": "ok", "suggestions": [asdict(s) for s in items], "message": None}
+        return {"status": "error", "suggestions": [], "message": f"Suggestions are unavailable: {exc}"}
+    message = None if items else "No suggestions apply to this site right now."
+    label = getattr(provider, "label", "Suggestions")
+    return {"status": "ok", "label": label, "suggestions": [asdict(s) for s in items], "message": message}

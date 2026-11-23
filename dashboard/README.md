@@ -8,6 +8,7 @@ file and reload. See the root `README.md` for how to run everything.
 
 - `templates/index.html` is the page shell: view headings, empty slots the JS fills, the footer, and the inline pre-paint theme script.
 - `templates/partials/topbar.html` is the header and off-canvas navigation sidebar (live WebSocket status, search and theme controls). `features/topbar.js` wires it up.
+- `templates/partials/solar_card.html` is the solar outlook + recommendations section included at the end of the monitor view. `static/js/solar.js` polls `/api/solar-forecast` and fills its two slots.
 - `templates/partials/icons.html` holds the SVG icon sprite, defined once. Use `{{ icon('name') }}` in Jinja and `icon('name')` in JS.
 - `static/css/`
   - `tokens.css` has every colour, font, space and radius, for the light and dark themes. Components never use literal values.
@@ -15,11 +16,13 @@ file and reload. See the root `README.md` for how to run everything.
   - `app.css` holds the component styles, carried over from the React version.
   - `energy.css` has the Energy tab layout (see below).
   - `motion.css` has the transitions and keyframes that replace the `motion` library, plus the single sliding indicators (nav, segmented control, table marker, palette highlight).
+  - `solar.css` holds the solar card, its two-line chart and the recommendation list styles.
 - `static/js/`
   - `app.js` is the entry point. It owns one state object, derives rows/selection/triggered rules from it, and hands each component its props. `set({...})` batches a render.
   - `lib/` holds logic with no UI: `readings.js` (WebSocket updates plus HTTP fallback), `url-state.js`, `levels.js` (severity bands), `outlook.js` (forecast analysis), `alerts.js` (rules, localStorage, evaluation), `theme.js`, `format.js`, `motion.js` (springs and FLIP), `dom.js` (the `h()` element helper).
   - `ui/` holds reusable pieces: `primitives.js` (button, notice, level badge), `segmented.js`, `ticker.js`, `toast.js`, `palette.js` (Ctrl/Cmd+K or `/`), `alert-trigger.js`.
   - `features/` holds screen sections: `topbar.js`, `province-strip.js`, `municipality-table.js`, `sparkline.js`, `detail-panel.js`, `forecast-chart.js`, `alerts-view.js`.
+  - `solar.js` is the solar outlook card: its own poller (same 60 s interval), a self-contained two-line SVG chart, the plain-language haze note, and the top-three recommendations.
 
 ## Energy tab
 
@@ -33,7 +36,7 @@ file and reload. See the root `README.md` for how to run everything.
   - `context.js` builds the input for a future AI provider.
 - `static/js/features/energy/`
   - `energy-view.js` reduces either mode to one "situation" and renders it.
-  - `energy-tiles.js`, `energy-chart.js` and `optimization-panel.js` hold the panels. The optimization panel stays an empty placeholder until the server enables a provider.
+  - `energy-tiles.js`, `energy-chart.js` and `optimization-panel.js` hold the panels. The optimization panel lists the server provider's suggestions (by default the Solar outlook's rules-based recommendations) and stays an empty placeholder when no provider is configured.
 - `static/css/energy.css` holds the Energy layout and the Simulated, Scripted and Live tags.
 
 The demo clock and live polling run only while the Energy tab is visible.

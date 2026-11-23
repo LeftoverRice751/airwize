@@ -26,6 +26,7 @@ import { AlertsView } from './features/alerts-view.js'
 import { EnergyView } from './features/energy/energy-view.js'
 import { SITES } from './lib/energy/sites.js'
 import { SCENARIOS } from './lib/energy/scenarios.js'
+import { SolarCard } from './solar.js'
 
 const config = JSON.parse(document.getElementById('client-config').textContent)
 
@@ -129,6 +130,8 @@ const noMunicipalities = notice({ title: 'No Laguna municipalities found', body:
 
 const detail = new DetailPanel({ onSaveRule: saveRule })
 els.workspace.append(detail.el)
+
+const solar = new SolarCard(document.getElementById('solar-view'), config.solar_forecast_url, config.poll_interval_ms)
 
 const alerts = new AlertsView(els.alerts, {
   onSave: saveRule,
@@ -292,3 +295,4 @@ window.setInterval(() => set({ now: new Date() }), 30_000)
 
 render()
 readingsStream.start()
+solar.start()
