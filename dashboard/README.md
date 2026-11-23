@@ -7,12 +7,8 @@ file and reload. See the root `README.md` for how to run everything.
 ## Structure
 
 - `templates/index.html` is the page shell: view headings, empty slots the JS fills, the footer, and the inline pre-paint theme script.
-<<<<<<< HEAD
-- `templates/partials/topbar.html` is the header (nav, live status, refresh, search, theme, mobile sheet). `features/topbar.js` wires it up.
-- `templates/partials/solar_card.html` is the solar outlook + recommendations section included at the end of the monitor view. `static/js/solar.js` polls `/api/solar-forecast` and fills its two slots.
-=======
 - `templates/partials/topbar.html` is the header and off-canvas navigation sidebar (live WebSocket status, search and theme controls). `features/topbar.js` wires it up.
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
+- `templates/partials/solar_card.html` is the solar outlook + recommendations section included at the end of the monitor view. `static/js/solar.js` polls `/api/solar-forecast` and fills its two slots.
 - `templates/partials/icons.html` holds the SVG icon sprite, defined once. Use `{{ icon('name') }}` in Jinja and `icon('name')` in JS.
 - `static/css/`
   - `tokens.css` has every colour, font, space and radius, for the light and dark themes. Components never use literal values.

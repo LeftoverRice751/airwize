@@ -9,13 +9,8 @@ Two services work together:
 
 | Service | Language | Job |
 |---|---|---|
-<<<<<<< HEAD
-| `webscraper/` | Go | Scrapes Plume Labs concurrently every 5 minutes and serves the latest snapshot at `GET /api/readings`. The **only** component that talks to Plume Labs. |
-| `web.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard, proxies `/api/readings` from the Go scraper unchanged, and computes the synthetic solar forecast plus recommendations at `GET /api/solar-forecast`. |
-=======
 | `webscraper/` | Go | Scrapes Plume Labs concurrently every 5 minutes, serves `GET /api/readings`, and broadcasts `WS /ws/readings`. The **only** component that talks to Plume Labs. |
-| `web.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard and keeps `/api/readings` as a manual HTTP fallback. |
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
+| `app.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard, keeps `/api/readings` as an HTTP fallback, and computes the synthetic solar forecast plus recommendations at `GET /api/solar-forecast`. |
 
 ```
 browser <==== WebSocket /ws/readings ==== Go scraper :8080
@@ -62,11 +57,11 @@ at `ws://localhost:8080/ws/readings`. Leave it running.
 ### 3. Start the Flask dashboard (terminal 2, from the project root)
 
 ```bash
-venv/bin/python web.py
+venv/bin/python app.py
 ```
 
-If you activated the venv first (`source venv/bin/activate`), `python web.py` is enough.
-For development with auto-reload, use `venv/bin/flask --app web run --debug`.
+If you activated the venv first (`source venv/bin/activate`), `python app.py` is enough.
+For development with auto-reload, use `venv/bin/flask --app app run --debug`.
 
 ### 4. Open the dashboard
 
@@ -74,7 +69,8 @@ Go to <http://127.0.0.1:5000>.
 
 The scraper's first pass takes about 30 seconds. Until it finishes, the dashboard shows
 "Collecting the first readings". The open page receives that first result and every
-later forecast automatically; it does not need a page refresh or polling interval.
+later snapshot automatically; readings do not need a polling interval or page refresh.
+The solar outlook is the one part that still polls, every `AIRWIZE_POLL_INTERVAL_MS`.
 
 ### Verify real-time updates
 
@@ -97,14 +93,14 @@ To stop the app, press `Ctrl+C` in each terminal.
 ```bash
 # Scraper on another address or port
 cd webscraper && go run . -serve :9000
-AIRWIZE_SCRAPER_URL=http://localhost:9000 venv/bin/python web.py
+AIRWIZE_SCRAPER_URL=http://localhost:9000 venv/bin/python app.py
 
 # Public WebSocket address (needed when SCRAPER_URL is private or proxied)
-AIRWIZE_WEBSOCKET_URL=wss://air.example.com/ws/readings venv/bin/python web.py
+AIRWIZE_WEBSOCKET_URL=wss://air.example.com/ws/readings venv/bin/python app.py
 
 # Dashboard on another port, or reachable from your local network
-AIRWIZE_PORT=8000 venv/bin/python web.py
-AIRWIZE_HOST=0.0.0.0 venv/bin/python web.py
+AIRWIZE_PORT=8000 venv/bin/python app.py
+AIRWIZE_HOST=0.0.0.0 venv/bin/python app.py
 
 # Work on the UI without hitting Plume Labs (serves test-only readings on :8080)
 venv/bin/python -m tests.fake_scraper     # use this instead of step 2
@@ -128,24 +124,21 @@ Settings live in `config.py`. Each one can be overridden with an environment var
 |---|---|---|
 | `AIRWIZE_SCRAPER_URL` | `http://localhost:8080` | Base URL of the Go scraper |
 | `AIRWIZE_SCRAPER_TIMEOUT` | `5` | Seconds to wait for the scraper before reporting it unavailable |
-<<<<<<< HEAD
-| `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the browser refreshes readings and the solar forecast |
-=======
+| `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the solar outlook refreshes its forecast |
 | `AIRWIZE_WEBSOCKET_URL` | derived from `AIRWIZE_SCRAPER_URL` | Browser-accessible `ws://` or `wss://` readings stream |
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
-| `AIRWIZE_HOST` / `AIRWIZE_PORT` | `127.0.0.1` / `5000` | Where `python web.py` listens |
+| `AIRWIZE_HOST` / `AIRWIZE_PORT` | `127.0.0.1` / `5000` | Where `python app.py` listens |
 | `AIRWIZE_SOLAR_SITE_NAME` | `demo-laguna-site` | Display name / cloud seed for the synthetic array |
 | `AIRWIZE_SOLAR_PEAK_KW` | `5.0` | Nameplate capacity of the synthetic array |
 | `AIRWIZE_POLLUTION_ATTENUATION_K` | `0.002` | PM2.5 attenuation coefficient `clamp(1 - k × PM2.5, 0.6, 1.0)` |
 | `AIRWIZE_PM25_HIGH` | `35` | PM2.5 threshold (µg/m³) for warnings and recommendations |
 | `AIRWIZE_PM25_CRITICAL` | `75` | PM2.5 level cited as critical in recommendation evidence |
 
-Example: `AIRWIZE_SCRAPER_URL=http://10.0.0.5:9000 venv/bin/python web.py`
+Example: `AIRWIZE_SCRAPER_URL=http://10.0.0.5:9000 venv/bin/python app.py`
 
 ## Architecture
 
 ```
-web.py                         entry point: create_app() and app.run()
+app.py                         entry point: create_app() and app.run()
 config.py                      all settings (env-overridable)
 requirements.txt               Flask + scikit-learn; the HTTP client and tests are stdlib
 webapp/
@@ -157,20 +150,12 @@ webapp/
   services/forecast.py         baseline and AQI-augmented LinearRegression models
   services/recommendations.py  rules-based solar and air-quality actions
 dashboard/                     all front-end code (see dashboard/README.md)
-<<<<<<< HEAD
   templates/                   Jinja: index.html + partials (top bar, icons, solar card)
   static/css/                  design tokens, base, app, motion, solar
   static/js/                   ES modules, no build step (solar.js owns the card)
-webscraper/                    Go scraper (unchanged)
+webscraper/                    Go scraper, HTTP snapshot and WebSocket broadcast
 tests/                         unittest suite + fake scraper + fixtures
 docs/                          MVP notes, demo script, backup screenshots
-=======
-  templates/                   Jinja: index.html + partials (top bar, icon sprite)
-  static/css/                  design tokens, base, app styles, motion
-  static/js/                   ES modules, no build step
-webscraper/                    Go scraper, HTTP snapshot and WebSocket broadcast
-tests/                         unittest suite + fake scraper + fixture
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 ```
 
 **Real-time updates.** The browser opens `WS /ws/readings` on the Go scraper. It receives
@@ -182,9 +167,9 @@ backoff. `AIRWIZE_WEBSOCKET_URL` must be reachable by the browser; set it explic
 **The HTTP fallback.** `GET /api/readings` forwards the Go scraper's body byte for byte, so the
 JSON schema is exactly `Snapshot` in `webscraper/main.go`. When the scraper can't be
 reached it answers `502`, or `504` on timeout, with `{"error": "..."}`. The dashboard
-uses it when the user presses Refresh. If it already had data, it keeps showing that
-data with a "Some readings may be out of date" note. Flask does no scraping, parsing,
-filtering or server-side polling.
+uses it for explicit retries (the error notice and the first-pass "Check again" action).
+If it already had data, it keeps showing that data with a "Some readings may be out of
+date" note. Flask does no scraping, parsing, filtering or server-side polling.
 
 **The synthetic solar outlook (demo data).** There is no inverter behind this repo.
 `GET /api/solar-forecast` reads the same real snapshot, pairs each hour's PM2.5 with a
@@ -192,7 +177,8 @@ generated kW value (half-sine daylight, deterministic clouds, PM2.5 attenuation)
 two `LinearRegression` models — weather-only and AQI-augmented — and returns a 24-hour
 forecast plus rules-based recommendations. Every row is marked `"synthetic": true` and
 the dashboard labels it in the card, the source line and the API. PM2.5 itself is real
-Plume Labs data. See `docs/mvp-plan.md` for the full contract and `docs/demo-script.md`
+Plume Labs data. The card refreshes every `AIRWIZE_POLL_INTERVAL_MS`; only readings use
+the WebSocket. See `docs/mvp-plan.md` for the full contract and `docs/demo-script.md`
 for the walkthrough and the honesty line.
 
 **Browser state.** Alert rules (`laguna-air.alerts`) and the theme (`laguna-air.theme`)
@@ -216,7 +202,7 @@ To work on the UI without hitting Plume Labs, run the fake in place of the scrap
 
 ```bash
 venv/bin/python -m tests.fake_scraper --scenario hazy    # or clear, or no scenario
-venv/bin/python web.py
+venv/bin/python app.py
 ```
 
 `--scenario hazy` makes several municipalities exceed 35 µg/m³ with a rising trend;

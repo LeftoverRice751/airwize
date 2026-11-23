@@ -277,9 +277,5 @@ followSystem(() => set({ theme: getTheme() }))
 window.setInterval(() => set({ now: new Date() }), 30_000)
 
 render()
-<<<<<<< HEAD
-poller.start()
-solar.start()
-=======
 readingsStream.start()
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
+solar.start()

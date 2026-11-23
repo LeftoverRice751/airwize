@@ -26,17 +26,15 @@ class Config:
     # Seconds Flask waits for the scraper before reporting it unavailable.
     SCRAPER_TIMEOUT = _float("AIRWIZE_SCRAPER_TIMEOUT", 5.0)
 
-<<<<<<< HEAD
-    # How often the browser asks for fresh readings, in milliseconds. The
-    # scraper itself refreshes from Plume Labs every five minutes by default.
-    # The solar outlook polls on the same interval from the same page.
+    # How often the solar outlook asks for a fresh forecast, in milliseconds.
+    # Live readings themselves arrive over the WebSocket below.
     POLL_INTERVAL_MS = _int("AIRWIZE_POLL_INTERVAL_MS", 60_000)
-=======
-    # Browser-accessible WebSocket endpoint. When omitted, it is derived from
-    # SCRAPER_URL (http -> ws, https -> wss). Set this explicitly when the
-    # scraper is behind a reverse proxy or uses a private/internal hostname.
+
+    # Browser-accessible WebSocket endpoint for live readings. When omitted, it
+    # is derived from SCRAPER_URL (http -> ws, https -> wss). Set this
+    # explicitly when the scraper is behind a reverse proxy or uses a
+    # private/internal hostname.
     WEBSOCKET_URL = os.environ.get("AIRWIZE_WEBSOCKET_URL")
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 
     # --- Synthetic solar outlook (demo data, clearly labelled in the UI) ---
 

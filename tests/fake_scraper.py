@@ -7,6 +7,7 @@ never contacts Plume Labs and is not used by the real app.
     python -m tests.fake_scraper                 # http://localhost:8080/api/readings
     python -m tests.fake_scraper --mode pending  # first pass not finished yet
     python -m tests.fake_scraper --mode partial  # last pass had failures
+    python -m tests.fake_scraper --scenario hazy # demo-ready hazy air
 """
 
 import argparse
@@ -14,11 +15,8 @@ import base64
 import copy
 import hashlib
 import json
-<<<<<<< HEAD
 import math
-=======
 import struct
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 import threading
 import time
 from datetime import datetime, timezone
@@ -140,7 +138,7 @@ class _Handler(BaseHTTPRequestHandler):
         self.send_header("Sec-WebSocket-Accept", accept)
         self.end_headers()
 
-        body = cfg["body"] if cfg["body"] is not None else json.dumps(rebased_snapshot(mode=cfg["mode"])).encode()
+        body = cfg["body"] if cfg["body"] is not None else json.dumps(rebased_snapshot(mode=cfg["mode"], scenario=cfg["scenario"])).encode()
         try:
             self.wfile.write(_websocket_frame(body))
             self.wfile.flush()
@@ -160,12 +158,8 @@ class FakeScraper:
     def __init__(self, port: int = 0, mode: str = "ok", scenario: str = "live", delay: float = 0, status: int = 200, body: bytes | None = None):
         self.httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
         self.httpd.daemon_threads = True
-<<<<<<< HEAD
-        self.httpd.fake = {"mode": mode, "scenario": scenario, "delay": delay, "status": status, "body": body}  # type: ignore[attr-defined]
-=======
         self.stop = threading.Event()
-        self.httpd.fake = {"mode": mode, "delay": delay, "status": status, "body": body, "stop": self.stop}  # type: ignore[attr-defined]
->>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
+        self.httpd.fake = {"mode": mode, "scenario": scenario, "delay": delay, "status": status, "body": body, "stop": self.stop}  # type: ignore[attr-defined]
         self.thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
 
     @property

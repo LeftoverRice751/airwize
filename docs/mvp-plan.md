@@ -47,11 +47,11 @@ available value within two hours is used.
 | File | Confirmed behaviour |
 |---|---|
 | `webapp/routes/api.py` | `/api/readings` forwards the scraper body byte for byte, `502` on unreachable, `504` on timeout, `Cache-Control: no-store`. The solar route is added alongside it; the proxy is untouched. |
-| `webapp/services/readings_client.py` | Standard-library `urllib` with a configurable timeout; raises `ScraperTimeout` (a `ScraperUnavailable`) so the route can map timeouts to `504` and everything else to `502`. |
+| `webapp/services/readings_client.py` | Standard-library `urllib` with a configurable timeout; raises `ScraperTimeout` (a `ScraperUnavailable`) so the route can map timeouts to `504` and everything else to `502`. Also derives the browser-facing WebSocket URL for live readings. |
 | `config.py` | `Config` class attributes, every one overridable by an `AIRWIZE_*` environment variable via `_float`/`_int`. New settings follow the same pattern. |
-| `dashboard/static/js/app.js` | One ES-module entry point. `ReadingsPoller` polls `/api/readings` every `poll_interval_ms` (60 s) and calls `set()`; the render function owns view switching. The solar module is imported here and gets the same interval from `client-config`. |
+| `dashboard/static/js/app.js` | One ES-module entry point. Live readings arrive via `ReadingsStream` over `WS /ws/readings` (HTTP `/api/readings` remains the retry fallback). The solar module is imported here and polls `/api/solar-forecast` on `poll_interval_ms` (60 s). |
 | `dashboard/templates/index.html` | Single page; the monitor view is `#view-monitor` (province strip, table, detail panel). **The partial added there is `dashboard/templates/partials/solar_card.html`, included after `#workspace`.** |
-| `tests/fake_scraper.py` + `tests/fixtures/snapshot.json` | In-process HTTP fake serving the fixture with timestamps rebased to "now". The solar tests reuse it, so no test contacts Plume Labs. |
+| `tests/fake_scraper.py` + `tests/fixtures/snapshot.json` | In-process HTTP and WebSocket fake serving the fixture with timestamps rebased to "now". The solar tests reuse it, so no test contacts Plume Labs. |
 | `dashboard/static/js/features/forecast-chart.js` | Hand-rolled SVG chart with `ResizeObserver`, time ticks in Manila time, and CSS-variable styling. The solar chart follows the same approach but stays self-contained in `solar.js`. |
 
 ## Design decisions for the synthetic layer

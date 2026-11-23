@@ -1,7 +1,7 @@
 """Entry point for the Airwize dashboard.
 
-    python web.py                  # http://127.0.0.1:5000
-    flask --app web run --debug    # same app, with Flask's reloader
+    python app.py                  # http://127.0.0.1:5000
+    flask --app app run --debug    # same app, with Flask's reloader
 
 The Go scraper must be running separately; see README.md.
 """

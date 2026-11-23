@@ -18,7 +18,7 @@ one page; no slides, no second app.
 
 1. Check the app is up (see `README.md`):
    - Go scraper: `cd webscraper && go run . -serve :8080 -interval 5m`
-   - Flask: `python web.py`
+   - Flask: `python app.py`
 2. Open <http://127.0.0.1:5000> and confirm the solar card shows a current value
    and two chart lines.
 3. If the live scraper is flaky, rehearse with the offline fixture:
@@ -61,9 +61,10 @@ one page; no slides, no second app.
   Read the note under the chart: **"Haze expected — AQI-aware forecast is up to
   roughly 20% lower than weather-only."** The exact percentage is computed from
   the current forecast.
-- Switch to the clear fixture (`--scenario clear`) and refresh: the lines sit on
-  top of each other and the note flips to **"Air quality is not expected to
-  reduce solar output significantly."** That contrast is the product.
+- Switch to the clear fixture (`--scenario clear`) and restart the fake: the page
+  reconnects automatically, the lines sit on top of each other, and the note flips
+  to **"Air quality is not expected to reduce solar output significantly."** That
+  contrast is the product.
 - If asked why the forecast is linear regression on 48 hours of paired data:
   "It is deliberately small and inspectable. The deliverable is the pipeline
   and the decision, not a claim of photovoltaic accuracy."
@@ -111,7 +112,7 @@ they show the settled state.
 
 | Symptom | Recovery |
 |---|---|
-| `Readings are unavailable` banner | The Go scraper is down. Start it, then press **Refresh**. If it stays down, switch to `python -m tests.fake_scraper` and keep presenting on the fixture (say so). |
+| `Readings are unavailable` banner | The Go scraper is down. Start it and use the notice's **Try again** (or reload the page). If it stays down, switch to `python -m tests.fake_scraper` and keep presenting on the fixture (say so). |
 | Solar card says "first pass may still be running" | The scraper has not completed its first pass. Wait ~30 s; the card retries by itself every 15 s. |
 | Chart is flat or current output is 0 | It is night in Manila. Use the hazy screenshot above, or run the demo during daylight. |
 | Lines do not diverge on a hazy day | Check that the municipality with the highest PM2.5 has PM2.5 in the snapshot and that the forecast series varies. The card marks `degraded` when PM2.5 is missing. |
