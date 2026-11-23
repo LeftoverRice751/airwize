@@ -1,7 +1,7 @@
 /**
  * The next 24 hours as one line, on a scale shared by every row so rows
  * compare. It draws in on first paint and morphs (where the browser can
- * transition the CSS `d` property) when a new poll changes the series.
+ * transition the CSS `d` property) when a new snapshot changes the series.
  */
 import { h, s } from '../lib/dom.js'
 

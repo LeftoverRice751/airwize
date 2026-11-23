@@ -24,6 +24,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -409,13 +411,17 @@ type Snapshot struct {
 
 // Store holds the latest snapshot for concurrent readers.
 type Store struct {
-	mu   sync.RWMutex
-	snap Snapshot
+	mu          sync.RWMutex
+	snap        Snapshot
+	subscribers map[chan Snapshot]struct{}
 }
 
 // NewStore returns an empty store for province.
 func NewStore(province string) *Store {
-	return &Store{snap: Snapshot{Province: province, Municipalities: []AirQuality{}}}
+	return &Store{
+		snap:        Snapshot{Province: province, Municipalities: []AirQuality{}},
+		subscribers: make(map[chan Snapshot]struct{}),
+	}
 }
 
 // Update records the result of a polling pass. Partial results replace the
@@ -436,6 +442,22 @@ func (st *Store) Update(data []AirQuality, err error) {
 		}
 		st.snap.Municipalities = data
 	}
+	// Keep only the newest snapshot for a slow client. A scrape result should
+	// never block the poller just because a browser has gone away.
+	for ch := range st.subscribers {
+		select {
+		case ch <- st.snap:
+		default:
+			select {
+			case <-ch:
+			default:
+			}
+			select {
+			case ch <- st.snap:
+			default:
+			}
+		}
+	}
 }
 
 // Get returns the current snapshot.
@@ -445,8 +467,81 @@ func (st *Store) Get() Snapshot {
 	return st.snap
 }
 
-// Handler serves the snapshot as JSON at /api/readings and, when staticDir is
-// set, the built dashboard at /.
+// Subscribe returns a stream that starts with the current snapshot and then
+// receives every scrape result. cancel must be called when the client leaves.
+func (st *Store) Subscribe() (<-chan Snapshot, func()) {
+	st.mu.Lock()
+	defer st.mu.Unlock()
+	ch := make(chan Snapshot, 1)
+	st.subscribers[ch] = struct{}{}
+	ch <- st.snap
+	return ch, func() {
+		st.mu.Lock()
+		defer st.mu.Unlock()
+		if _, ok := st.subscribers[ch]; ok {
+			delete(st.subscribers, ch)
+			close(ch)
+		}
+	}
+}
+
+var websocketUpgrader = websocket.Upgrader{
+	// The dashboard normally runs on Flask's port while the scraper runs on a
+	// different port. This endpoint is read-only and serves the same public
+	// data as the CORS-enabled HTTP endpoint, so cross-origin reads are safe.
+	CheckOrigin: func(*http.Request) bool { return true },
+}
+
+// serveWebSocket sends the current snapshot immediately, then pushes a new
+// one after every scrape pass. The read loop processes close/pong frames so
+// disconnected browser tabs are removed promptly.
+func (st *Store) serveWebSocket(w http.ResponseWriter, r *http.Request) {
+	conn, err := websocketUpgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Printf("upgrade readings websocket: %v", err)
+		return
+	}
+	defer conn.Close()
+
+	updates, unsubscribe := st.Subscribe()
+	defer unsubscribe()
+
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		for {
+			if _, _, err := conn.ReadMessage(); err != nil {
+				return
+			}
+		}
+	}()
+
+	ping := time.NewTicker(30 * time.Second)
+	defer ping.Stop()
+	for {
+		select {
+		case snap, ok := <-updates:
+			if !ok {
+				return
+			}
+			if err := conn.SetWriteDeadline(time.Now().Add(10 * time.Second)); err != nil {
+				return
+			}
+			if err := conn.WriteJSON(snap); err != nil {
+				return
+			}
+		case <-ping.C:
+			if err := conn.WriteControl(websocket.PingMessage, nil, time.Now().Add(10*time.Second)); err != nil {
+				return
+			}
+		case <-done:
+			return
+		}
+	}
+}
+
+// Handler serves the snapshot as JSON at /api/readings, broadcasts updates at
+// /ws/readings and, when staticDir is set, serves the built dashboard at /.
 func (st *Store) Handler(staticDir string) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/readings", func(w http.ResponseWriter, r *http.Request) {
@@ -457,6 +552,7 @@ func (st *Store) Handler(staticDir string) http.Handler {
 			log.Printf("encode snapshot: %v", err)
 		}
 	})
+	mux.HandleFunc("GET /ws/readings", st.serveWebSocket)
 	if staticDir != "" {
 		mux.Handle("/", http.FileServer(http.Dir(staticDir)))
 	}
@@ -468,7 +564,7 @@ func main() {
 	province := flag.String("province", "Laguna", "province to filter cities/municipalities by")
 	workers := flag.Int("workers", 10, "number of concurrent fetch goroutines")
 	interval := flag.Duration("interval", 0, "poll interval for real-time updates (e.g. 5m); 0 fetches once")
-	serve := flag.String("serve", "", "serve the latest readings over HTTP at this address (e.g. :8080); polls every -interval (default 5m)")
+	serve := flag.String("serve", "", "serve readings over HTTP and WebSocket at this address (e.g. :8080); polls every -interval (default 5m)")
 	static := flag.String("static", "", "with -serve, also serve the built dashboard from this directory")
 	flag.Parse()
 
@@ -502,7 +598,7 @@ func main() {
 			defer cancel()
 			_ = srv.Shutdown(shutdown)
 		}()
-		log.Printf("serving %s readings on http://localhost%s/api/readings", *province, *serve)
+		log.Printf("serving %s readings on http://localhost%s/api/readings and ws://localhost%s/ws/readings", *province, *serve, *serve)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatal(err)
 		}

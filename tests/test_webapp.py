@@ -25,7 +25,7 @@ def free_port() -> int:
 
 
 def make_app(scraper_url: str, timeout: float = 2.0):
-    return create_app({"TESTING": True, "SCRAPER_URL": scraper_url, "SCRAPER_TIMEOUT": timeout})
+    return create_app({"TESTING": True, "SCRAPER_URL": scraper_url, "SCRAPER_TIMEOUT": timeout, "WEBSOCKET_URL": None})
 
 
 class ReadingsClientTests(unittest.TestCase):
@@ -56,7 +56,12 @@ class ReadingsClientTests(unittest.TestCase):
             ReadingsClient(fake.url, timeout=2).fetch_readings()
 
     def test_trailing_slash_in_base_url(self):
-        self.assertEqual(ReadingsClient("http://localhost:8080/").readings_url, "http://localhost:8080/api/readings")
+        client = ReadingsClient("http://localhost:8080/")
+        self.assertEqual(client.readings_url, "http://localhost:8080/api/readings")
+        self.assertEqual(client.websocket_url, "ws://localhost:8080/ws/readings")
+
+    def test_secure_scraper_uses_secure_websocket(self):
+        self.assertEqual(ReadingsClient("https://readings.example.test/base").websocket_url, "wss://readings.example.test/ws/readings")
 
 
 class ReadingsProxyTests(unittest.TestCase):
@@ -105,9 +110,24 @@ class PageTests(unittest.TestCase):
         self.assertIn("<title>Laguna AirWize</title>", html)
         self.assertIn('id="view-monitor"', html)
         self.assertIn('id="view-alerts"', html)
+        self.assertIn('id="nav-sidebar"', html)
+        self.assertIn('data-action="menu"', html)
+        self.assertNotIn('data-action="refresh"', html)
         cfg = json.loads(re.search(r'<script type="application/json" id="client-config">(.*?)</script>', html).group(1))
         self.assertEqual(cfg["readings_url"], "/api/readings")
-        self.assertEqual(cfg["poll_interval_ms"], 60_000)
+        self.assertRegex(cfg["websocket_url"], r"^ws://127\.0\.0\.1:\d+/ws/readings$")
+
+    def test_dashboard_honors_public_websocket_url(self):
+        app = create_app(
+            {
+                "TESTING": True,
+                "SCRAPER_URL": "http://scraper.internal:8080",
+                "WEBSOCKET_URL": "wss://air.example.test/ws/readings",
+            }
+        )
+        html = app.test_client().get("/").get_data(as_text=True)
+        cfg = json.loads(re.search(r'<script type="application/json" id="client-config">(.*?)</script>', html).group(1))
+        self.assertEqual(cfg["websocket_url"], "wss://air.example.test/ws/readings")
 
     def test_every_referenced_asset_is_served(self):
         html = self.client.get("/").get_data(as_text=True)

@@ -1,7 +1,7 @@
 /**
  * App shell header. The markup is rendered by templates/partials/topbar.html;
- * this class wires it up and keeps it in sync with app state. Under 40rem the
- * links and status fold into a sheet behind the menu button.
+ * this class wires it up and keeps it in sync with app state. Navigation lives
+ * in an accessible off-canvas sidebar on every screen size.
  */
 import { replay } from '../lib/dom.js'
 import { relativeMinutes } from '../lib/format.js'
@@ -9,12 +9,15 @@ import { relativeMinutes } from '../lib/format.js'
 const STALE_MS = 15 * 60_000
 
 export class TopBar {
-  constructor(root, { onNavigate, onRefresh, onSearch, onToggleTheme }) {
+  constructor(root, { onNavigate, onSearch, onToggleTheme }) {
     this.root = root
-    this.sheet = root.querySelector('#topbar-panel')
+    this.bar = root.querySelector('.topbar')
+    this.layer = root.querySelector('#nav-layer')
+    this.sidebar = root.querySelector('#nav-sidebar')
     this.burger = root.querySelector('[data-action="menu"]')
     this.navs = [...root.querySelectorAll('[data-nav]')]
     this.lastTriggered = 0
+    this.open = false
 
     const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
     root.querySelectorAll('[data-kbd-mod]').forEach((k) => (k.textContent = `${isMac ? '⌘' : 'Ctrl'} K`))
@@ -26,7 +29,6 @@ export class TopBar {
         this.setOpen(false)
       }),
     )
-    root.querySelectorAll('[data-action="refresh"]').forEach((b) => b.addEventListener('click', onRefresh))
     root.querySelectorAll('[data-action="search"]').forEach((b) => b.addEventListener('click', onSearch))
     root.querySelectorAll('[data-action="theme"]').forEach((b) =>
       b.addEventListener('click', () => {
@@ -35,8 +37,13 @@ export class TopBar {
       }),
     )
     this.burger.addEventListener('click', () => this.setOpen(!this.open))
+    root.querySelectorAll('[data-action="menu-close"]').forEach((b) => b.addEventListener('click', () => this.setOpen(false)))
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.open) this.setOpen(false)
+    })
+    this.sidebar.addEventListener('keydown', (e) => this.trapFocus(e))
 
-    const onScroll = () => root.classList.toggle('is-scrolled', window.scrollY > 4)
+    const onScroll = () => this.bar.classList.toggle('is-scrolled', window.scrollY > 4)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
 
@@ -46,17 +53,42 @@ export class TopBar {
   }
 
   setOpen(open) {
+    const wasOpen = this.open
     this.open = open
-    this.sheet.classList.toggle('is-open', open)
+    this.layer.classList.toggle('is-open', open)
+    this.layer.setAttribute('aria-hidden', String(!open))
+    this.sidebar.inert = !open
+    this.sidebar.setAttribute('aria-hidden', String(!open))
+    document.body.classList.toggle('nav-open', open)
     this.burger.setAttribute('aria-expanded', String(open))
     this.burger.querySelector('.burger').classList.toggle('is-open', open)
-    this.burger.querySelector('.visually-hidden').textContent = open ? 'Close menu' : 'Open menu'
-    // The closed sheet stays in the DOM for its animation; keep it out of the tab order.
-    this.sheet.inert = !open
-    if (open) requestAnimationFrame(() => this.placeIndicators())
+    this.burger.querySelector('.visually-hidden').textContent = open ? 'Close navigation' : 'Open navigation'
+    if (open) {
+      requestAnimationFrame(() => {
+        this.placeIndicators()
+        this.sidebar.querySelector('[aria-current="page"]')?.focus()
+      })
+    } else if (wasOpen) {
+      this.burger.focus()
+    }
   }
 
-  update({ view, updatedAt, now, refreshing, triggered, theme }) {
+  trapFocus(e) {
+    if (e.key !== 'Tab') return
+    const focusable = [...this.sidebar.querySelectorAll('a[href], button:not(:disabled)')]
+    if (!focusable.length) return
+    const first = focusable[0]
+    const last = focusable.at(-1)
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
+
+  update({ view, updatedAt, now, connected, triggered, theme }) {
     this.view = view
     this.root.querySelectorAll('.nav__link').forEach((a) => {
       if (a.dataset.view === view) a.setAttribute('aria-current', 'page')
@@ -72,17 +104,24 @@ export class TopBar {
     this.lastTriggered = triggered
 
     const stale = updatedAt ? now.getTime() - updatedAt.getTime() > STALE_MS : false
+    const live = Boolean(connected && updatedAt && !stale)
     this.root.querySelectorAll('[data-live]').forEach((el) => {
-      el.classList.toggle('live--stale', stale)
+      el.classList.toggle('live--stale', Boolean(updatedAt) && !live)
       el.classList.toggle('live--idle', !updatedAt)
-      el.querySelector('[data-live-text]').textContent = updatedAt ? `Updated ${relativeMinutes(updatedAt, now)}` : 'Waiting for first reading'
-    })
-
-    this.root.querySelectorAll('[data-action="refresh"]').forEach((b) => {
-      b.disabled = refreshing
-      if (refreshing) b.setAttribute('aria-busy', 'true')
-      else b.removeAttribute('aria-busy')
-      b.querySelector('.refresh-icon').classList.toggle('spin', refreshing)
+      el.querySelector('[data-live-text]').textContent = live
+        ? 'Live'
+        : updatedAt
+          ? `Updated ${relativeMinutes(updatedAt, now)}`
+          : connected
+            ? 'Connected · collecting'
+            : 'Connecting…'
+      el.title = live
+        ? `WebSocket connected. Latest snapshot received ${relativeMinutes(updatedAt, now)}.`
+        : connected
+          ? 'WebSocket connected; waiting for the first scraper result.'
+          : updatedAt
+            ? `WebSocket disconnected. Showing data updated ${relativeMinutes(updatedAt, now)}.`
+            : 'Connecting to the readings WebSocket.'
     })
 
     const next = theme === 'dark' ? 'light' : 'dark'

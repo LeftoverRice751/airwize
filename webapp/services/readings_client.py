@@ -8,9 +8,11 @@ web app needs nothing beyond Flask.
 import json
 import socket
 import urllib.error
+import urllib.parse
 import urllib.request
 
 READINGS_PATH = "/api/readings"
+WEBSOCKET_PATH = "/ws/readings"
 
 
 class ScraperUnavailable(Exception):
@@ -29,6 +31,13 @@ class ReadingsClient:
     @property
     def readings_url(self) -> str:
         return self.base_url + READINGS_PATH
+
+    @property
+    def websocket_url(self) -> str:
+        """Return the scraper URL in browser WebSocket form."""
+        parsed = urllib.parse.urlsplit(self.base_url)
+        scheme = "wss" if parsed.scheme == "https" else "ws"
+        return urllib.parse.urlunsplit((scheme, parsed.netloc, WEBSOCKET_PATH, "", ""))
 
     def fetch_readings(self) -> tuple[bytes, str]:
         """Return the snapshot's raw JSON bytes and content type.

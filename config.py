@@ -1,8 +1,9 @@
 """Settings for the Airwize Flask web app.
 
 Every value can be overridden with an environment variable so nothing
-machine-specific is committed. The Go scraper's address lives here and only
-here: change ``AIRWIZE_SCRAPER_URL`` to point the dashboard at another scraper.
+machine-specific is committed. Change ``AIRWIZE_SCRAPER_URL`` to point Flask
+at another scraper and ``AIRWIZE_WEBSOCKET_URL`` when its browser-facing
+stream uses a different address.
 """
 
 import os
@@ -25,9 +26,10 @@ class Config:
     # Seconds Flask waits for the scraper before reporting it unavailable.
     SCRAPER_TIMEOUT = _float("AIRWIZE_SCRAPER_TIMEOUT", 5.0)
 
-    # How often the browser asks for fresh readings, in milliseconds. The
-    # scraper itself refreshes from Plume Labs every five minutes by default.
-    POLL_INTERVAL_MS = _int("AIRWIZE_POLL_INTERVAL_MS", 60_000)
+    # Browser-accessible WebSocket endpoint. When omitted, it is derived from
+    # SCRAPER_URL (http -> ws, https -> wss). Set this explicitly when the
+    # scraper is behind a reverse proxy or uses a private/internal hostname.
+    WEBSOCKET_URL = os.environ.get("AIRWIZE_WEBSOCKET_URL")
 
     # Where `python web.py` listens.
     HOST = os.environ.get("AIRWIZE_HOST", "127.0.0.1")
