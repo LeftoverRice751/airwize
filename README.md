@@ -23,7 +23,7 @@ browser ──(every 60 s)──▶ Flask :5000  /api/readings ──▶ Go scra
 ### Requirements
 
 - Go 1.27 or newer: `go version`
-- Python 3.12: `python3 --version`
+- Python 3.10 or newer (tested on 3.12 and 3.14): `python3 --version`
 
 ### 1. One-time setup
 
