@@ -2,6 +2,7 @@
  * Dashboard entry point. Mirrors the former App.tsx:
  *
  *   state  ── one plain object (readings, URL-backed view state, alert rules, theme)
+ *             The Energy tab (features/energy/) keeps its own demo clock and live polling.
  *   derive ── filtered/sorted rows, selected municipality, triggered rules
  *   render ── hands each component its props; components update their own DOM
  *
@@ -22,6 +23,9 @@ import { ProvinceStrip } from './features/province-strip.js'
 import { MunicipalityTable } from './features/municipality-table.js'
 import { DetailPanel } from './features/detail-panel.js'
 import { AlertsView } from './features/alerts-view.js'
+import { EnergyView } from './features/energy/energy-view.js'
+import { SITES } from './lib/energy/sites.js'
+import { SCENARIOS } from './lib/energy/scenarios.js'
 import { SolarCard } from './solar.js'
 
 const config = JSON.parse(document.getElementById('client-config').textContent)
@@ -30,7 +34,7 @@ const config = JSON.parse(document.getElementById('client-config').textContent)
 
 const state = {
   readings: { status: 'loading', snapshot: null, error: null, refreshing: false, connected: false },
-  ...readUrl(), // view, level, sort, m (selected municipality)
+  ...readUrl(), // view, level, sort, m (selected municipality), site, mode, scenario (energy)
   rules: loadRules(),
   theme: getTheme(),
   now: new Date(),
@@ -39,7 +43,7 @@ const state = {
 let queued = false
 function set(patch) {
   Object.assign(state, patch)
-  writeUrl({ view: state.view, level: state.level, sort: state.sort, m: state.m })
+  writeUrl({ view: state.view, level: state.level, sort: state.sort, m: state.m, site: state.site, mode: state.mode, scenario: state.scenario })
   if ('rules' in patch) saveRules(state.rules)
   if (!queued) {
     queued = true
@@ -110,6 +114,7 @@ const els = {
   view: document.getElementById('view'),
   monitor: document.getElementById('view-monitor'),
   alerts: document.getElementById('view-alerts'),
+  energy: document.getElementById('view-energy'),
   monitorSub: document.getElementById('monitor-sub'),
   workspace: document.getElementById('workspace'),
   listSlot: document.getElementById('ledger-slot'),
@@ -135,6 +140,8 @@ const alerts = new AlertsView(els.alerts, {
   onChange: () => set({}),
 })
 
+const energy = new EnergyView(els.energy, { config, onChange: (patch) => set(patch) })
+
 const palette = new CommandPalette({ getCommands })
 
 function getCommands() {
@@ -158,6 +165,9 @@ function getCommands() {
     ...places,
     { id: 'go-monitor', group: 'Actions', label: 'Go to monitor', icon: 'wind', run: () => set({ view: 'monitor' }) },
     { id: 'go-alerts', group: 'Actions', label: 'Go to alerts', icon: 'bell', run: () => set({ view: 'alerts' }) },
+    { id: 'go-energy', group: 'Actions', label: 'Go to energy', icon: 'bolt', keywords: 'solar battery generator grid power', run: () => set({ view: 'energy' }) },
+    ...Object.values(SITES).map((site) => ({ id: `site-${site.key}`, group: 'Energy', label: `Energy: ${site.label}`, icon: 'bolt', keywords: 'site type', run: () => set({ view: 'energy', site: site.key }) })),
+    ...SCENARIOS.map((sc) => ({ id: `scenario-${sc.id}`, group: 'Energy', label: `Demo scenario: ${sc.label}`, icon: 'bolt', keywords: `simulation ${sc.description}`, run: () => set({ view: 'energy', mode: 'simulation', scenario: sc.id }) })),
     { id: 'refresh', group: 'Actions', label: 'Refresh readings', icon: 'refresh', run: refresh },
     { id: 'theme', group: 'Actions', label: dark ? 'Switch to light theme' : 'Switch to dark theme', icon: dark ? 'sun' : 'moon', keywords: 'dark light mode appearance', run: () => toggleTheme() },
   ]
@@ -185,11 +195,15 @@ function render() {
     lastView = state.view
   }
   const onAlerts = state.view === 'alerts'
+  const onEnergy = state.view === 'energy'
   els.alerts.hidden = !onAlerts
-  els.monitor.hidden = onAlerts || status === 'error' || d.firstPassPending
+  els.energy.hidden = !onEnergy
+  els.monitor.hidden = onAlerts || onEnergy || status === 'error' || d.firstPassPending
 
   if (onAlerts) alerts.update(d.data, state.rules)
   else if (!els.monitor.hidden) renderMonitor(d)
+  // Always called so the energy view can stop its clock and polling when hidden.
+  energy.update({ active: onEnergy, data: d.data, airStatus: status, city: state.m, site: state.site, mode: state.mode, scenario: state.scenario })
 
   notifyNewlyTriggered(d)
   palette.refresh()
@@ -218,11 +232,14 @@ function renderMonitor(d) {
 function renderNotices(d) {
   const { status, snapshot, error, refreshing } = state.readings
   const stale = status === 'ready' && d.data && (snapshot?.error || error)
-  const key = JSON.stringify([status === 'error' && error, d.firstPassPending && refreshing, d.firstPassPending, stale && (error ?? 'pass')])
+  // Simulation-only energy mode needs no air-quality data, so its notices stay out of the way.
+  const quiet = state.view === 'energy' && state.mode !== 'live'
+  const key = JSON.stringify([quiet, status === 'error' && error, d.firstPassPending && refreshing, d.firstPassPending, stale && (error ?? 'pass')])
   if (key === noticeKey) return
   noticeKey = key
 
   const nodes = []
+  if (quiet) return els.notices.replaceChildren()
   if (status === 'error') {
     nodes.push(
       notice({

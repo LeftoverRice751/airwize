@@ -1,16 +1,17 @@
 # Airwize
 
 Live air quality, 24-hour forecasts and threshold alerts for the municipalities
-of one Philippine province (Laguna by default), from Plume Labs — plus a
-clearly-labelled synthetic solar outlook and rules-based recommendations that
-connect PM2.5 to rooftop generation.
+of one Philippine province (Laguna by default), from Plume Labs, plus a
+clearly labelled synthetic Solar outlook with rules-based recommendations that
+connect PM2.5 to rooftop generation, and an Energy tab for solar, grid,
+generator and battery sites.
 
 Two services work together:
 
 | Service | Language | Job |
 |---|---|---|
 | `webscraper/` | Go | Scrapes Plume Labs concurrently every 5 minutes, serves `GET /api/readings`, and broadcasts `WS /ws/readings`. The **only** component that talks to Plume Labs. |
-| `app.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard, keeps `/api/readings` as an HTTP fallback, and computes the synthetic solar forecast plus recommendations at `GET /api/solar-forecast`. |
+| `app.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard, keeps `/api/readings` as a manual HTTP fallback, computes the synthetic solar forecast plus recommendations at `GET /api/solar-forecast`, and serves the Energy tab's endpoints (`/api/energy/*`). |
 
 ```
 browser <==== WebSocket /ws/readings ==== Go scraper :8080
@@ -69,8 +70,7 @@ Go to <http://127.0.0.1:5000>.
 
 The scraper's first pass takes about 30 seconds. Until it finishes, the dashboard shows
 "Collecting the first readings". The open page receives that first result and every
-later snapshot automatically; readings do not need a polling interval or page refresh.
-The solar outlook is the one part that still polls, every `AIRWIZE_POLL_INTERVAL_MS`.
+later forecast automatically; it does not need a page refresh or polling interval.
 
 ### Verify real-time updates
 
@@ -124,8 +124,13 @@ Settings live in `config.py`. Each one can be overridden with an environment var
 |---|---|---|
 | `AIRWIZE_SCRAPER_URL` | `http://localhost:8080` | Base URL of the Go scraper |
 | `AIRWIZE_SCRAPER_TIMEOUT` | `5` | Seconds to wait for the scraper before reporting it unavailable |
-| `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the solar outlook refreshes its forecast |
 | `AIRWIZE_WEBSOCKET_URL` | derived from `AIRWIZE_SCRAPER_URL` | Browser-accessible `ws://` or `wss://` readings stream |
+| `AIRWIZE_ENERGY_ADAPTER` | empty | Energy tab, live mode: name of the solar Wi-Fi module adapter. None ships yet, so live mode reports "not connected" |
+| `AIRWIZE_ENERGY_DEVICE_ADDRESS` | empty | Network address of the module, passed to the adapter |
+| `AIRWIZE_ENERGY_DEVICE_TIMEOUT` | `3` | Seconds to wait for the module |
+| `AIRWIZE_ENERGY_POLL_INTERVAL_MS` | `10000` | How often the browser asks for a live energy reading |
+| `AIRWIZE_ENERGY_OPTIMIZER` | empty | Provider for the Energy tab's suggestions. `rules` (default) shows the Solar outlook's rules-based recommendations; empty turns the area back into a placeholder |
+| `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the Solar outlook refreshes its forecast (readings arrive over the WebSocket) |
 | `AIRWIZE_HOST` / `AIRWIZE_PORT` | `127.0.0.1` / `5000` | Where `python app.py` listens |
 | `AIRWIZE_SOLAR_SITE_NAME` | `demo-laguna-site` | Display name / cloud seed for the synthetic array |
 | `AIRWIZE_SOLAR_PEAK_KW` | `5.0` | Nameplate capacity of the synthetic array |
@@ -145,14 +150,18 @@ webapp/
   __init__.py                  app factory; points Flask at dashboard/templates and dashboard/static
   routes/pages.py              GET /             renders the dashboard page
   routes/api.py                GET /api/readings (proxy) and GET /api/solar-forecast
+  routes/energy.py             GET /api/energy/live, POST /api/energy/suggestions
   services/readings_client.py  urllib client for the scraper, with an explicit timeout
   services/solar_sim.py        synthetic generation + paired PM2.5/solar dataset
   services/forecast.py         baseline and AQI-augmented LinearRegression models
   services/recommendations.py  rules-based solar and air-quality actions
+  services/solar_outlook.py    builds the Solar outlook payload (shared by both endpoints)
+  services/energy_device.py    solar Wi-Fi module interface (adapters), separate from the scraper
+  services/energy_optimization.py  Energy tab suggestions: provider registry ("rules" built in)
 dashboard/                     all front-end code (see dashboard/README.md)
   templates/                   Jinja: index.html + partials (top bar, icons, solar card)
-  static/css/                  design tokens, base, app, motion, solar
-  static/js/                   ES modules, no build step (solar.js owns the card)
+  static/css/                  design tokens, base, app, motion, solar, energy
+  static/js/                   ES modules, no build step (solar.js owns the Solar outlook card)
 webscraper/                    Go scraper, HTTP snapshot and WebSocket broadcast
 tests/                         unittest suite + fake scraper + fixtures
 docs/                          MVP notes, demo script, backup screenshots
@@ -167,9 +176,9 @@ backoff. `AIRWIZE_WEBSOCKET_URL` must be reachable by the browser; set it explic
 **The HTTP fallback.** `GET /api/readings` forwards the Go scraper's body byte for byte, so the
 JSON schema is exactly `Snapshot` in `webscraper/main.go`. When the scraper can't be
 reached it answers `502`, or `504` on timeout, with `{"error": "..."}`. The dashboard
-uses it for explicit retries (the error notice and the first-pass "Check again" action).
-If it already had data, it keeps showing that data with a "Some readings may be out of
-date" note. Flask does no scraping, parsing, filtering or server-side polling.
+uses it when the user presses Refresh. If it already had data, it keeps showing that
+data with a "Some readings may be out of date" note. Flask does no scraping, parsing,
+filtering or server-side polling.
 
 **The synthetic solar outlook (demo data).** There is no inverter behind this repo.
 `GET /api/solar-forecast` reads the same real snapshot, pairs each hour's PM2.5 with a
@@ -183,8 +192,108 @@ for the walkthrough and the honesty line.
 
 **Browser state.** Alert rules (`laguna-air.alerts`) and the theme (`laguna-air.theme`)
 are kept in `localStorage`, under the same keys the earlier React dashboard used, so
-existing rules carry over. The view, level filter, sort order and selected
-municipality are kept in the query string.
+existing rules carry over. The view, level filter, sort order, selected municipality
+and the Energy tab's site type, mode and scenario are kept in the query string.
+
+## Energy tab
+
+Open it from the navigation sidebar, or go to `?view=energy`. Pick a **site type** (solar site,
+grid connection, generator site, battery bank) and an **operating mode**. The heading,
+tiles, explanations and chart all adapt to the site type:
+
+| Site type | Tiles | Chart |
+|---|---|---|
+| Solar site | Stored energy, Draining/Trend, Load, Solar, Outside | Stored energy (%) |
+| Grid connection | Load, Outside | Load (W) |
+| Generator site | Stored energy and Draining/Trend (if it has storage), Load, Generator, Outside | Stored energy, or load without storage |
+| Battery bank | Stored energy, Draining/Trend, Load, Outside | Stored energy (%) |
+
+Every tile carries a tag saying where its value came from: **Simulated**, **Scripted** or **Live**.
+
+### Simulation-only mode
+
+Runs scripted demo data and needs no energy system, Wi-Fi or even the Go scraper.
+The "Simulated data" panel has five scenarios: Typical day, Heat wave, Hazy afternoon,
+Appliance on and Evening drain. Each one plays six hours on a demo clock, at one demo
+minute per half second. Click the active scenario again to restart it. Outside
+conditions (temperature, UV, air quality, forecast) are scripted as well, for Calamba,
+and the heading says so.
+
+The scenario numbers in `dashboard/static/js/lib/energy/scenarios.js` and the model in
+`simulation.js` (2 kW panels, a 14 kWh solar battery, a 2.4 kW generator that starts below 35%
+charge, a 48 V pack) are **illustrative, not measured**. Replace them with recorded values
+from a real site when you have them.
+
+### Live mode
+
+The browser polls `GET /api/energy/live` every 10 seconds while the tab is open. Flask
+asks the configured adapter in `webapp/services/energy_device.py` for one reading. The
+answer's `state` is one of:
+
+- `connected`: the reading is shown.
+- `disconnected`: the module didn't answer.
+- `error`: the module or adapter failed.
+- `not_configured`: no adapter is set up.
+
+Values the device doesn't report stay empty ("Not reported by the device"). They are
+never filled in from the simulation. The trend chart uses only readings received since the
+page opened. Outside conditions come live from the Go scraper's snapshot (temperature,
+UV, Plume index and the forecast's next 6 hours) for the municipality chosen in the
+connection panel. The energy device code never touches the scraper.
+
+**Status: no solar Wi-Fi module is supported yet.** No brand, protocol or API is
+assumed, so live mode currently shows "Not connected". To add a module, write an
+adapter class with `read(timeout) -> EnergyReading` and register it in `ADAPTERS`. Then start
+Flask with `AIRWIZE_ENERGY_ADAPTER=<name> AIRWIZE_ENERGY_DEVICE_ADDRESS=<ip>`. The
+docstring in `energy_device.py` has the steps. Before writing one, you need to know:
+
+- how the module exposes data (local HTTP/JSON, Modbus TCP, MQTT, or a vendor cloud API)
+- its address, port and authentication
+- which values it reports (charge %, battery voltage, load, PV or generator power) and their units
+- how often it may be polled
+
+### "Why is it behaving this way?"
+
+`dashboard/static/js/lib/energy/explain.js` turns the current readings, the scenario and
+the outside forecast into plain-language guesses, such as heat driving cooling load, haze
+dimming the panels, a jump in load, or a forecast temperature change. They are labelled
+as estimates. A rule stays silent when a value it needs is missing.
+
+### Energy optimization (rules now, AI later)
+
+The panel right after "Why is it behaving this way?" shows suggestions from the provider
+named in `AIRWIZE_ENERGY_OPTIMIZER` (`webapp/services/energy_optimization.py`).
+
+**`rules` (the default)** reuses the Solar outlook's rules-based recommendations
+(`webapp/services/recommendations.py`). Both use the same live snapshot and the same
+pipeline in `webapp/services/solar_outlook.py`, so the Energy tab and the Solar outlook
+card always say the same thing. Only the energy-related rules are offered, matched to
+the site type:
+
+| Rule | Shown for |
+|---|---|
+| Haze is cutting output, clean the panels | Solar site |
+| Haze forecast: pre-charge batteries or defer loads in a time window | Solar, battery and generator sites |
+
+Grid connections get none. The air-quality actions (LGU patrols, rice-straw collection,
+clean cooking) stay on the Solar outlook card. Each suggestion says what it was based on.
+In simulation mode that is the *live* air quality, not the demo scenario, and the
+suggestion says so. If the scraper is down, the panel says suggestions are unavailable
+rather than showing old or invented ones. Set `AIRWIZE_ENERGY_OPTIMIZER=` (empty) to turn
+the panel back into a placeholder that makes no requests.
+
+**To swap in an AI service:**
+
+1. Implement a provider with `suggest(context) -> list[Suggestion]` and a `label`
+   attribute (shown as the panel badge) in `webapp/services/energy_optimization.py`.
+   Read the API key from an environment variable there, on the server only.
+2. Register it in `PROVIDERS`, then start Flask with `AIRWIZE_ENERGY_OPTIMIZER=<name>`.
+3. The page sends the context from `dashboard/static/js/lib/energy/context.js` to
+   `POST /api/energy/suggestions` and lists the `{title, body, basis}` suggestions it gets back.
+   The context holds the site type, mode, scenario, clock, current readings, drain rate,
+   outside conditions, forecast and the explanations shown. Its exact schema is in the
+   module docstring. A provider can also call `solar_outlook.build_outlook()` to use the
+   Solar outlook forecast. The panel's markup does not change.
 
 ## Tests
 
@@ -215,6 +324,7 @@ contact Plume Labs. The other fake modes are `--mode pending | partial`.
 - Alert rules are per browser. Notifications fire only while the dashboard tab is open and permission has been granted.
 - The forecast chart's morph between municipalities is drawn in JS and works everywhere. The table sparklines morph only in browsers that can transition the CSS `d` property (Chromium, Firefox). Safari swaps them instantly.
 - The Switzer font loads from Fontshare. Offline, the page falls back to the system sans-serif.
+- Energy tab: no solar Wi-Fi module adapter exists yet, so live mode can't show system readings. The live trend chart only covers readings received while the page is open. Simulation numbers are illustrative.
 - Solar generation is synthetic demo data, not a validated photovoltaic model. The two
   forecasters are deliberately small linear regressions; there is no held-out validation
   against real inverter output. The real deliverable is the pipeline, the labelled UI and

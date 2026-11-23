@@ -1,8 +1,9 @@
 /**
- * View state mirrored in the query string (?view=alerts&level=poor&sort=name&m=Calamba)
- * so a link reopens the same screen. Written with replaceState, like the React version.
+ * View state mirrored in the query string (?view=alerts&level=poor&sort=name&m=Calamba,
+ * ?view=energy&site=grid&mode=live&scenario=heat) so a link reopens the same screen.
+ * Written with replaceState, like the React version.
  */
-export const URL_DEFAULTS = { view: 'monitor', level: 'all', sort: 'index', m: '' }
+export const URL_DEFAULTS = { view: 'monitor', level: 'all', sort: 'index', m: '', site: 'solar', mode: 'simulation', scenario: 'typical' }
 
 export function readUrl() {
   const params = new URLSearchParams(window.location.search)

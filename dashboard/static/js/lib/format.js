@@ -33,3 +33,21 @@ export function relativeMinutes(from, now) {
   const hrs = Math.round(m / 60)
   return hrs === 1 ? '1 hour ago' : `${hrs} hours ago`
 }
+
+const numberFmt = new Intl.NumberFormat('en-PH', { maximumFractionDigits: 0 })
+const oneDecimalFmt = new Intl.NumberFormat('en-PH', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+
+/** 1,050 */
+export const fmtNumber = (n) => numberFmt.format(Math.round(n))
+/** 1,050 W */
+export const fmtWatts = (n) => `${fmtNumber(n)} W`
+/** 4.1 */
+export const fmtOneDecimal = (n) => oneDecimalFmt.format(n)
+/** 3 h 20 min, 45 min */
+export function fmtDuration(hours) {
+  const total = Math.max(0, Math.round(hours * 60))
+  const h = Math.floor(total / 60)
+  const m = total % 60
+  if (h === 0) return `${m} min`
+  return m === 0 ? `${h} h` : `${h} h ${m} min`
+}

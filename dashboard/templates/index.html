@@ -1,7 +1,7 @@
 {#
   The whole dashboard is this one page. Jinja renders the static shell
   (header, view headings, footer); static/js/app.js fills in live data from
-  /api/readings and switches between the monitor and alerts views.
+  /api/readings and switches between the monitor, alerts and energy views.
 #}
 {% from 'partials/icons.html' import sprite %}
 <!doctype html>
@@ -9,7 +9,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Live air quality, 24-hour forecasts and threshold alerts for Laguna municipalities." />
+    <meta name="description" content="Live air quality, 24-hour forecasts, threshold alerts and site energy for Laguna municipalities." />
     <meta name="theme-color" content="#f9fafb" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://api.fontshare.com" />
@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/energy.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/solar.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/motion.css') }}" />
     <script type="application/json" id="client-config">{{ client_config | tojson }}</script>
@@ -73,6 +74,60 @@
               <div data-slot="rules"></div>
             </section>
           </div>
+        </section>
+
+        <section id="view-energy" class="energy" aria-labelledby="energy-title" hidden>
+          {#- Filled by static/js/features/energy/energy-view.js. -#}
+          <div class="view-head energy-head">
+            <h1 id="energy-title">Solar site energy</h1>
+            <dl class="energy-meta" data-slot="meta"></dl>
+          </div>
+
+          <div class="energy-controls">
+            <div class="energy-control"><span class="energy-control__label" id="energy-site-label">Site type</span><div data-slot="site"></div></div>
+            <div class="energy-control"><span class="energy-control__label" id="energy-mode-label">Operating mode</span><div data-slot="mode"></div></div>
+          </div>
+
+          <section class="panel energy-sim" data-slot="sim" aria-labelledby="energy-sim-title">
+            <header class="energy-panel__head">
+              <h2 id="energy-sim-title">Simulated data</h2>
+              <span class="energy-tag" data-mode="simulation">Demo only</span>
+            </header>
+            <div class="energy-scenarios" role="group" aria-label="Scenario" data-slot="scenarios"></div>
+            <p class="energy-sim__desc" data-slot="scenario-desc" aria-live="polite"></p>
+            <p class="source-note">Click the active scenario again to restart it. Values are scripted for demonstration, not measured.</p>
+          </section>
+
+          <section class="panel energy-live" data-slot="live" aria-labelledby="energy-live-title" hidden>
+            <header class="energy-panel__head">
+              <h2 id="energy-live-title">Solar system connection</h2>
+              <span class="energy-conn" data-slot="conn" role="status"><span class="energy-conn__dot" aria-hidden="true"></span><span data-slot="conn-text">Not connected</span></span>
+            </header>
+            <p class="energy-live__message" data-slot="conn-message"></p>
+            <div class="energy-live__row">
+              <div data-slot="connect"></div>
+              <label class="energy-live__outside">
+                <span class="energy-control__label">Outside conditions for</span>
+                <select class="input energy-select" data-slot="municipality"></select>
+              </label>
+            </div>
+          </section>
+
+          <dl class="energy-tiles" data-slot="tiles" aria-label="Current readings"></dl>
+
+          <div class="energy-grid">
+            <section class="panel energy-why" aria-labelledby="energy-why-title">
+              <header class="energy-panel__head">
+                <h2 id="energy-why-title">Why is it behaving this way?</h2>
+                <span class="energy-tag" data-mode="estimate">Estimates</span>
+              </header>
+              <p class="source-note">Likely causes inferred from the current readings, the scenario and the outside forecast. These are estimates, not measurements.</p>
+              <ul class="energy-why__list" data-slot="why" aria-live="polite"></ul>
+            </section>
+            <div data-slot="optimization"></div>
+          </div>
+
+          <div data-slot="chart"></div>
         </section>
       </div>
     </main>

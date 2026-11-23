@@ -26,8 +26,30 @@ class Config:
     # Seconds Flask waits for the scraper before reporting it unavailable.
     SCRAPER_TIMEOUT = _float("AIRWIZE_SCRAPER_TIMEOUT", 5.0)
 
-    # How often the solar outlook asks for a fresh forecast, in milliseconds.
-    # Live readings themselves arrive over the WebSocket below.
+    # Browser-accessible WebSocket endpoint. When omitted, it is derived from
+    # SCRAPER_URL (http -> ws, https -> wss). Set this explicitly when the
+    # scraper is behind a reverse proxy or uses a private/internal hostname.
+    WEBSOCKET_URL = os.environ.get("AIRWIZE_WEBSOCKET_URL")
+
+    # Energy tab, live mode. Name of the solar Wi-Fi module adapter registered
+    # in webapp/services/energy_device.py (none ships yet, so live mode reports
+    # "not configured"), the module's address on the local network, and how
+    # long to wait for it. See README.md, "Energy tab".
+    ENERGY_DEVICE_ADAPTER = os.environ.get("AIRWIZE_ENERGY_ADAPTER", "").strip()
+    ENERGY_DEVICE_ADDRESS = os.environ.get("AIRWIZE_ENERGY_DEVICE_ADDRESS", "").strip()
+    ENERGY_DEVICE_TIMEOUT = _float("AIRWIZE_ENERGY_DEVICE_TIMEOUT", 3.0)
+
+    # How often the browser asks Flask for a live device reading.
+    ENERGY_POLL_INTERVAL_MS = _int("AIRWIZE_ENERGY_POLL_INTERVAL_MS", 10_000)
+
+    # Energy tab suggestions. Name of a provider registered in
+    # webapp/services/energy_optimization.py: "rules" shows the Solar outlook's
+    # rules-based recommendations; set it empty to show an empty placeholder.
+    ENERGY_OPTIMIZER = os.environ.get("AIRWIZE_ENERGY_OPTIMIZER", "rules").strip()
+
+    # How often the Solar outlook asks Flask for a new forecast, in
+    # milliseconds. Air-quality readings themselves arrive over the WebSocket;
+    # the scraper refreshes from Plume Labs every five minutes by default.
     POLL_INTERVAL_MS = _int("AIRWIZE_POLL_INTERVAL_MS", 60_000)
 
     # Browser-accessible WebSocket endpoint for live readings. When omitted, it
@@ -55,6 +77,6 @@ class Config:
     AIRWIZE_PM25_HIGH = _float("AIRWIZE_PM25_HIGH", 35.0)
     AIRWIZE_PM25_CRITICAL = _float("AIRWIZE_PM25_CRITICAL", 75.0)
 
-    # Where `python web.py` listens.
+    # Where `python app.py` listens.
     HOST = os.environ.get("AIRWIZE_HOST", "127.0.0.1")
     PORT = _int("AIRWIZE_PORT", 5000)
