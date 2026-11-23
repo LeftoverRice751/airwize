@@ -9,15 +9,21 @@ Two services work together:
 
 | Service | Language | Job |
 |---|---|---|
+<<<<<<< HEAD
 | `webscraper/` | Go | Scrapes Plume Labs concurrently every 5 minutes and serves the latest snapshot at `GET /api/readings`. The **only** component that talks to Plume Labs. |
 | `web.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard, proxies `/api/readings` from the Go scraper unchanged, and computes the synthetic solar forecast plus recommendations at `GET /api/solar-forecast`. |
+=======
+| `webscraper/` | Go | Scrapes Plume Labs concurrently every 5 minutes, serves `GET /api/readings`, and broadcasts `WS /ws/readings`. The **only** component that talks to Plume Labs. |
+| `web.py` + `webapp/` + `dashboard/` | Python / Flask | Serves the dashboard and keeps `/api/readings` as a manual HTTP fallback. |
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 
 ```
-browser ──(every 60 s)──▶ Flask :5000  /api/readings ──▶ Go scraper :8080  /api/readings
-                              │                               │ (in-memory snapshot,
-                              └─ /  dashboard page            │  refreshed every 5 min)
-                                                              ▼
-                                                     air.plumelabs.com
+browser <==== WebSocket /ws/readings ==== Go scraper :8080
+   |                                      | (in-memory snapshot,
+   +---- Flask :5000 dashboard page       |  refreshed every 5 min)
+   +---- HTTP /api/readings fallback -----+
+                                          v
+                                 air.plumelabs.com
 ```
 
 ## How to run
@@ -49,8 +55,9 @@ cd webscraper
 go run . -serve :8080 -interval 5m
 ```
 
-It scans Plume Labs, refreshes every 5 minutes and serves the readings at
-<http://localhost:8080/api/readings>. Leave it running.
+It scans Plume Labs, refreshes every 5 minutes, serves the current snapshot at
+<http://localhost:8080/api/readings>, and pushes snapshots to WebSocket clients
+at `ws://localhost:8080/ws/readings`. Leave it running.
 
 ### 3. Start the Flask dashboard (terminal 2, from the project root)
 
@@ -66,8 +73,22 @@ For development with auto-reload, use `venv/bin/flask --app web run --debug`.
 Go to <http://127.0.0.1:5000>.
 
 The scraper's first pass takes about 30 seconds. Until it finishes, the dashboard shows
-"Collecting the first readings". After that, the page refreshes the data every minute
-on its own.
+"Collecting the first readings". The open page receives that first result and every
+later forecast automatically; it does not need a page refresh or polling interval.
+
+### Verify real-time updates
+
+- A green **Live** label means the browser received a valid snapshot over an open
+  WebSocket and that snapshot is not stale.
+- If the WebSocket closes, **Live** changes to `Updated ... ago`, the last snapshot
+  remains visible, and the dashboard shows its automatic-reconnect warning.
+- In browser developer tools, open **Network**, select the **WS** filter, and inspect
+  `/ws/readings`. The handshake should be `101 Switching Protocols`; each completed
+  scrape appears as a JSON message in the Messages/Frames panel.
+
+The real scraper checks Plume Labs every five minutes by default, so "real time" means
+the browser receives each completed scrape immediately. `tests.fake_scraper` exercises
+the same WebSocket flow with synthetic data; it is not a source of live Plume Labs data.
 
 To stop the app, press `Ctrl+C` in each terminal.
 
@@ -77,6 +98,9 @@ To stop the app, press `Ctrl+C` in each terminal.
 # Scraper on another address or port
 cd webscraper && go run . -serve :9000
 AIRWIZE_SCRAPER_URL=http://localhost:9000 venv/bin/python web.py
+
+# Public WebSocket address (needed when SCRAPER_URL is private or proxied)
+AIRWIZE_WEBSOCKET_URL=wss://air.example.com/ws/readings venv/bin/python web.py
 
 # Dashboard on another port, or reachable from your local network
 AIRWIZE_PORT=8000 venv/bin/python web.py
@@ -88,9 +112,9 @@ venv/bin/python -m tests.fake_scraper     # use this instead of step 2
 
 ### Troubleshooting
 
-- **"Readings are unavailable"**: Flask can't reach the scraper. Check that terminal 1
-  is still running, and that `curl http://localhost:8080/api/readings` returns JSON. If
-  the scraper runs somewhere else, set `AIRWIZE_SCRAPER_URL`.
+- **"Readings are unavailable"**: check that terminal 1 is still running and that
+  `curl http://localhost:8080/api/readings` returns JSON. If the scraper runs somewhere
+  else, set both `AIRWIZE_SCRAPER_URL` and, when needed, `AIRWIZE_WEBSOCKET_URL`.
 - **"Address already in use"**: another program is using port 8080 or 5000. Pick other
   ports as shown above.
 - **`ModuleNotFoundError: flask`**: you ran the system Python. Use `venv/bin/python`, or
@@ -104,7 +128,11 @@ Settings live in `config.py`. Each one can be overridden with an environment var
 |---|---|---|
 | `AIRWIZE_SCRAPER_URL` | `http://localhost:8080` | Base URL of the Go scraper |
 | `AIRWIZE_SCRAPER_TIMEOUT` | `5` | Seconds to wait for the scraper before reporting it unavailable |
+<<<<<<< HEAD
 | `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the browser refreshes readings and the solar forecast |
+=======
+| `AIRWIZE_WEBSOCKET_URL` | derived from `AIRWIZE_SCRAPER_URL` | Browser-accessible `ws://` or `wss://` readings stream |
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 | `AIRWIZE_HOST` / `AIRWIZE_PORT` | `127.0.0.1` / `5000` | Where `python web.py` listens |
 | `AIRWIZE_SOLAR_SITE_NAME` | `demo-laguna-site` | Display name / cloud seed for the synthetic array |
 | `AIRWIZE_SOLAR_PEAK_KW` | `5.0` | Nameplate capacity of the synthetic array |
@@ -129,18 +157,32 @@ webapp/
   services/forecast.py         baseline and AQI-augmented LinearRegression models
   services/recommendations.py  rules-based solar and air-quality actions
 dashboard/                     all front-end code (see dashboard/README.md)
+<<<<<<< HEAD
   templates/                   Jinja: index.html + partials (top bar, icons, solar card)
   static/css/                  design tokens, base, app, motion, solar
   static/js/                   ES modules, no build step (solar.js owns the card)
 webscraper/                    Go scraper (unchanged)
 tests/                         unittest suite + fake scraper + fixtures
 docs/                          MVP notes, demo script, backup screenshots
+=======
+  templates/                   Jinja: index.html + partials (top bar, icon sprite)
+  static/css/                  design tokens, base, app styles, motion
+  static/js/                   ES modules, no build step
+webscraper/                    Go scraper, HTTP snapshot and WebSocket broadcast
+tests/                         unittest suite + fake scraper + fixture
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 ```
 
-**The proxy.** `GET /api/readings` forwards the Go scraper's body byte for byte, so the
+**Real-time updates.** The browser opens `WS /ws/readings` on the Go scraper. It receives
+the current snapshot immediately, then another snapshot as soon as each scrape pass
+finishes. If the connection drops, the browser retries automatically with exponential
+backoff. `AIRWIZE_WEBSOCKET_URL` must be reachable by the browser; set it explicitly when
+`AIRWIZE_SCRAPER_URL` uses an internal hostname or TLS ends at a reverse proxy.
+
+**The HTTP fallback.** `GET /api/readings` forwards the Go scraper's body byte for byte, so the
 JSON schema is exactly `Snapshot` in `webscraper/main.go`. When the scraper can't be
 reached it answers `502`, or `504` on timeout, with `{"error": "..."}`. The dashboard
-then shows "Readings are unavailable". If it already had data, it keeps showing that
+uses it when the user presses Refresh. If it already had data, it keeps showing that
 data with a "Some readings may be out of date" note. Flask does no scraping, parsing,
 filtering or server-side polling.
 

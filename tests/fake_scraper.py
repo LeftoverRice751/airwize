@@ -1,4 +1,4 @@
-"""A stand-in for the Go scraper's ``GET /api/readings``, for tests and offline UI work.
+"""A stand-in for the Go scraper's HTTP and WebSocket readings, for tests and offline UI work.
 
 It serves tests/fixtures/snapshot.json (synthetic, test-only readings in the Go
 scraper's schema) with every timestamp shifted so the reading is "now". It
@@ -10,9 +10,15 @@ never contacts Plume Labs and is not used by the real app.
 """
 
 import argparse
+import base64
 import copy
+import hashlib
 import json
+<<<<<<< HEAD
 import math
+=======
+import struct
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
 import threading
 import time
 from datetime import datetime, timezone
@@ -99,6 +105,9 @@ class _Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802 (http.server naming)
         cfg = self.server.fake  # type: ignore[attr-defined]
+        if self.path == "/ws/readings" and self.headers.get("Upgrade", "").lower() == "websocket":
+            self._serve_websocket(cfg)
+            return
         if self.path != "/api/readings":
             self.send_error(404)
             return
@@ -115,8 +124,31 @@ class _Handler(BaseHTTPRequestHandler):
         self.end_headers()
         try:
             self.wfile.write(body)
-        except (BrokenPipeError, ConnectionResetError):
+        except OSError:
             pass  # the client gave up first (timeout tests do this on purpose)
+
+    def _serve_websocket(self, cfg):
+        """Send the fake snapshot using the small server-to-browser WS subset tests need."""
+        key = self.headers.get("Sec-WebSocket-Key")
+        if not key:
+            self.send_error(400)
+            return
+        accept = base64.b64encode(hashlib.sha1((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").encode()).digest()).decode()
+        self.send_response(101, "Switching Protocols")
+        self.send_header("Upgrade", "websocket")
+        self.send_header("Connection", "Upgrade")
+        self.send_header("Sec-WebSocket-Accept", accept)
+        self.end_headers()
+
+        body = cfg["body"] if cfg["body"] is not None else json.dumps(rebased_snapshot(mode=cfg["mode"])).encode()
+        try:
+            self.wfile.write(_websocket_frame(body))
+            self.wfile.flush()
+            while not cfg["stop"].wait(20):
+                self.wfile.write(b"\x89\x00")  # ping; browsers reply automatically
+                self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError, OSError):
+            pass
 
     def log_message(self, *args):  # keep test output quiet
         pass
@@ -128,7 +160,12 @@ class FakeScraper:
     def __init__(self, port: int = 0, mode: str = "ok", scenario: str = "live", delay: float = 0, status: int = 200, body: bytes | None = None):
         self.httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
         self.httpd.daemon_threads = True
+<<<<<<< HEAD
         self.httpd.fake = {"mode": mode, "scenario": scenario, "delay": delay, "status": status, "body": body}  # type: ignore[attr-defined]
+=======
+        self.stop = threading.Event()
+        self.httpd.fake = {"mode": mode, "delay": delay, "status": status, "body": body, "stop": self.stop}  # type: ignore[attr-defined]
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
         self.thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
 
     @property
@@ -140,8 +177,21 @@ class FakeScraper:
         return self
 
     def __exit__(self, *exc):
+        self.stop.set()
         self.httpd.shutdown()
         self.httpd.server_close()
+
+
+def _websocket_frame(payload: bytes) -> bytes:
+    """Encode one unmasked, final text frame (servers do not mask frames)."""
+    size = len(payload)
+    if size < 126:
+        header = bytes((0x81, size))
+    elif size <= 0xFFFF:
+        header = bytes((0x81, 126)) + struct.pack("!H", size)
+    else:
+        header = bytes((0x81, 127)) + struct.pack("!Q", size)
+    return header + payload
 
 
 def main():

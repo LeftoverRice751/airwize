@@ -1,7 +1,7 @@
 /**
  * Alerts view: a form to create or edit rules, the browser-notification
  * opt-in, and the list of rules with their live status. Rules are keyed by id
- * and updated in place so focus survives each poll; reorders slide (FLIP).
+ * and updated in place so focus survives each data update; reorders slide (FLIP).
  * The surrounding markup lives in templates/index.html.
  */
 import { cx, h, reducedMotion } from '../lib/dom.js'

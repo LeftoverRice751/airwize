@@ -1,8 +1,7 @@
 {#
   App shell header. static/js/features/topbar.js wires it up: current link,
-  triggered-alert count, "Updated N minutes ago", refresh state, theme toggle
-  and the mobile menu. Under 40rem the desktop row is replaced by icon buttons
-  and the links fold into the sheet below.
+  triggered-alert count, WebSocket status, search, theme toggle and the
+  off-canvas navigation sidebar.
 #}
 {% from 'partials/icons.html' import icon %}
 
@@ -28,13 +27,6 @@
 </span>
 {%- endmacro %}
 
-{% macro refresh_button() -%}
-<button type="button" class="btn btn--ghost btn--sm" data-action="refresh">
-  {{ icon('refresh', 16, class='refresh-icon') }}
-  Refresh
-</button>
-{%- endmacro %}
-
 {% macro theme_toggle() -%}
 <button type="button" class="btn btn--icon theme-toggle" data-action="theme" aria-label="Switch theme">
   <span class="theme-toggle__icon theme-toggle__icon--sun">{{ icon('sun', 17) }}</span>
@@ -42,19 +34,22 @@
 </button>
 {%- endmacro %}
 
-<header class="topbar">
-  <div class="topbar__inner container">
-    <a class="wordmark" href="./" aria-label="Laguna air, home">
-      {{ icon('wind', 20, stroke_width=1.9) }}
-      Laguna AirWize
-    </a>
+<div class="topbar-shell">
+  <header class="topbar">
+    <div class="topbar__inner container">
+      <button type="button" class="btn btn--icon nav-trigger" data-action="menu" aria-expanded="false" aria-controls="nav-sidebar">
+        <span class="burger" aria-hidden="true"><span></span><span></span></span>
+        <span class="visually-hidden">Open navigation</span>
+      </button>
 
-    <div class="topbar__desktop">
-      {{ nav() }}
+      <a class="wordmark" href="./" aria-label="Laguna air, home">
+        {{ icon('wind', 20, stroke_width=1.9) }}
+        Laguna AirWize
+      </a>
+
       <div class="topbar__tools">
         {{ live_status() }}
-        {{ refresh_button() }}
-        <button type="button" class="search-trigger" data-action="search">
+        <button type="button" class="search-trigger" data-action="search" aria-label="Search">
           {{ icon('search', 15) }}
           <span>Search</span>
           <kbd class="kbd" data-kbd-mod>Ctrl K</kbd>
@@ -62,28 +57,24 @@
         {{ theme_toggle() }}
       </div>
     </div>
+  </header>
 
-    <div class="topbar__mobile">
-      <button type="button" class="btn btn--icon" data-action="search">
-        {{ icon('search', 18) }}<span class="visually-hidden">Search</span>
-      </button>
-      {{ theme_toggle() }}
-      <button type="button" class="btn btn--icon" data-action="menu" aria-expanded="false" aria-controls="topbar-panel">
-        <span class="burger" aria-hidden="true"><span></span><span></span></span>
-        <span class="visually-hidden">Open menu</span>
-      </button>
-    </div>
-  </div>
-
-  <div id="topbar-panel" class="topbar__sheet">
-    <div class="topbar__sheet-clip">
-      <div class="container topbar__sheet-inner">
-        {{ nav() }}
-        <div class="topbar__sheet-status">
-          {{ live_status() }}
-          {{ refresh_button() }}
-        </div>
+  <div id="nav-layer" class="side-nav-layer" aria-hidden="true">
+    <button type="button" class="side-nav__scrim" data-action="menu-close" aria-label="Close navigation" tabindex="-1"></button>
+    <aside id="nav-sidebar" class="side-nav" aria-label="Primary navigation" aria-hidden="true" inert>
+      <div class="side-nav__head">
+        <span class="side-nav__title">Navigation</span>
+        <button type="button" class="btn btn--icon" data-action="menu-close" aria-label="Close navigation">
+          {{ icon('close', 18) }}
+        </button>
       </div>
-    </div>
+      <div class="side-nav__body">
+        {{ nav() }}
+      </div>
+      <div class="side-nav__foot">
+        {{ live_status() }}
+        <span class="side-nav__hint">Updates arrive automatically</span>
+      </div>
+    </aside>
   </div>
-</header>
+</div>

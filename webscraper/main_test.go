@@ -11,6 +11,8 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 // Fixtures mirror the real (unquoted-attribute) markup served by air.plumelabs.com.
@@ -263,6 +265,39 @@ func TestStoreAndHandler(t *testing.T) {
 	st.Update(nil, errors.New("boom"))
 	if s := get(); len(s.Municipalities) != 1 || s.Error != "boom" {
 		t.Errorf("after failed pass = %+v", s)
+	}
+}
+
+func TestWebSocketSendsCurrentAndUpdatedSnapshots(t *testing.T) {
+	st := NewStore("Laguna")
+	srv := httptest.NewServer(st.Handler(""))
+	defer srv.Close()
+
+	wsURL := "ws" + strings.TrimPrefix(srv.URL, "http") + "/ws/readings"
+	conn, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+	if err := conn.SetReadDeadline(time.Now().Add(2 * time.Second)); err != nil {
+		t.Fatal(err)
+	}
+
+	var initial Snapshot
+	if err := conn.ReadJSON(&initial); err != nil {
+		t.Fatal(err)
+	}
+	if initial.Province != "Laguna" || initial.UpdatedAt != nil || len(initial.Municipalities) != 0 {
+		t.Fatalf("initial websocket snapshot = %+v", initial)
+	}
+
+	st.Update([]AirQuality{{City: "Calamba"}}, nil)
+	var updated Snapshot
+	if err := conn.ReadJSON(&updated); err != nil {
+		t.Fatal(err)
+	}
+	if updated.UpdatedAt == nil || len(updated.Municipalities) != 1 || updated.Municipalities[0].City != "Calamba" {
+		t.Fatalf("updated websocket snapshot = %+v", updated)
 	}
 }
 

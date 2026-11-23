@@ -84,7 +84,7 @@ export class CommandPalette {
     if (this.returnTo instanceof HTMLElement) this.returnTo.focus()
   }
 
-  /** Re-read commands while open (e.g. after a poll brought new readings). */
+  /** Re-read commands while open (e.g. after a stream update brought new readings). */
   refresh() {
     if (this.isOpen) this.renderList()
   }

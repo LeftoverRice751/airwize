@@ -11,7 +11,7 @@ import { h } from './lib/dom.js'
 import { fmtIndex } from './lib/format.js'
 import { LEVELS, levelLabel, levelRank } from './lib/levels.js'
 import { evaluate, loadRules, saveRules } from './lib/alerts.js'
-import { ReadingsPoller } from './lib/readings.js'
+import { ReadingsStream } from './lib/readings.js'
 import { followSystem, getTheme, setTheme } from './lib/theme.js'
 import { readUrl, writeUrl } from './lib/url-state.js'
 import { button, notice } from './ui/primitives.js'
@@ -29,7 +29,7 @@ const config = JSON.parse(document.getElementById('client-config').textContent)
 /* ---------- State ---------- */
 
 const state = {
-  readings: { status: 'loading', snapshot: null, error: null, refreshing: false },
+  readings: { status: 'loading', snapshot: null, error: null, refreshing: false, connected: false },
   ...readUrl(), // view, level, sort, m (selected municipality)
   rules: loadRules(),
   theme: getTheme(),
@@ -79,8 +79,8 @@ function derive() {
 
 /* ---------- Actions ---------- */
 
-const poller = new ReadingsPoller(config.readings_url, config.poll_interval_ms, (readings) => set({ readings }))
-const refresh = () => void poller.load()
+const readingsStream = new ReadingsStream(config.readings_url, config.websocket_url, (readings) => set({ readings }))
+const refresh = () => readingsStream.refresh()
 
 /** In the stacked layout the detail panel sits below the ledger; bring it into view on selection. */
 function selectMunicipality(city, forceScroll = false) {
@@ -99,9 +99,8 @@ const toggleTheme = (origin) => {
 
 /* ---------- Components ---------- */
 
-const topbar = new TopBar(document.querySelector('.topbar'), {
+const topbar = new TopBar(document.querySelector('.topbar-shell'), {
   onNavigate: (view) => set({ view }),
-  onRefresh: refresh,
   onSearch: () => palette.open(),
   onToggleTheme: toggleTheme,
 })
@@ -171,11 +170,11 @@ let noticeKey = ''
 const notified = new Set()
 
 function render() {
-  const { status, snapshot, refreshing } = state.readings
+  const { status, snapshot, connected } = state.readings
   const d = derive()
   const updatedAt = snapshot?.updated_at ? new Date(snapshot.updated_at) : null
 
-  topbar.update({ view: state.view, updatedAt, now: state.now, refreshing, triggered: d.triggeredIds.length, theme: state.theme })
+  topbar.update({ view: state.view, updatedAt, now: state.now, connected, triggered: d.triggeredIds.length, theme: state.theme })
   renderNotices(d)
 
   // Views. The monitor stays hidden while there is nothing to show but a notice.
@@ -278,5 +277,9 @@ followSystem(() => set({ theme: getTheme() }))
 window.setInterval(() => set({ now: new Date() }), 30_000)
 
 render()
+<<<<<<< HEAD
 poller.start()
 solar.start()
+=======
+readingsStream.start()
+>>>>>>> 5a4dc0d4d786c952be36c5004444c01688e3dcee
