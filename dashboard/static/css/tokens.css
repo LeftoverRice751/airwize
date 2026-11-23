@@ -1,0 +1,104 @@
+/*
+ * Laguna air: design tokens. Components never use literal colours or fonts.
+ *
+ * Palette: cool haze neutrals (the sky over Laguna de Bay) with one lake-blue accent
+ * used only for focus, selection and the active control. Severity is a single
+ * sequential ramp from calm grey (clean air) through sand to deep red, so "worse"
+ * always reads as "warmer and darker", never as a rainbow.
+ */
+:root {
+  color-scheme: light;
+
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
+
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.125rem;
+  --text-xl: 1.375rem; --text-2xl: 1.875rem; --text-3xl: 2.5rem; --text-display: clamp(1.875rem, 1.4rem + 1.6vw, 2.625rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 200ms; --dur-long: 360ms;
+
+  --container: 1440px; --gutter: 48px; --gap-columns: 32px;
+  --z-raised: 10; --z-sticky-nav: 300; --z-overlay: 400; --z-toast: 500;
+
+  --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --tracking-tight: -0.025em;
+
+  --radius-xs: 4px; --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-pill: 999px;
+  --topbar-h: 64px;
+
+  /* Neutrals */
+  --color-bg: oklch(98.3% 0.003 250);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-2: oklch(96.4% 0.004 250);
+  --color-surface-3: oklch(93.6% 0.005 250);
+  --color-ink: oklch(23% 0.018 258);
+  --color-ink-2: oklch(36% 0.016 258);
+  --color-muted: oklch(53% 0.014 258);
+  --color-faint: oklch(70% 0.01 258);
+  --color-rule: oklch(92.2% 0.005 250);
+  --color-rule-2: oklch(86.5% 0.007 250);
+
+  /* Accent: lake blue */
+  --color-accent: oklch(50% 0.11 238);
+  --color-accent-soft: oklch(50% 0.11 238 / 0.1);
+  --color-on-accent: oklch(99% 0.003 250);
+  --color-focus: oklch(56% 0.13 238);
+
+  --color-error: oklch(52% 0.18 25);
+  --color-success: oklch(52% 0.1 165);
+
+  /* Inverse surfaces (primary button, toasts, tooltip) */
+  --color-inverse: oklch(23% 0.018 258);
+  --color-on-inverse: oklch(97% 0.004 250);
+
+  /* Severity: sequential, grey to deep red */
+  --color-sev-1: oklch(74% 0.025 240);
+  --color-sev-2: oklch(78% 0.085 88);
+  --color-sev-3: oklch(70% 0.125 62);
+  --color-sev-4: oklch(60% 0.15 40);
+  --color-sev-5: oklch(50% 0.15 27);
+  --color-sev-6: oklch(38% 0.12 18);
+
+  --color-skeleton: oklch(94.5% 0.004 250);
+  --color-scrim: oklch(23% 0.018 258 / 0.28);
+
+  --shadow-sm: 0 1px 2px oklch(23% 0.02 258 / 0.06);
+  --shadow-md: 0 1px 2px oklch(23% 0.02 258 / 0.05), 0 4px 12px -2px oklch(23% 0.02 258 / 0.08);
+  --shadow-lg: 0 2px 4px oklch(23% 0.02 258 / 0.04), 0 16px 40px -8px oklch(23% 0.02 258 / 0.18);
+}
+
+/* Dark theme. Applied when the visitor picked it, or when the system asks and they have not chosen. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: oklch(16.5% 0.01 258);
+  --color-surface: oklch(19.5% 0.011 258);
+  --color-surface-2: oklch(23% 0.012 258);
+  --color-surface-3: oklch(27% 0.013 258);
+  --color-ink: oklch(95% 0.004 250);
+  --color-ink-2: oklch(85% 0.006 250);
+  --color-muted: oklch(67% 0.01 255);
+  --color-faint: oklch(48% 0.01 255);
+  --color-rule: oklch(25.5% 0.011 258);
+  --color-rule-2: oklch(32% 0.012 258);
+  --color-accent: oklch(74% 0.1 236);
+  --color-accent-soft: oklch(74% 0.1 236 / 0.14);
+  --color-on-accent: oklch(17% 0.02 258);
+  --color-focus: oklch(74% 0.1 236);
+  --color-error: oklch(70% 0.15 25);
+  --color-success: oklch(72% 0.1 165);
+  --color-inverse: oklch(95% 0.004 250);
+  --color-on-inverse: oklch(18% 0.012 258);
+  --color-sev-1: oklch(62% 0.025 240);
+  --color-sev-2: oklch(80% 0.09 88);
+  --color-sev-3: oklch(74% 0.13 62);
+  --color-sev-4: oklch(67% 0.15 40);
+  --color-sev-5: oklch(60% 0.16 27);
+  --color-sev-6: oklch(52% 0.14 18);
+  --color-skeleton: oklch(24% 0.011 258);
+  --color-scrim: oklch(8% 0.01 258 / 0.6);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.3);
+  --shadow-md: 0 1px 2px oklch(0% 0 0 / 0.3), 0 6px 16px -4px oklch(0% 0 0 / 0.45);
+  --shadow-lg: 0 2px 4px oklch(0% 0 0 / 0.3), 0 20px 48px -12px oklch(0% 0 0 / 0.6);
+}

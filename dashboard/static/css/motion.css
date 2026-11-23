@@ -1,0 +1,122 @@
+/*
+ * Motion and the structural tweaks that replace the React `motion` library.
+ * app.css is the original stylesheet, unchanged apart from its @imports; the
+ * rules here only add what the vanilla JS components need.
+ *
+ * Every animation here is disabled by the prefers-reduced-motion rule in
+ * base.css (durations collapse to ~0), and JS springs check it too.
+ */
+:root {
+  /* Spring stand-ins: settle fast with no visible overshoot. */
+  --ease-snappy: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --dur-snappy: 260ms;
+  --dur-smooth: 380ms;
+}
+
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.no-transition { transition: none !important; }
+
+/* View switch: the new view rises in. */
+.view-in { animation: rise-in 280ms var(--ease-out); }
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes rise-in-sm { from { opacity: 0; transform: translateY(4px); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.notice { animation: rise-in 360ms var(--ease-out); }
+.swap-in { animation: rise-in-sm 240ms var(--ease-out); }
+
+/* ---------- Top bar ---------- */
+/* One indicator per nav slides to the current link (was a shared layoutId). */
+.nav-wrap { position: relative; }
+.nav__ind {
+  position: absolute; left: 0; top: 0; width: 0; height: 0; border-radius: var(--radius-sm); pointer-events: none;
+  transition: transform var(--dur-snappy) var(--ease-snappy), width var(--dur-snappy) var(--ease-snappy), height var(--dur-snappy) var(--ease-snappy);
+}
+.nav__link { z-index: 1; }
+.pop-in { animation: pop-in var(--dur-snappy) var(--ease-snappy); }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.4); } }
+
+/* Theme toggle: sun and moon share one cell and rotate through each other. */
+.theme-toggle { display: inline-grid; place-items: center; }
+.theme-toggle__icon { grid-area: 1 / 1; transition: opacity 220ms var(--ease-out), transform 320ms var(--ease-snappy); }
+:root:not([data-theme="dark"]) .theme-toggle__icon--moon,
+:root[data-theme="dark"] .theme-toggle__icon--sun { opacity: 0; transform: rotate(90deg) scale(0.6); }
+
+/* Mobile sheet: collapses to zero height; hidden from assistive tech when closed. */
+.topbar__sheet {
+  display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; border-top-color: transparent;
+  transition: grid-template-rows var(--dur-smooth) var(--ease-out), opacity var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-smooth);
+}
+.topbar__sheet.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; border-top-color: var(--color-rule); transition-delay: 0s; }
+.topbar__sheet-clip { min-height: 0; overflow: hidden; }
+@media (min-width: 40.01rem) { .topbar__sheet { display: none; } }
+
+/* ---------- Segmented control ---------- */
+.seg { position: relative; }
+.seg__thumb {
+  inset: auto; left: 0; top: 0; width: 0; height: 0; opacity: 0; border-radius: 7px; pointer-events: none;
+  transition: transform var(--dur-snappy) var(--ease-snappy), width var(--dur-snappy) var(--ease-snappy), height var(--dur-snappy) var(--ease-snappy);
+}
+.seg__count[hidden] { display: none; }
+
+/* ---------- Ledger ---------- */
+.ledger-slot { min-width: 0; }
+.ledger { position: relative; }
+.ledger__marker {
+  position: absolute; left: 0; top: 0; z-index: 2; width: 3px; border-radius: 0 3px 3px 0; background: var(--color-accent); pointer-events: none;
+  transition: transform var(--dur-smooth) var(--ease-snappy), height var(--dur-smooth) var(--ease-snappy);
+}
+.row--enter { animation: rise-in-sm 220ms var(--ease-out) both; }
+.index-bar__fill { transition: transform 700ms var(--ease-out), background-color var(--dur-short) var(--ease-out); }
+.spark path { transition: stroke var(--dur-short) var(--ease-out), d 600ms var(--ease-out); stroke-dasharray: 1; }
+.spark--intro path { animation: draw 700ms var(--ease-out) both; }
+.spark__peak { transform-box: fill-box; transform-origin: center; }
+.spark--intro .spark__peak { animation: pop-in var(--dur-snappy) var(--ease-snappy) 500ms both; }
+
+/* ---------- Forecast chart ---------- */
+.chart--intro .chart__area { animation: fade-in 600ms var(--ease-out) both; }
+.chart--intro .chart__past { animation: draw 800ms var(--ease-out) both; }
+.chart--intro .chart__future { animation: fade-in 400ms var(--ease-out) 550ms both; }
+.chart__past { stroke-dasharray: 1; }
+.chart__pointer { transition: transform 200ms var(--ease-snappy); }
+.is-morphing .chart__pointer { transition: none; }
+.chart__kind { opacity: 0; transform: scale(0.85); transition: opacity 180ms var(--ease-out), transform var(--dur-snappy) var(--ease-snappy); }
+.chart__kind.is-on { opacity: 1; transform: none; }
+.chart__axis-anchor { opacity: 0; transition: opacity 100ms var(--ease-out), transform 200ms var(--ease-snappy); }
+.chart__axis-anchor.is-on { opacity: 1; transition-duration: 160ms, 200ms; }
+
+/* ---------- Alert form ---------- */
+.is-shaking { animation: shake 320ms var(--ease-out); }
+@keyframes shake { 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+.trigger__actions .btn[hidden] { display: none; }
+
+/* ---------- Rules list ---------- */
+.rule--enter { animation: rule-in var(--dur-smooth) var(--ease-out); }
+@keyframes rule-in { from { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+.rule.is-leaving { opacity: 0; transform: scale(0.97); transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); pointer-events: none; }
+
+/* ---------- Toasts ---------- */
+.toast { transition: transform var(--dur-smooth) var(--ease-snappy), opacity var(--dur-short) var(--ease-out), translate var(--dur-smooth) var(--ease-snappy), scale var(--dur-smooth) var(--ease-snappy), background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out); }
+.toast.is-entering { opacity: 0 !important; translate: 0 24px; scale: 0.96; }
+.toast.is-leaving { opacity: 0 !important; scale: 0.96; transition-duration: 140ms; pointer-events: none; }
+.toast.is-dragging { transition: none; }
+
+/* ---------- Command palette ---------- */
+.cmdk-layer { animation: fade-in 150ms var(--ease-out); }
+.cmdk-layer .cmdk { animation: cmdk-in var(--dur-smooth) var(--ease-snappy); }
+@keyframes cmdk-in { from { opacity: 0; transform: translateY(-8px) scale(0.96); } }
+.cmdk-layer.is-leaving { opacity: 0; transition: opacity 150ms var(--ease-out); }
+.cmdk-layer.is-leaving .cmdk { transform: translateY(-4px) scale(0.97); transition: transform 120ms var(--ease-out); }
+.cmdk__list { position: relative; }
+.cmdk__hl {
+  inset: auto; left: 0; top: 0; pointer-events: none;
+  transition: transform 200ms var(--ease-snappy), height 200ms var(--ease-snappy), width 200ms var(--ease-snappy);
+}
+.cmdk__item > * { z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar__sheet { transition-delay: 0s; }
+  .view-in, .notice, .swap-in, .row--enter, .rule--enter, .pop-in, .is-shaking, .cmdk-layer, .cmdk-layer .cmdk,
+  .spark--intro path, .spark--intro .spark__peak, .chart--intro .chart__area, .chart--intro .chart__past, .chart--intro .chart__future { animation: none; }
+}

@@ -1,23 +1,29 @@
-# Laguna air dashboard
+# Laguna air dashboard (front end)
 
-Live air quality, 24-hour forecasts and threshold alerts for Laguna municipalities,
-fed by the Go scraper in `../webscraper`.
-
-```bash
-# 1. Start the scraper API (polls Plume Labs every 5 minutes)
-cd ../webscraper && go run . -serve :8080 -interval 5m
-
-# 2. Start the dashboard (proxies /api to :8080)
-cd ../dashboard && npm install && npm run dev      # http://localhost:5173
-
-# Production: build, then let the Go server host it
-npm run build && cd ../webscraper && go run . -serve :8080 -static ../dashboard/dist
-```
+Jinja templates, CSS and plain browser JavaScript (ES modules), served by the
+Flask app in `../webapp`. There is no Node toolchain and no build step: edit a
+file and reload. See the root `README.md` for how to run everything.
 
 ## Structure
 
-- `src/ui/` reusable primitives: `Button` (primary, secondary, ghost, icon), `FilterPill` + `FilterGroup`, `LevelBadge`, `AlertTrigger`, `Notice`, `Stat`, `Skeleton`, `Icon`
-- `src/shell/TopBar.tsx` app header; collapses to a menu under 40rem
-- `src/features/` screen sections: `ProvinceStrip`, `MunicipalityTable`, `DetailPanel`, `ForecastChart`, `Sparkline`, `AlertsView`
-- `src/lib/` data and logic: API polling and URL state (`hooks.ts`), severity bands (`levels.ts`), forecast analysis (`outlook.ts`), alert rules (`alerts.ts`)
-- `src/styles/` `tokens.css` holds every colour and font; components never use literal values
+- `templates/index.html` is the page shell: view headings, empty slots the JS fills, the footer, and the inline pre-paint theme script.
+- `templates/partials/topbar.html` is the header (nav, live status, refresh, search, theme, mobile sheet). `features/topbar.js` wires it up.
+- `templates/partials/icons.html` holds the SVG icon sprite, defined once. Use `{{ icon('name') }}` in Jinja and `icon('name')` in JS.
+- `static/css/`
+  - `tokens.css` has every colour, font, space and radius, for the light and dark themes. Components never use literal values.
+  - `base.css` has the reset, typography and the reduced-motion rule.
+  - `app.css` holds the component styles, carried over from the React version.
+  - `motion.css` has the transitions and keyframes that replace the `motion` library, plus the single sliding indicators (nav, segmented control, table marker, palette highlight).
+- `static/js/`
+  - `app.js` is the entry point. It owns one state object, derives rows/selection/triggered rules from it, and hands each component its props. `set({...})` batches a render.
+  - `lib/` holds logic with no UI: `readings.js` (polling `/api/readings`), `url-state.js`, `levels.js` (severity bands), `outlook.js` (forecast analysis), `alerts.js` (rules, localStorage, evaluation), `theme.js`, `format.js`, `motion.js` (springs and FLIP), `dom.js` (the `h()` element helper).
+  - `ui/` holds reusable pieces: `primitives.js` (button, notice, level badge), `segmented.js`, `ticker.js`, `toast.js`, `palette.js` (Ctrl/Cmd+K or `/`), `alert-trigger.js`.
+  - `features/` holds screen sections: `topbar.js`, `province-strip.js`, `municipality-table.js`, `sparkline.js`, `detail-panel.js`, `forecast-chart.js`, `alerts-view.js`.
+
+## Conventions
+
+Each component is a class that builds its DOM once and exposes `update(props)`, which
+changes only what differs. That keeps focus, number tickers, chart morphs and row
+slides intact across the once-a-minute poll. Every animation respects
+`prefers-reduced-motion`: CSS through the rule in `base.css`, JS springs through
+`reducedMotion()`.

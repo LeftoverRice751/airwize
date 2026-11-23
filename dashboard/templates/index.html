@@ -1,0 +1,90 @@
+{#
+  The whole dashboard is this one page. Jinja renders the static shell
+  (header, view headings, footer); static/js/app.js fills in live data from
+  /api/readings and switches between the monitor and alerts views.
+#}
+{% from 'partials/icons.html' import sprite %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Live air quality, 24-hour forecasts and threshold alerts for Laguna municipalities." />
+    <meta name="theme-color" content="#f9fafb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)" />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" rel="stylesheet" />
+    <title>Laguna AirWize</title>
+    <script>
+      // Resolve the theme before first paint so there is no flash.
+      try {
+        var t = localStorage.getItem('laguna-air.theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/motion.css') }}" />
+    <script type="application/json" id="client-config">{{ client_config | tojson }}</script>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </head>
+  <body>
+    {{ sprite() }}
+    <a class="skip" href="#main">Skip to content</a>
+    {% include 'partials/topbar.html' %}
+
+    <main id="main" class="container main">
+      <div id="notices"></div>
+
+      <div id="view" class="view">
+        <section id="view-monitor" aria-labelledby="monitor-title">
+          <div class="view-head">
+            <h1 id="monitor-title">Air quality in Laguna</h1>
+            <p class="view-head__sub" id="monitor-sub">Live Plume Labs readings, with each one’s 24-hour forecast.</p>
+          </div>
+          <dl class="strip" id="strip"></dl>
+          <div class="toolbar" id="level-filter"></div>
+          <div class="workspace" id="workspace">
+            <div id="ledger-slot" class="ledger-slot"></div>
+          </div>
+        </section>
+
+        <section id="view-alerts" class="alerts" aria-labelledby="alerts-title" hidden>
+          <div class="view-head">
+            <h1 id="alerts-title">Alerts</h1>
+            <p class="view-head__sub">Each rule checks the live index and the next 24 hours of forecast. Rules are saved in this browser.</p>
+          </div>
+          <div class="alerts__grid">
+            <section id="rule-form" class="panel" aria-labelledby="rule-form-title">
+              <h2 id="rule-form-title">New alert</h2>
+              <div data-slot="rule-form"></div>
+              <div data-slot="permission"></div>
+            </section>
+            <section aria-labelledby="rules-title" class="rules-wrap">
+              <h2 id="rules-title" class="rules-head">
+                Your rules <span class="rules-head__count num" data-slot="rule-count">0</span>
+              </h2>
+              <div data-slot="rules"></div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="container footer">
+      <p>
+        Data from <a href="https://air.plumelabs.com/air-quality/Philippines">Plume Labs</a>, scraped every 5 minutes. Index bands: excellent under 20, fair under 50, poor under 100, unhealthy under 150.
+      </p>
+      <p class="footer__keys">Press <kbd class="kbd">/</kbd> to search</p>
+    </footer>
+
+    <section id="toaster" class="toaster" aria-label="Notifications" aria-live="polite">
+      <ol class="toaster__list"></ol>
+    </section>
+    <noscript><p style="padding:16px">This dashboard needs JavaScript to load live readings.</p></noscript>
+  </body>
+</html>

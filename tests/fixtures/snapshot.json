@@ -1,0 +1,6120 @@
+{
+ "province": "Laguna",
+ "updated_at": "2026-11-23T07:03:15Z",
+ "municipalities": [
+  {
+   "city": "Calamba",
+   "municipality": "City of Calamba",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-Calamba-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 47.0,
+   "level": "fair",
+   "pollutants": {
+    "PM25": {
+     "pi": 47.0,
+     "value_upm": 12.69
+    },
+    "PM10": {
+     "pi": 28.2,
+     "value_upm": 21.15
+    },
+    "NO2": {
+     "pi": 18.8,
+     "value_upm": 5.17
+    },
+    "O3": {
+     "pi": 14.1,
+     "value_upm": 42.3
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "Moderately polluted.",
+   "forecast": [
+    {
+     "plume_index": 36.1,
+     "plume_index_level": 2,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 36.1,
+       "value_upm": 9.75
+      },
+      "NO2": {
+       "pi": 14.4,
+       "value_upm": 3.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 41.7,
+     "plume_index_level": 2,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 41.7,
+       "value_upm": 11.26
+      },
+      "NO2": {
+       "pi": 16.7,
+       "value_upm": 4.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 46.6,
+     "plume_index_level": 2,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 46.6,
+       "value_upm": 12.58
+      },
+      "NO2": {
+       "pi": 18.6,
+       "value_upm": 5.13
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 50.7,
+     "plume_index_level": 3,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 50.7,
+       "value_upm": 13.69
+      },
+      "NO2": {
+       "pi": 20.3,
+       "value_upm": 5.58
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 53.6,
+     "plume_index_level": 3,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 53.6,
+       "value_upm": 14.47
+      },
+      "NO2": {
+       "pi": 21.4,
+       "value_upm": 5.9
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 55.4,
+     "plume_index_level": 3,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 55.4,
+       "value_upm": 14.96
+      },
+      "NO2": {
+       "pi": 22.2,
+       "value_upm": 6.09
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 55.8,
+     "plume_index_level": 3,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 55.8,
+       "value_upm": 15.07
+      },
+      "NO2": {
+       "pi": 22.3,
+       "value_upm": 6.14
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 54.9,
+     "plume_index_level": 3,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 54.9,
+       "value_upm": 14.82
+      },
+      "NO2": {
+       "pi": 22.0,
+       "value_upm": 6.04
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 52.8,
+     "plume_index_level": 3,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 52.8,
+       "value_upm": 14.26
+      },
+      "NO2": {
+       "pi": 21.1,
+       "value_upm": 5.81
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 49.7,
+     "plume_index_level": 2,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 49.7,
+       "value_upm": 13.42
+      },
+      "NO2": {
+       "pi": 19.9,
+       "value_upm": 5.47
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 45.9,
+     "plume_index_level": 2,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 45.9,
+       "value_upm": 12.39
+      },
+      "NO2": {
+       "pi": 18.4,
+       "value_upm": 5.05
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 41.5,
+     "plume_index_level": 2,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 41.5,
+       "value_upm": 11.21
+      },
+      "NO2": {
+       "pi": 16.6,
+       "value_upm": 4.57
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.0,
+     "plume_index_level": 2,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 37.0,
+       "value_upm": 9.99
+      },
+      "NO2": {
+       "pi": 14.8,
+       "value_upm": 4.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 32.7,
+     "plume_index_level": 2,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 32.7,
+       "value_upm": 8.83
+      },
+      "NO2": {
+       "pi": 13.1,
+       "value_upm": 3.6
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 28.8,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 28.8,
+       "value_upm": 7.78
+      },
+      "NO2": {
+       "pi": 11.5,
+       "value_upm": 3.17
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 25.7,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 25.7,
+       "value_upm": 6.94
+      },
+      "NO2": {
+       "pi": 10.3,
+       "value_upm": 2.83
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 23.7,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 23.7,
+       "value_upm": 6.4
+      },
+      "NO2": {
+       "pi": 9.5,
+       "value_upm": 2.61
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.8,
+     "plume_index_level": 2,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 22.8,
+       "value_upm": 6.16
+      },
+      "NO2": {
+       "pi": 9.1,
+       "value_upm": 2.51
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 23.1,
+     "plume_index_level": 2,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 23.1,
+       "value_upm": 6.24
+      },
+      "NO2": {
+       "pi": 9.2,
+       "value_upm": 2.54
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 24.8,
+     "plume_index_level": 2,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 24.8,
+       "value_upm": 6.7
+      },
+      "NO2": {
+       "pi": 9.9,
+       "value_upm": 2.73
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 27.6,
+     "plume_index_level": 2,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 27.6,
+       "value_upm": 7.45
+      },
+      "NO2": {
+       "pi": 11.0,
+       "value_upm": 3.04
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 31.5,
+     "plume_index_level": 2,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 31.5,
+       "value_upm": 8.51
+      },
+      "NO2": {
+       "pi": 12.6,
+       "value_upm": 3.46
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 36.2,
+     "plume_index_level": 2,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 36.2,
+       "value_upm": 9.77
+      },
+      "NO2": {
+       "pi": 14.5,
+       "value_upm": 3.98
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 41.5,
+     "plume_index_level": 2,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 41.5,
+       "value_upm": 11.21
+      },
+      "NO2": {
+       "pi": 16.6,
+       "value_upm": 4.57
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 47.0,
+     "plume_index_level": 2,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 47.0,
+       "value_upm": 12.69
+      },
+      "NO2": {
+       "pi": 18.8,
+       "value_upm": 5.17
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 52.4,
+     "plume_index_level": 3,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 52.4,
+       "value_upm": 14.15
+      },
+      "NO2": {
+       "pi": 21.0,
+       "value_upm": 5.76
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 57.3,
+     "plume_index_level": 3,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 57.3,
+       "value_upm": 15.47
+      },
+      "NO2": {
+       "pi": 22.9,
+       "value_upm": 6.3
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 61.5,
+     "plume_index_level": 3,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 61.5,
+       "value_upm": 16.61
+      },
+      "NO2": {
+       "pi": 24.6,
+       "value_upm": 6.76
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 64.6,
+     "plume_index_level": 3,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 64.6,
+       "value_upm": 17.44
+      },
+      "NO2": {
+       "pi": 25.8,
+       "value_upm": 7.11
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 66.5,
+     "plume_index_level": 3,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 66.5,
+       "value_upm": 17.96
+      },
+      "NO2": {
+       "pi": 26.6,
+       "value_upm": 7.32
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 67.0,
+     "plume_index_level": 3,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 67.0,
+       "value_upm": 18.09
+      },
+      "NO2": {
+       "pi": 26.8,
+       "value_upm": 7.37
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 66.1,
+     "plume_index_level": 3,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 66.1,
+       "value_upm": 17.85
+      },
+      "NO2": {
+       "pi": 26.4,
+       "value_upm": 7.27
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 63.7,
+     "plume_index_level": 3,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 63.7,
+       "value_upm": 17.2
+      },
+      "NO2": {
+       "pi": 25.5,
+       "value_upm": 7.01
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 60.0,
+     "plume_index_level": 3,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 60.0,
+       "value_upm": 16.2
+      },
+      "NO2": {
+       "pi": 24.0,
+       "value_upm": 6.6
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 55.2,
+     "plume_index_level": 3,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 55.2,
+       "value_upm": 14.9
+      },
+      "NO2": {
+       "pi": 22.1,
+       "value_upm": 6.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 49.5,
+     "plume_index_level": 2,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 49.5,
+       "value_upm": 13.37
+      },
+      "NO2": {
+       "pi": 19.8,
+       "value_upm": 5.45
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.2,
+     "plume_index_level": 2,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 43.2,
+       "value_upm": 11.66
+      },
+      "NO2": {
+       "pi": 17.3,
+       "value_upm": 4.75
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 36.8,
+     "plume_index_level": 2,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 36.8,
+       "value_upm": 9.94
+      },
+      "NO2": {
+       "pi": 14.7,
+       "value_upm": 4.05
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 30.4,
+     "plume_index_level": 2,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 30.4,
+       "value_upm": 8.21
+      },
+      "NO2": {
+       "pi": 12.2,
+       "value_upm": 3.34
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 24.6,
+     "plume_index_level": 2,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 24.6,
+       "value_upm": 6.64
+      },
+      "NO2": {
+       "pi": 9.8,
+       "value_upm": 2.71
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 19.5,
+     "plume_index_level": 1,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 19.5,
+       "value_upm": 5.27
+      },
+      "NO2": {
+       "pi": 7.8,
+       "value_upm": 2.15
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 15.5,
+     "plume_index_level": 1,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 15.5,
+       "value_upm": 4.19
+      },
+      "NO2": {
+       "pi": 6.2,
+       "value_upm": 1.71
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 12.7,
+     "plume_index_level": 1,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 12.7,
+       "value_upm": 3.43
+      },
+      "NO2": {
+       "pi": 5.1,
+       "value_upm": 1.4
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.4,
+     "plume_index_level": 1,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 11.4,
+       "value_upm": 3.08
+      },
+      "NO2": {
+       "pi": 4.6,
+       "value_upm": 1.25
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.4,
+     "plume_index_level": 1,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 11.4,
+       "value_upm": 3.08
+      },
+      "NO2": {
+       "pi": 4.6,
+       "value_upm": 1.25
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 12.9,
+     "plume_index_level": 1,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 12.9,
+       "value_upm": 3.48
+      },
+      "NO2": {
+       "pi": 5.2,
+       "value_upm": 1.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 15.6,
+     "plume_index_level": 1,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 15.6,
+       "value_upm": 4.21
+      },
+      "NO2": {
+       "pi": 6.2,
+       "value_upm": 1.72
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 19.3,
+     "plume_index_level": 1,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 19.3,
+       "value_upm": 5.21
+      },
+      "NO2": {
+       "pi": 7.7,
+       "value_upm": 2.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 23.8,
+     "plume_index_level": 2,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 23.8,
+       "value_upm": 6.43
+      },
+      "NO2": {
+       "pi": 9.5,
+       "value_upm": 2.62
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  },
+  {
+   "city": "Biñan",
+   "municipality": "City of Biñan",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-Biñan-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 93.2,
+   "level": "poor",
+   "pollutants": {
+    "PM25": {
+     "pi": 93.2,
+     "value_upm": 25.16
+    },
+    "PM10": {
+     "pi": 55.9,
+     "value_upm": 41.94
+    },
+    "NO2": {
+     "pi": 37.3,
+     "value_upm": 10.25
+    },
+    "O3": {
+     "pi": 28.0,
+     "value_upm": 83.88
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "Poor air quality.",
+   "forecast": [
+    {
+     "plume_index": 72.3,
+     "plume_index_level": 3,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 72.3,
+       "value_upm": 19.52
+      },
+      "NO2": {
+       "pi": 28.9,
+       "value_upm": 7.95
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 73.4,
+     "plume_index_level": 3,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 73.4,
+       "value_upm": 19.82
+      },
+      "NO2": {
+       "pi": 29.4,
+       "value_upm": 8.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 72.8,
+     "plume_index_level": 3,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 72.8,
+       "value_upm": 19.66
+      },
+      "NO2": {
+       "pi": 29.1,
+       "value_upm": 8.01
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 70.6,
+     "plume_index_level": 3,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 70.6,
+       "value_upm": 19.06
+      },
+      "NO2": {
+       "pi": 28.2,
+       "value_upm": 7.77
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 66.7,
+     "plume_index_level": 3,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 66.7,
+       "value_upm": 18.01
+      },
+      "NO2": {
+       "pi": 26.7,
+       "value_upm": 7.34
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 61.7,
+     "plume_index_level": 3,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 61.7,
+       "value_upm": 16.66
+      },
+      "NO2": {
+       "pi": 24.7,
+       "value_upm": 6.79
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 55.8,
+     "plume_index_level": 3,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 55.8,
+       "value_upm": 15.07
+      },
+      "NO2": {
+       "pi": 22.3,
+       "value_upm": 6.14
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 49.5,
+     "plume_index_level": 2,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 49.5,
+       "value_upm": 13.37
+      },
+      "NO2": {
+       "pi": 19.8,
+       "value_upm": 5.45
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.2,
+     "plume_index_level": 2,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 43.2,
+       "value_upm": 11.66
+      },
+      "NO2": {
+       "pi": 17.3,
+       "value_upm": 4.75
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.5,
+     "plume_index_level": 2,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 37.5,
+       "value_upm": 10.12
+      },
+      "NO2": {
+       "pi": 15.0,
+       "value_upm": 4.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 32.6,
+     "plume_index_level": 2,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 32.6,
+       "value_upm": 8.8
+      },
+      "NO2": {
+       "pi": 13.0,
+       "value_upm": 3.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 29.0,
+     "plume_index_level": 2,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 29.0,
+       "value_upm": 7.83
+      },
+      "NO2": {
+       "pi": 11.6,
+       "value_upm": 3.19
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 27.0,
+     "plume_index_level": 2,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 27.0,
+       "value_upm": 7.29
+      },
+      "NO2": {
+       "pi": 10.8,
+       "value_upm": 2.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 26.8,
+     "plume_index_level": 2,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 26.8,
+       "value_upm": 7.24
+      },
+      "NO2": {
+       "pi": 10.7,
+       "value_upm": 2.95
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 28.4,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 28.4,
+       "value_upm": 7.67
+      },
+      "NO2": {
+       "pi": 11.4,
+       "value_upm": 3.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 31.9,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 31.9,
+       "value_upm": 8.61
+      },
+      "NO2": {
+       "pi": 12.8,
+       "value_upm": 3.51
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.0,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 37.0,
+       "value_upm": 9.99
+      },
+      "NO2": {
+       "pi": 14.8,
+       "value_upm": 4.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.5,
+     "plume_index_level": 2,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 43.5,
+       "value_upm": 11.75
+      },
+      "NO2": {
+       "pi": 17.4,
+       "value_upm": 4.79
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 51.1,
+     "plume_index_level": 3,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 51.1,
+       "value_upm": 13.8
+      },
+      "NO2": {
+       "pi": 20.4,
+       "value_upm": 5.62
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 59.3,
+     "plume_index_level": 3,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 59.3,
+       "value_upm": 16.01
+      },
+      "NO2": {
+       "pi": 23.7,
+       "value_upm": 6.52
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 67.7,
+     "plume_index_level": 3,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 67.7,
+       "value_upm": 18.28
+      },
+      "NO2": {
+       "pi": 27.1,
+       "value_upm": 7.45
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 75.7,
+     "plume_index_level": 3,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 75.7,
+       "value_upm": 20.44
+      },
+      "NO2": {
+       "pi": 30.3,
+       "value_upm": 8.33
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 82.9,
+     "plume_index_level": 3,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 82.9,
+       "value_upm": 22.38
+      },
+      "NO2": {
+       "pi": 33.2,
+       "value_upm": 9.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 88.9,
+     "plume_index_level": 3,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 88.9,
+       "value_upm": 24.0
+      },
+      "NO2": {
+       "pi": 35.6,
+       "value_upm": 9.78
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 93.2,
+     "plume_index_level": 3,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 93.2,
+       "value_upm": 25.16
+      },
+      "NO2": {
+       "pi": 37.3,
+       "value_upm": 10.25
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 95.8,
+     "plume_index_level": 3,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 95.8,
+       "value_upm": 25.87
+      },
+      "NO2": {
+       "pi": 38.3,
+       "value_upm": 10.54
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 96.3,
+     "plume_index_level": 3,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 96.3,
+       "value_upm": 26.0
+      },
+      "NO2": {
+       "pi": 38.5,
+       "value_upm": 10.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 94.7,
+     "plume_index_level": 3,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 94.7,
+       "value_upm": 25.57
+      },
+      "NO2": {
+       "pi": 37.9,
+       "value_upm": 10.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 91.2,
+     "plume_index_level": 3,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 91.2,
+       "value_upm": 24.62
+      },
+      "NO2": {
+       "pi": 36.5,
+       "value_upm": 10.03
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 85.8,
+     "plume_index_level": 3,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 85.8,
+       "value_upm": 23.17
+      },
+      "NO2": {
+       "pi": 34.3,
+       "value_upm": 9.44
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 79.0,
+     "plume_index_level": 3,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 79.0,
+       "value_upm": 21.33
+      },
+      "NO2": {
+       "pi": 31.6,
+       "value_upm": 8.69
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 71.0,
+     "plume_index_level": 3,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 71.0,
+       "value_upm": 19.17
+      },
+      "NO2": {
+       "pi": 28.4,
+       "value_upm": 7.81
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 62.4,
+     "plume_index_level": 3,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 62.4,
+       "value_upm": 16.85
+      },
+      "NO2": {
+       "pi": 25.0,
+       "value_upm": 6.86
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 53.6,
+     "plume_index_level": 3,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 53.6,
+       "value_upm": 14.47
+      },
+      "NO2": {
+       "pi": 21.4,
+       "value_upm": 5.9
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 45.2,
+     "plume_index_level": 2,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 45.2,
+       "value_upm": 12.2
+      },
+      "NO2": {
+       "pi": 18.1,
+       "value_upm": 4.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.5,
+     "plume_index_level": 2,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 37.5,
+       "value_upm": 10.12
+      },
+      "NO2": {
+       "pi": 15.0,
+       "value_upm": 4.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 31.0,
+     "plume_index_level": 2,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 31.0,
+       "value_upm": 8.37
+      },
+      "NO2": {
+       "pi": 12.4,
+       "value_upm": 3.41
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 26.0,
+     "plume_index_level": 2,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 26.0,
+       "value_upm": 7.02
+      },
+      "NO2": {
+       "pi": 10.4,
+       "value_upm": 2.86
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.8,
+     "plume_index_level": 2,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 22.8,
+       "value_upm": 6.16
+      },
+      "NO2": {
+       "pi": 9.1,
+       "value_upm": 2.51
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 21.5,
+     "plume_index_level": 2,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 21.5,
+       "value_upm": 5.81
+      },
+      "NO2": {
+       "pi": 8.6,
+       "value_upm": 2.37
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.1,
+     "plume_index_level": 2,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 22.1,
+       "value_upm": 5.97
+      },
+      "NO2": {
+       "pi": 8.8,
+       "value_upm": 2.43
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 24.5,
+     "plume_index_level": 2,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 24.5,
+       "value_upm": 6.62
+      },
+      "NO2": {
+       "pi": 9.8,
+       "value_upm": 2.69
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 28.5,
+     "plume_index_level": 2,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 28.5,
+       "value_upm": 7.7
+      },
+      "NO2": {
+       "pi": 11.4,
+       "value_upm": 3.14
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 33.8,
+     "plume_index_level": 2,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 33.8,
+       "value_upm": 9.13
+      },
+      "NO2": {
+       "pi": 13.5,
+       "value_upm": 3.72
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 39.9,
+     "plume_index_level": 2,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 39.9,
+       "value_upm": 10.77
+      },
+      "NO2": {
+       "pi": 16.0,
+       "value_upm": 4.39
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 46.6,
+     "plume_index_level": 2,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 46.6,
+       "value_upm": 12.58
+      },
+      "NO2": {
+       "pi": 18.6,
+       "value_upm": 5.13
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 53.1,
+     "plume_index_level": 3,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 53.1,
+       "value_upm": 14.34
+      },
+      "NO2": {
+       "pi": 21.2,
+       "value_upm": 5.84
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 59.2,
+     "plume_index_level": 3,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 59.2,
+       "value_upm": 15.98
+      },
+      "NO2": {
+       "pi": 23.7,
+       "value_upm": 6.51
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 64.4,
+     "plume_index_level": 3,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 64.4,
+       "value_upm": 17.39
+      },
+      "NO2": {
+       "pi": 25.8,
+       "value_upm": 7.08
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  },
+  {
+   "city": "San Pablo",
+   "municipality": "City of San Pablo",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-San-Pablo-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 34.9,
+   "level": "fair",
+   "pollutants": {
+    "PM25": {
+     "pi": 34.9,
+     "value_upm": 9.42
+    },
+    "PM10": {
+     "pi": 20.9,
+     "value_upm": 15.71
+    },
+    "NO2": {
+     "pi": 14.0,
+     "value_upm": 3.84
+    },
+    "O3": {
+     "pi": 10.5,
+     "value_upm": 31.41
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "Moderately polluted.",
+   "forecast": [
+    {
+     "plume_index": 22.9,
+     "plume_index_level": 2,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 22.9,
+       "value_upm": 6.18
+      },
+      "NO2": {
+       "pi": 9.2,
+       "value_upm": 2.52
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 20.4,
+     "plume_index_level": 2,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 20.4,
+       "value_upm": 5.51
+      },
+      "NO2": {
+       "pi": 8.2,
+       "value_upm": 2.24
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 17.8,
+     "plume_index_level": 1,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 17.8,
+       "value_upm": 4.81
+      },
+      "NO2": {
+       "pi": 7.1,
+       "value_upm": 1.96
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 15.2,
+     "plume_index_level": 1,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 15.2,
+       "value_upm": 4.1
+      },
+      "NO2": {
+       "pi": 6.1,
+       "value_upm": 1.67
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 12.7,
+     "plume_index_level": 1,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 12.7,
+       "value_upm": 3.43
+      },
+      "NO2": {
+       "pi": 5.1,
+       "value_upm": 1.4
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 10.6,
+     "plume_index_level": 1,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 10.6,
+       "value_upm": 2.86
+      },
+      "NO2": {
+       "pi": 4.2,
+       "value_upm": 1.17
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 9.1,
+     "plume_index_level": 1,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 9.1,
+       "value_upm": 2.46
+      },
+      "NO2": {
+       "pi": 3.6,
+       "value_upm": 1.0
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 8.1,
+     "plume_index_level": 1,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 8.1,
+       "value_upm": 2.19
+      },
+      "NO2": {
+       "pi": 3.2,
+       "value_upm": 0.89
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 7.9,
+     "plume_index_level": 1,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 7.9,
+       "value_upm": 2.13
+      },
+      "NO2": {
+       "pi": 3.2,
+       "value_upm": 0.87
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 8.4,
+     "plume_index_level": 1,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 8.4,
+       "value_upm": 2.27
+      },
+      "NO2": {
+       "pi": 3.4,
+       "value_upm": 0.92
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 9.7,
+     "plume_index_level": 1,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 9.7,
+       "value_upm": 2.62
+      },
+      "NO2": {
+       "pi": 3.9,
+       "value_upm": 1.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.7,
+     "plume_index_level": 1,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 11.7,
+       "value_upm": 3.16
+      },
+      "NO2": {
+       "pi": 4.7,
+       "value_upm": 1.29
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 14.3,
+     "plume_index_level": 1,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 14.3,
+       "value_upm": 3.86
+      },
+      "NO2": {
+       "pi": 5.7,
+       "value_upm": 1.57
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.3,
+     "plume_index_level": 1,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 17.3,
+       "value_upm": 4.67
+      },
+      "NO2": {
+       "pi": 6.9,
+       "value_upm": 1.9
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.7,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 20.7,
+       "value_upm": 5.59
+      },
+      "NO2": {
+       "pi": 8.3,
+       "value_upm": 2.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 24.2,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 24.2,
+       "value_upm": 6.53
+      },
+      "NO2": {
+       "pi": 9.7,
+       "value_upm": 2.66
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 27.6,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 27.6,
+       "value_upm": 7.45
+      },
+      "NO2": {
+       "pi": 11.0,
+       "value_upm": 3.04
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 30.8,
+     "plume_index_level": 2,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 30.8,
+       "value_upm": 8.32
+      },
+      "NO2": {
+       "pi": 12.3,
+       "value_upm": 3.39
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 33.5,
+     "plume_index_level": 2,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 33.5,
+       "value_upm": 9.04
+      },
+      "NO2": {
+       "pi": 13.4,
+       "value_upm": 3.69
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 35.6,
+     "plume_index_level": 2,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 35.6,
+       "value_upm": 9.61
+      },
+      "NO2": {
+       "pi": 14.2,
+       "value_upm": 3.92
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 37.0,
+     "plume_index_level": 2,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 37.0,
+       "value_upm": 9.99
+      },
+      "NO2": {
+       "pi": 14.8,
+       "value_upm": 4.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 37.7,
+     "plume_index_level": 2,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 37.7,
+       "value_upm": 10.18
+      },
+      "NO2": {
+       "pi": 15.1,
+       "value_upm": 4.15
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 37.5,
+     "plume_index_level": 2,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 37.5,
+       "value_upm": 10.12
+      },
+      "NO2": {
+       "pi": 15.0,
+       "value_upm": 4.12
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 36.6,
+     "plume_index_level": 2,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 36.6,
+       "value_upm": 9.88
+      },
+      "NO2": {
+       "pi": 14.6,
+       "value_upm": 4.03
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 34.9,
+     "plume_index_level": 2,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 34.9,
+       "value_upm": 9.42
+      },
+      "NO2": {
+       "pi": 14.0,
+       "value_upm": 3.84
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 32.6,
+     "plume_index_level": 2,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 32.6,
+       "value_upm": 8.8
+      },
+      "NO2": {
+       "pi": 13.0,
+       "value_upm": 3.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 29.8,
+     "plume_index_level": 2,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 29.8,
+       "value_upm": 8.05
+      },
+      "NO2": {
+       "pi": 11.9,
+       "value_upm": 3.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 26.7,
+     "plume_index_level": 2,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 26.7,
+       "value_upm": 7.21
+      },
+      "NO2": {
+       "pi": 10.7,
+       "value_upm": 2.94
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 23.5,
+     "plume_index_level": 2,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 23.5,
+       "value_upm": 6.35
+      },
+      "NO2": {
+       "pi": 9.4,
+       "value_upm": 2.58
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 20.3,
+     "plume_index_level": 2,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 20.3,
+       "value_upm": 5.48
+      },
+      "NO2": {
+       "pi": 8.1,
+       "value_upm": 2.23
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 17.4,
+     "plume_index_level": 1,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 17.4,
+       "value_upm": 4.7
+      },
+      "NO2": {
+       "pi": 7.0,
+       "value_upm": 1.91
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 14.9,
+     "plume_index_level": 1,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 14.9,
+       "value_upm": 4.02
+      },
+      "NO2": {
+       "pi": 6.0,
+       "value_upm": 1.64
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 12.9,
+     "plume_index_level": 1,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 12.9,
+       "value_upm": 3.48
+      },
+      "NO2": {
+       "pi": 5.2,
+       "value_upm": 1.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.6,
+     "plume_index_level": 1,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 11.6,
+       "value_upm": 3.13
+      },
+      "NO2": {
+       "pi": 4.6,
+       "value_upm": 1.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.0,
+     "plume_index_level": 1,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 11.0,
+       "value_upm": 2.97
+      },
+      "NO2": {
+       "pi": 4.4,
+       "value_upm": 1.21
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.2,
+     "plume_index_level": 1,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 11.2,
+       "value_upm": 3.02
+      },
+      "NO2": {
+       "pi": 4.5,
+       "value_upm": 1.23
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 12.0,
+     "plume_index_level": 1,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 12.0,
+       "value_upm": 3.24
+      },
+      "NO2": {
+       "pi": 4.8,
+       "value_upm": 1.32
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 13.4,
+     "plume_index_level": 1,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 13.4,
+       "value_upm": 3.62
+      },
+      "NO2": {
+       "pi": 5.4,
+       "value_upm": 1.47
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 15.4,
+     "plume_index_level": 1,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 15.4,
+       "value_upm": 4.16
+      },
+      "NO2": {
+       "pi": 6.2,
+       "value_upm": 1.69
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.6,
+     "plume_index_level": 1,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 17.6,
+       "value_upm": 4.75
+      },
+      "NO2": {
+       "pi": 7.0,
+       "value_upm": 1.94
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.1,
+     "plume_index_level": 2,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 20.1,
+       "value_upm": 5.43
+      },
+      "NO2": {
+       "pi": 8.0,
+       "value_upm": 2.21
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.5,
+     "plume_index_level": 2,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 22.5,
+       "value_upm": 6.08
+      },
+      "NO2": {
+       "pi": 9.0,
+       "value_upm": 2.48
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 24.8,
+     "plume_index_level": 2,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 24.8,
+       "value_upm": 6.7
+      },
+      "NO2": {
+       "pi": 9.9,
+       "value_upm": 2.73
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 26.7,
+     "plume_index_level": 2,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 26.7,
+       "value_upm": 7.21
+      },
+      "NO2": {
+       "pi": 10.7,
+       "value_upm": 2.94
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 28.2,
+     "plume_index_level": 2,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 28.2,
+       "value_upm": 7.61
+      },
+      "NO2": {
+       "pi": 11.3,
+       "value_upm": 3.1
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 29.0,
+     "plume_index_level": 2,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 29.0,
+       "value_upm": 7.83
+      },
+      "NO2": {
+       "pi": 11.6,
+       "value_upm": 3.19
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 29.2,
+     "plume_index_level": 2,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 29.2,
+       "value_upm": 7.88
+      },
+      "NO2": {
+       "pi": 11.7,
+       "value_upm": 3.21
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 28.6,
+     "plume_index_level": 2,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 28.6,
+       "value_upm": 7.72
+      },
+      "NO2": {
+       "pi": 11.4,
+       "value_upm": 3.15
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 27.4,
+     "plume_index_level": 2,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 27.4,
+       "value_upm": 7.4
+      },
+      "NO2": {
+       "pi": 11.0,
+       "value_upm": 3.01
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  },
+  {
+   "city": "Santa Rosa",
+   "municipality": "City of Santa Rosa",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-Santa-Rosa-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 112.9,
+   "level": "unhealthy",
+   "pollutants": {
+    "PM25": {
+     "pi": 112.9,
+     "value_upm": 30.48
+    },
+    "PM10": {
+     "pi": 67.7,
+     "value_upm": 50.81
+    },
+    "NO2": {
+     "pi": 45.2,
+     "value_upm": 12.42
+    },
+    "O3": {
+     "pi": 33.9,
+     "value_upm": 101.61
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "Unhealthy air.",
+   "forecast": [
+    {
+     "plume_index": 89.3,
+     "plume_index_level": 3,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 89.3,
+       "value_upm": 24.11
+      },
+      "NO2": {
+       "pi": 35.7,
+       "value_upm": 9.82
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 95.8,
+     "plume_index_level": 3,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 95.8,
+       "value_upm": 25.87
+      },
+      "NO2": {
+       "pi": 38.3,
+       "value_upm": 10.54
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 100.2,
+     "plume_index_level": 4,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 100.2,
+       "value_upm": 27.05
+      },
+      "NO2": {
+       "pi": 40.1,
+       "value_upm": 11.02
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 102.1,
+     "plume_index_level": 4,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 102.1,
+       "value_upm": 27.57
+      },
+      "NO2": {
+       "pi": 40.8,
+       "value_upm": 11.23
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 101.6,
+     "plume_index_level": 4,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 101.6,
+       "value_upm": 27.43
+      },
+      "NO2": {
+       "pi": 40.6,
+       "value_upm": 11.18
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 98.8,
+     "plume_index_level": 3,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 98.8,
+       "value_upm": 26.68
+      },
+      "NO2": {
+       "pi": 39.5,
+       "value_upm": 10.87
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 93.8,
+     "plume_index_level": 3,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 93.8,
+       "value_upm": 25.33
+      },
+      "NO2": {
+       "pi": 37.5,
+       "value_upm": 10.32
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 87.2,
+     "plume_index_level": 3,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 87.2,
+       "value_upm": 23.54
+      },
+      "NO2": {
+       "pi": 34.9,
+       "value_upm": 9.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 79.4,
+     "plume_index_level": 3,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 79.4,
+       "value_upm": 21.44
+      },
+      "NO2": {
+       "pi": 31.8,
+       "value_upm": 8.73
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 70.9,
+     "plume_index_level": 3,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 70.9,
+       "value_upm": 19.14
+      },
+      "NO2": {
+       "pi": 28.4,
+       "value_upm": 7.8
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 62.5,
+     "plume_index_level": 3,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 62.5,
+       "value_upm": 16.88
+      },
+      "NO2": {
+       "pi": 25.0,
+       "value_upm": 6.88
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 54.6,
+     "plume_index_level": 3,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 54.6,
+       "value_upm": 14.74
+      },
+      "NO2": {
+       "pi": 21.8,
+       "value_upm": 6.01
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 48.0,
+     "plume_index_level": 2,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 48.0,
+       "value_upm": 12.96
+      },
+      "NO2": {
+       "pi": 19.2,
+       "value_upm": 5.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.1,
+     "plume_index_level": 2,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 43.1,
+       "value_upm": 11.64
+      },
+      "NO2": {
+       "pi": 17.2,
+       "value_upm": 4.74
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 40.2,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 40.2,
+       "value_upm": 10.85
+      },
+      "NO2": {
+       "pi": 16.1,
+       "value_upm": 4.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 39.8,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 39.8,
+       "value_upm": 10.75
+      },
+      "NO2": {
+       "pi": 15.9,
+       "value_upm": 4.38
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 41.8,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 41.8,
+       "value_upm": 11.29
+      },
+      "NO2": {
+       "pi": 16.7,
+       "value_upm": 4.6
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 46.2,
+     "plume_index_level": 2,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 46.2,
+       "value_upm": 12.47
+      },
+      "NO2": {
+       "pi": 18.5,
+       "value_upm": 5.08
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 52.9,
+     "plume_index_level": 3,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 52.9,
+       "value_upm": 14.28
+      },
+      "NO2": {
+       "pi": 21.2,
+       "value_upm": 5.82
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 61.4,
+     "plume_index_level": 3,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 61.4,
+       "value_upm": 16.58
+      },
+      "NO2": {
+       "pi": 24.6,
+       "value_upm": 6.75
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 71.4,
+     "plume_index_level": 3,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 71.4,
+       "value_upm": 19.28
+      },
+      "NO2": {
+       "pi": 28.6,
+       "value_upm": 7.85
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 82.1,
+     "plume_index_level": 3,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 82.1,
+       "value_upm": 22.17
+      },
+      "NO2": {
+       "pi": 32.8,
+       "value_upm": 9.03
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 93.1,
+     "plume_index_level": 3,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 93.1,
+       "value_upm": 25.14
+      },
+      "NO2": {
+       "pi": 37.2,
+       "value_upm": 10.24
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 103.5,
+     "plume_index_level": 4,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 103.5,
+       "value_upm": 27.95
+      },
+      "NO2": {
+       "pi": 41.4,
+       "value_upm": 11.38
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 112.9,
+     "plume_index_level": 4,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 112.9,
+       "value_upm": 30.48
+      },
+      "NO2": {
+       "pi": 45.2,
+       "value_upm": 12.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 120.6,
+     "plume_index_level": 4,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 120.6,
+       "value_upm": 32.56
+      },
+      "NO2": {
+       "pi": 48.2,
+       "value_upm": 13.27
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 126.1,
+     "plume_index_level": 4,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 126.1,
+       "value_upm": 34.05
+      },
+      "NO2": {
+       "pi": 50.4,
+       "value_upm": 13.87
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 129.1,
+     "plume_index_level": 4,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 129.1,
+       "value_upm": 34.86
+      },
+      "NO2": {
+       "pi": 51.6,
+       "value_upm": 14.2
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 129.4,
+     "plume_index_level": 4,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 129.4,
+       "value_upm": 34.94
+      },
+      "NO2": {
+       "pi": 51.8,
+       "value_upm": 14.23
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 126.9,
+     "plume_index_level": 4,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 126.9,
+       "value_upm": 34.26
+      },
+      "NO2": {
+       "pi": 50.8,
+       "value_upm": 13.96
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 121.7,
+     "plume_index_level": 4,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 121.7,
+       "value_upm": 32.86
+      },
+      "NO2": {
+       "pi": 48.7,
+       "value_upm": 13.39
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 114.1,
+     "plume_index_level": 4,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 114.1,
+       "value_upm": 30.81
+      },
+      "NO2": {
+       "pi": 45.6,
+       "value_upm": 12.55
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 104.5,
+     "plume_index_level": 4,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 104.5,
+       "value_upm": 28.22
+      },
+      "NO2": {
+       "pi": 41.8,
+       "value_upm": 11.49
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 93.5,
+     "plume_index_level": 3,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 93.5,
+       "value_upm": 25.25
+      },
+      "NO2": {
+       "pi": 37.4,
+       "value_upm": 10.29
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 81.5,
+     "plume_index_level": 3,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 81.5,
+       "value_upm": 22.01
+      },
+      "NO2": {
+       "pi": 32.6,
+       "value_upm": 8.96
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 69.4,
+     "plume_index_level": 3,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 69.4,
+       "value_upm": 18.74
+      },
+      "NO2": {
+       "pi": 27.8,
+       "value_upm": 7.63
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 57.7,
+     "plume_index_level": 3,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 57.7,
+       "value_upm": 15.58
+      },
+      "NO2": {
+       "pi": 23.1,
+       "value_upm": 6.35
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 47.2,
+     "plume_index_level": 2,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 47.2,
+       "value_upm": 12.74
+      },
+      "NO2": {
+       "pi": 18.9,
+       "value_upm": 5.19
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 38.3,
+     "plume_index_level": 2,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 38.3,
+       "value_upm": 10.34
+      },
+      "NO2": {
+       "pi": 15.3,
+       "value_upm": 4.21
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 31.5,
+     "plume_index_level": 2,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 31.5,
+       "value_upm": 8.51
+      },
+      "NO2": {
+       "pi": 12.6,
+       "value_upm": 3.46
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 27.1,
+     "plume_index_level": 2,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 27.1,
+       "value_upm": 7.32
+      },
+      "NO2": {
+       "pi": 10.8,
+       "value_upm": 2.98
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 25.4,
+     "plume_index_level": 2,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 25.4,
+       "value_upm": 6.86
+      },
+      "NO2": {
+       "pi": 10.2,
+       "value_upm": 2.79
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 26.4,
+     "plume_index_level": 2,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 26.4,
+       "value_upm": 7.13
+      },
+      "NO2": {
+       "pi": 10.6,
+       "value_upm": 2.9
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 29.8,
+     "plume_index_level": 2,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 29.8,
+       "value_upm": 8.05
+      },
+      "NO2": {
+       "pi": 11.9,
+       "value_upm": 3.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 35.4,
+     "plume_index_level": 2,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 35.4,
+       "value_upm": 9.56
+      },
+      "NO2": {
+       "pi": 14.2,
+       "value_upm": 3.89
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 42.8,
+     "plume_index_level": 2,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 42.8,
+       "value_upm": 11.56
+      },
+      "NO2": {
+       "pi": 17.1,
+       "value_upm": 4.71
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 51.5,
+     "plume_index_level": 3,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 51.5,
+       "value_upm": 13.91
+      },
+      "NO2": {
+       "pi": 20.6,
+       "value_upm": 5.67
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 60.7,
+     "plume_index_level": 3,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 60.7,
+       "value_upm": 16.39
+      },
+      "NO2": {
+       "pi": 24.3,
+       "value_upm": 6.68
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 70.0,
+     "plume_index_level": 3,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 70.0,
+       "value_upm": 18.9
+      },
+      "NO2": {
+       "pi": 28.0,
+       "value_upm": 7.7
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  },
+  {
+   "city": "Los Baños",
+   "municipality": "Los Baños",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-Los-Baños-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 40.1,
+   "level": "fair",
+   "pollutants": {
+    "PM25": {
+     "pi": 40.1,
+     "value_upm": 10.83
+    },
+    "PM10": {
+     "pi": 24.1,
+     "value_upm": 18.05
+    },
+    "NO2": {
+     "pi": 16.0,
+     "value_upm": 4.41
+    },
+    "O3": {
+     "pi": 12.0,
+     "value_upm": 36.09
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "Moderately polluted.",
+   "forecast": [
+    {
+     "plume_index": 21.5,
+     "plume_index_level": 2,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 21.5,
+       "value_upm": 5.81
+      },
+      "NO2": {
+       "pi": 8.6,
+       "value_upm": 2.37
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 17.7,
+     "plume_index_level": 1,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 17.7,
+       "value_upm": 4.78
+      },
+      "NO2": {
+       "pi": 7.1,
+       "value_upm": 1.95
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 14.3,
+     "plume_index_level": 1,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 14.3,
+       "value_upm": 3.86
+      },
+      "NO2": {
+       "pi": 5.7,
+       "value_upm": 1.57
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 11.7,
+     "plume_index_level": 1,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 11.7,
+       "value_upm": 3.16
+      },
+      "NO2": {
+       "pi": 4.7,
+       "value_upm": 1.29
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 10.0,
+     "plume_index_level": 1,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 10.0,
+       "value_upm": 2.7
+      },
+      "NO2": {
+       "pi": 4.0,
+       "value_upm": 1.1
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 9.4,
+     "plume_index_level": 1,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 9.4,
+       "value_upm": 2.54
+      },
+      "NO2": {
+       "pi": 3.8,
+       "value_upm": 1.03
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 9.8,
+     "plume_index_level": 1,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 9.8,
+       "value_upm": 2.65
+      },
+      "NO2": {
+       "pi": 3.9,
+       "value_upm": 1.08
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.4,
+     "plume_index_level": 1,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 11.4,
+       "value_upm": 3.08
+      },
+      "NO2": {
+       "pi": 4.6,
+       "value_upm": 1.25
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 14.1,
+     "plume_index_level": 1,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 14.1,
+       "value_upm": 3.81
+      },
+      "NO2": {
+       "pi": 5.6,
+       "value_upm": 1.55
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.7,
+     "plume_index_level": 1,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 17.7,
+       "value_upm": 4.78
+      },
+      "NO2": {
+       "pi": 7.1,
+       "value_upm": 1.95
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.1,
+     "plume_index_level": 2,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 22.1,
+       "value_upm": 5.97
+      },
+      "NO2": {
+       "pi": 8.8,
+       "value_upm": 2.43
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 27.0,
+     "plume_index_level": 2,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 27.0,
+       "value_upm": 7.29
+      },
+      "NO2": {
+       "pi": 10.8,
+       "value_upm": 2.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 32.1,
+     "plume_index_level": 2,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 32.1,
+       "value_upm": 8.67
+      },
+      "NO2": {
+       "pi": 12.8,
+       "value_upm": 3.53
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.2,
+     "plume_index_level": 2,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 37.2,
+       "value_upm": 10.04
+      },
+      "NO2": {
+       "pi": 14.9,
+       "value_upm": 4.09
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 42.0,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 42.0,
+       "value_upm": 11.34
+      },
+      "NO2": {
+       "pi": 16.8,
+       "value_upm": 4.62
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 46.3,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 46.3,
+       "value_upm": 12.5
+      },
+      "NO2": {
+       "pi": 18.5,
+       "value_upm": 5.09
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 49.7,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 49.7,
+       "value_upm": 13.42
+      },
+      "NO2": {
+       "pi": 19.9,
+       "value_upm": 5.47
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 52.2,
+     "plume_index_level": 3,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 52.2,
+       "value_upm": 14.09
+      },
+      "NO2": {
+       "pi": 20.9,
+       "value_upm": 5.74
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 53.6,
+     "plume_index_level": 3,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 53.6,
+       "value_upm": 14.47
+      },
+      "NO2": {
+       "pi": 21.4,
+       "value_upm": 5.9
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 53.8,
+     "plume_index_level": 3,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 53.8,
+       "value_upm": 14.53
+      },
+      "NO2": {
+       "pi": 21.5,
+       "value_upm": 5.92
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 52.9,
+     "plume_index_level": 3,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 52.9,
+       "value_upm": 14.28
+      },
+      "NO2": {
+       "pi": 21.2,
+       "value_upm": 5.82
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 50.9,
+     "plume_index_level": 3,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 50.9,
+       "value_upm": 13.74
+      },
+      "NO2": {
+       "pi": 20.4,
+       "value_upm": 5.6
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 48.0,
+     "plume_index_level": 2,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 48.0,
+       "value_upm": 12.96
+      },
+      "NO2": {
+       "pi": 19.2,
+       "value_upm": 5.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 44.3,
+     "plume_index_level": 2,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 44.3,
+       "value_upm": 11.96
+      },
+      "NO2": {
+       "pi": 17.7,
+       "value_upm": 4.87
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 40.1,
+     "plume_index_level": 2,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 40.1,
+       "value_upm": 10.83
+      },
+      "NO2": {
+       "pi": 16.0,
+       "value_upm": 4.41
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 35.7,
+     "plume_index_level": 2,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 35.7,
+       "value_upm": 9.64
+      },
+      "NO2": {
+       "pi": 14.3,
+       "value_upm": 3.93
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 31.2,
+     "plume_index_level": 2,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 31.2,
+       "value_upm": 8.42
+      },
+      "NO2": {
+       "pi": 12.5,
+       "value_upm": 3.43
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 27.1,
+     "plume_index_level": 2,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 27.1,
+       "value_upm": 7.32
+      },
+      "NO2": {
+       "pi": 10.8,
+       "value_upm": 2.98
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 23.6,
+     "plume_index_level": 2,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 23.6,
+       "value_upm": 6.37
+      },
+      "NO2": {
+       "pi": 9.4,
+       "value_upm": 2.6
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 20.8,
+     "plume_index_level": 2,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 20.8,
+       "value_upm": 5.62
+      },
+      "NO2": {
+       "pi": 8.3,
+       "value_upm": 2.29
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 18.9,
+     "plume_index_level": 1,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 18.9,
+       "value_upm": 5.1
+      },
+      "NO2": {
+       "pi": 7.6,
+       "value_upm": 2.08
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 17.9,
+     "plume_index_level": 1,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 17.9,
+       "value_upm": 4.83
+      },
+      "NO2": {
+       "pi": 7.2,
+       "value_upm": 1.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 18.1,
+     "plume_index_level": 1,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 18.1,
+       "value_upm": 4.89
+      },
+      "NO2": {
+       "pi": 7.2,
+       "value_upm": 1.99
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 19.2,
+     "plume_index_level": 1,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 19.2,
+       "value_upm": 5.18
+      },
+      "NO2": {
+       "pi": 7.7,
+       "value_upm": 2.11
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 21.2,
+     "plume_index_level": 2,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 21.2,
+       "value_upm": 5.72
+      },
+      "NO2": {
+       "pi": 8.5,
+       "value_upm": 2.33
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 23.9,
+     "plume_index_level": 2,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 23.9,
+       "value_upm": 6.45
+      },
+      "NO2": {
+       "pi": 9.6,
+       "value_upm": 2.63
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 27.2,
+     "plume_index_level": 2,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 27.2,
+       "value_upm": 7.34
+      },
+      "NO2": {
+       "pi": 10.9,
+       "value_upm": 2.99
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 30.7,
+     "plume_index_level": 2,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 30.7,
+       "value_upm": 8.29
+      },
+      "NO2": {
+       "pi": 12.3,
+       "value_upm": 3.38
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 34.3,
+     "plume_index_level": 2,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 34.3,
+       "value_upm": 9.26
+      },
+      "NO2": {
+       "pi": 13.7,
+       "value_upm": 3.77
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 37.6,
+     "plume_index_level": 2,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 37.6,
+       "value_upm": 10.15
+      },
+      "NO2": {
+       "pi": 15.0,
+       "value_upm": 4.14
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 40.5,
+     "plume_index_level": 2,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 40.5,
+       "value_upm": 10.94
+      },
+      "NO2": {
+       "pi": 16.2,
+       "value_upm": 4.46
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 42.6,
+     "plume_index_level": 2,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 42.6,
+       "value_upm": 11.5
+      },
+      "NO2": {
+       "pi": 17.0,
+       "value_upm": 4.69
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.9,
+     "plume_index_level": 2,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 43.9,
+       "value_upm": 11.85
+      },
+      "NO2": {
+       "pi": 17.6,
+       "value_upm": 4.83
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 44.2,
+     "plume_index_level": 2,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 44.2,
+       "value_upm": 11.93
+      },
+      "NO2": {
+       "pi": 17.7,
+       "value_upm": 4.86
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 43.4,
+     "plume_index_level": 2,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 43.4,
+       "value_upm": 11.72
+      },
+      "NO2": {
+       "pi": 17.4,
+       "value_upm": 4.77
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 41.7,
+     "plume_index_level": 2,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 41.7,
+       "value_upm": 11.26
+      },
+      "NO2": {
+       "pi": 16.7,
+       "value_upm": 4.59
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 38.9,
+     "plume_index_level": 2,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 38.9,
+       "value_upm": 10.5
+      },
+      "NO2": {
+       "pi": 15.6,
+       "value_upm": 4.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 35.4,
+     "plume_index_level": 2,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 35.4,
+       "value_upm": 9.56
+      },
+      "NO2": {
+       "pi": 14.2,
+       "value_upm": 3.89
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 31.3,
+     "plume_index_level": 2,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 31.3,
+       "value_upm": 8.45
+      },
+      "NO2": {
+       "pi": 12.5,
+       "value_upm": 3.44
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  },
+  {
+   "city": "Bay",
+   "municipality": "Bay",
+   "province": "Laguna",
+   "region": "Calabarzon",
+   "url": "https://air.plumelabs.com/air-quality-in-Bay-test",
+   "latitude": 14.2,
+   "longitude": 121.2,
+   "plume_index": 9.7,
+   "level": "excellent",
+   "pollutants": {
+    "PM25": {
+     "pi": 9.7,
+     "value_upm": 2.62
+    },
+    "PM10": {
+     "pi": 5.8,
+     "value_upm": 4.37
+    },
+    "NO2": {
+     "pi": 3.9,
+     "value_upm": 1.07
+    },
+    "O3": {
+     "pi": 2.9,
+     "value_upm": 8.73
+    }
+   },
+   "weather": {
+    "icon": "partly-cloudy",
+    "temperature": 28.7,
+    "uv": 2
+   },
+   "advice": "The air is pure!",
+   "forecast": [
+    {
+     "plume_index": 3,
+     "plume_index_level": 1,
+     "timestamp": 1795330800,
+     "values": {
+      "PM25": {
+       "pi": 3,
+       "value_upm": 0.81
+      },
+      "NO2": {
+       "pi": 1.2,
+       "value_upm": 0.33
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.8,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 3,
+     "plume_index_level": 1,
+     "timestamp": 1795334400,
+     "values": {
+      "PM25": {
+       "pi": 3,
+       "value_upm": 0.81
+      },
+      "NO2": {
+       "pi": 1.2,
+       "value_upm": 0.33
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 3.5,
+     "plume_index_level": 1,
+     "timestamp": 1795338000,
+     "values": {
+      "PM25": {
+       "pi": 3.5,
+       "value_upm": 0.95
+      },
+      "NO2": {
+       "pi": 1.4,
+       "value_upm": 0.39
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.1,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 4.4,
+     "plume_index_level": 1,
+     "timestamp": 1795341600,
+     "values": {
+      "PM25": {
+       "pi": 4.4,
+       "value_upm": 1.19
+      },
+      "NO2": {
+       "pi": 1.8,
+       "value_upm": 0.48
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.6,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 5.9,
+     "plume_index_level": 1,
+     "timestamp": 1795345200,
+     "values": {
+      "PM25": {
+       "pi": 5.9,
+       "value_upm": 1.59
+      },
+      "NO2": {
+       "pi": 2.4,
+       "value_upm": 0.65
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 7.7,
+     "plume_index_level": 1,
+     "timestamp": 1795348800,
+     "values": {
+      "PM25": {
+       "pi": 7.7,
+       "value_upm": 2.08
+      },
+      "NO2": {
+       "pi": 3.1,
+       "value_upm": 0.85
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 9.7,
+     "plume_index_level": 1,
+     "timestamp": 1795352400,
+     "values": {
+      "PM25": {
+       "pi": 9.7,
+       "value_upm": 2.62
+      },
+      "NO2": {
+       "pi": 3.9,
+       "value_upm": 1.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 11.9,
+     "plume_index_level": 1,
+     "timestamp": 1795356000,
+     "values": {
+      "PM25": {
+       "pi": 11.9,
+       "value_upm": 3.21
+      },
+      "NO2": {
+       "pi": 4.8,
+       "value_upm": 1.31
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 14.2,
+     "plume_index_level": 1,
+     "timestamp": 1795359600,
+     "values": {
+      "PM25": {
+       "pi": 14.2,
+       "value_upm": 3.83
+      },
+      "NO2": {
+       "pi": 5.7,
+       "value_upm": 1.56
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 16.3,
+     "plume_index_level": 1,
+     "timestamp": 1795363200,
+     "values": {
+      "PM25": {
+       "pi": 16.3,
+       "value_upm": 4.4
+      },
+      "NO2": {
+       "pi": 6.5,
+       "value_upm": 1.79
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 18.3,
+     "plume_index_level": 1,
+     "timestamp": 1795366800,
+     "values": {
+      "PM25": {
+       "pi": 18.3,
+       "value_upm": 4.94
+      },
+      "NO2": {
+       "pi": 7.3,
+       "value_upm": 2.01
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.0,
+     "plume_index_level": 2,
+     "timestamp": 1795370400,
+     "values": {
+      "PM25": {
+       "pi": 20.0,
+       "value_upm": 5.4
+      },
+      "NO2": {
+       "pi": 8.0,
+       "value_upm": 2.2
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 21.2,
+     "plume_index_level": 2,
+     "timestamp": 1795374000,
+     "values": {
+      "PM25": {
+       "pi": 21.2,
+       "value_upm": 5.72
+      },
+      "NO2": {
+       "pi": 8.5,
+       "value_upm": 2.33
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.6,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.0,
+     "plume_index_level": 2,
+     "timestamp": 1795377600,
+     "values": {
+      "PM25": {
+       "pi": 22.0,
+       "value_upm": 5.94
+      },
+      "NO2": {
+       "pi": 8.8,
+       "value_upm": 2.42
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.3,
+     "plume_index_level": 2,
+     "timestamp": 1795381200,
+     "values": {
+      "PM25": {
+       "pi": 22.3,
+       "value_upm": 6.02
+      },
+      "NO2": {
+       "pi": 8.9,
+       "value_upm": 2.45
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.2,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 22.2,
+     "plume_index_level": 2,
+     "timestamp": 1795384800,
+     "values": {
+      "PM25": {
+       "pi": 22.2,
+       "value_upm": 5.99
+      },
+      "NO2": {
+       "pi": 8.9,
+       "value_upm": 2.44
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 21.5,
+     "plume_index_level": 2,
+     "timestamp": 1795388400,
+     "values": {
+      "PM25": {
+       "pi": 21.5,
+       "value_upm": 5.81
+      },
+      "NO2": {
+       "pi": 8.6,
+       "value_upm": 2.37
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.5,
+     "plume_index_level": 2,
+     "timestamp": 1795392000,
+     "values": {
+      "PM25": {
+       "pi": 20.5,
+       "value_upm": 5.54
+      },
+      "NO2": {
+       "pi": 8.2,
+       "value_upm": 2.25
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 19.1,
+     "plume_index_level": 1,
+     "timestamp": 1795395600,
+     "values": {
+      "PM25": {
+       "pi": 19.1,
+       "value_upm": 5.16
+      },
+      "NO2": {
+       "pi": 7.6,
+       "value_upm": 2.1
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.4,
+     "plume_index_level": 1,
+     "timestamp": 1795399200,
+     "values": {
+      "PM25": {
+       "pi": 17.4,
+       "value_upm": 4.7
+      },
+      "NO2": {
+       "pi": 7.0,
+       "value_upm": 1.91
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.2,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 15.7,
+     "plume_index_level": 1,
+     "timestamp": 1795402800,
+     "values": {
+      "PM25": {
+       "pi": 15.7,
+       "value_upm": 4.24
+      },
+      "NO2": {
+       "pi": 6.3,
+       "value_upm": 1.73
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.5,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 13.9,
+     "plume_index_level": 1,
+     "timestamp": 1795406400,
+     "values": {
+      "PM25": {
+       "pi": 13.9,
+       "value_upm": 3.75
+      },
+      "NO2": {
+       "pi": 5.6,
+       "value_upm": 1.53
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.0,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 12.3,
+     "plume_index_level": 1,
+     "timestamp": 1795410000,
+     "values": {
+      "PM25": {
+       "pi": 12.3,
+       "value_upm": 3.32
+      },
+      "NO2": {
+       "pi": 4.9,
+       "value_upm": 1.35
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.6,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 10.9,
+     "plume_index_level": 1,
+     "timestamp": 1795413600,
+     "values": {
+      "PM25": {
+       "pi": 10.9,
+       "value_upm": 2.94
+      },
+      "NO2": {
+       "pi": 4.4,
+       "value_upm": 1.2
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.3,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 9.7,
+     "plume_index_level": 1,
+     "timestamp": 1795417200,
+     "values": {
+      "PM25": {
+       "pi": 9.7,
+       "value_upm": 2.62
+      },
+      "NO2": {
+       "pi": 3.9,
+       "value_upm": 1.07
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.0,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 9.0,
+     "plume_index_level": 1,
+     "timestamp": 1795420800,
+     "values": {
+      "PM25": {
+       "pi": 9.0,
+       "value_upm": 2.43
+      },
+      "NO2": {
+       "pi": 3.6,
+       "value_upm": 0.99
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.7,
+      "uv": 6.0
+     }
+    },
+    {
+     "plume_index": 8.7,
+     "plume_index_level": 1,
+     "timestamp": 1795424400,
+     "values": {
+      "PM25": {
+       "pi": 8.7,
+       "value_upm": 2.35
+      },
+      "NO2": {
+       "pi": 3.5,
+       "value_upm": 0.96
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.4,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 8.8,
+     "plume_index_level": 1,
+     "timestamp": 1795428000,
+     "values": {
+      "PM25": {
+       "pi": 8.8,
+       "value_upm": 2.38
+      },
+      "NO2": {
+       "pi": 3.5,
+       "value_upm": 0.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.0,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 9.3,
+     "plume_index_level": 1,
+     "timestamp": 1795431600,
+     "values": {
+      "PM25": {
+       "pi": 9.3,
+       "value_upm": 2.51
+      },
+      "NO2": {
+       "pi": 3.7,
+       "value_upm": 1.02
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.5,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 10.3,
+     "plume_index_level": 1,
+     "timestamp": 1795435200,
+     "values": {
+      "PM25": {
+       "pi": 10.3,
+       "value_upm": 2.78
+      },
+      "NO2": {
+       "pi": 4.1,
+       "value_upm": 1.13
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.8,
+      "uv": 2.0
+     }
+    },
+    {
+     "plume_index": 11.5,
+     "plume_index_level": 1,
+     "timestamp": 1795438800,
+     "values": {
+      "PM25": {
+       "pi": 11.5,
+       "value_upm": 3.11
+      },
+      "NO2": {
+       "pi": 4.6,
+       "value_upm": 1.26
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 13.0,
+     "plume_index_level": 1,
+     "timestamp": 1795442400,
+     "values": {
+      "PM25": {
+       "pi": 13.0,
+       "value_upm": 3.51
+      },
+      "NO2": {
+       "pi": 5.2,
+       "value_upm": 1.43
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 30.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 14.6,
+     "plume_index_level": 1,
+     "timestamp": 1795446000,
+     "values": {
+      "PM25": {
+       "pi": 14.6,
+       "value_upm": 3.94
+      },
+      "NO2": {
+       "pi": 5.8,
+       "value_upm": 1.61
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 16.3,
+     "plume_index_level": 1,
+     "timestamp": 1795449600,
+     "values": {
+      "PM25": {
+       "pi": 16.3,
+       "value_upm": 4.4
+      },
+      "NO2": {
+       "pi": 6.5,
+       "value_upm": 1.79
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 29.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.8,
+     "plume_index_level": 1,
+     "timestamp": 1795453200,
+     "values": {
+      "PM25": {
+       "pi": 17.8,
+       "value_upm": 4.81
+      },
+      "NO2": {
+       "pi": 7.1,
+       "value_upm": 1.96
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.8,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 19.1,
+     "plume_index_level": 1,
+     "timestamp": 1795456800,
+     "values": {
+      "PM25": {
+       "pi": 19.1,
+       "value_upm": 5.16
+      },
+      "NO2": {
+       "pi": 7.6,
+       "value_upm": 2.1
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 28.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.2,
+     "plume_index_level": 2,
+     "timestamp": 1795460400,
+     "values": {
+      "PM25": {
+       "pi": 20.2,
+       "value_upm": 5.45
+      },
+      "NO2": {
+       "pi": 8.1,
+       "value_upm": 2.22
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 27.4,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.8,
+     "plume_index_level": 2,
+     "timestamp": 1795464000,
+     "values": {
+      "PM25": {
+       "pi": 20.8,
+       "value_upm": 5.62
+      },
+      "NO2": {
+       "pi": 8.3,
+       "value_upm": 2.29
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 21.0,
+     "plume_index_level": 2,
+     "timestamp": 1795467600,
+     "values": {
+      "PM25": {
+       "pi": 21.0,
+       "value_upm": 5.67
+      },
+      "NO2": {
+       "pi": 8.4,
+       "value_upm": 2.31
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.9,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 20.7,
+     "plume_index_level": 2,
+     "timestamp": 1795471200,
+     "values": {
+      "PM25": {
+       "pi": 20.7,
+       "value_upm": 5.59
+      },
+      "NO2": {
+       "pi": 8.3,
+       "value_upm": 2.28
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 19.9,
+     "plume_index_level": 1,
+     "timestamp": 1795474800,
+     "values": {
+      "PM25": {
+       "pi": 19.9,
+       "value_upm": 5.37
+      },
+      "NO2": {
+       "pi": 8.0,
+       "value_upm": 2.19
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.7,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 18.7,
+     "plume_index_level": 1,
+     "timestamp": 1795478400,
+     "values": {
+      "PM25": {
+       "pi": 18.7,
+       "value_upm": 5.05
+      },
+      "NO2": {
+       "pi": 7.5,
+       "value_upm": 2.06
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.3,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 17.1,
+     "plume_index_level": 1,
+     "timestamp": 1795482000,
+     "values": {
+      "PM25": {
+       "pi": 17.1,
+       "value_upm": 4.62
+      },
+      "NO2": {
+       "pi": 6.8,
+       "value_upm": 1.88
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 15.2,
+     "plume_index_level": 1,
+     "timestamp": 1795485600,
+     "values": {
+      "PM25": {
+       "pi": 15.2,
+       "value_upm": 4.1
+      },
+      "NO2": {
+       "pi": 6.1,
+       "value_upm": 1.67
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.0,
+      "uv": 0
+     }
+    },
+    {
+     "plume_index": 13.1,
+     "plume_index_level": 1,
+     "timestamp": 1795489200,
+     "values": {
+      "PM25": {
+       "pi": 13.1,
+       "value_upm": 3.54
+      },
+      "NO2": {
+       "pi": 5.2,
+       "value_upm": 1.44
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.1,
+      "uv": 1.0
+     }
+    },
+    {
+     "plume_index": 10.9,
+     "plume_index_level": 1,
+     "timestamp": 1795492800,
+     "values": {
+      "PM25": {
+       "pi": 10.9,
+       "value_upm": 2.94
+      },
+      "NO2": {
+       "pi": 4.4,
+       "value_upm": 1.2
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.4,
+      "uv": 3.0
+     }
+    },
+    {
+     "plume_index": 8.8,
+     "plume_index_level": 1,
+     "timestamp": 1795496400,
+     "values": {
+      "PM25": {
+       "pi": 8.8,
+       "value_upm": 2.38
+      },
+      "NO2": {
+       "pi": 3.5,
+       "value_upm": 0.97
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 24.9,
+      "uv": 4.0
+     }
+    },
+    {
+     "plume_index": 6.8,
+     "plume_index_level": 1,
+     "timestamp": 1795500000,
+     "values": {
+      "PM25": {
+       "pi": 6.8,
+       "value_upm": 1.84
+      },
+      "NO2": {
+       "pi": 2.7,
+       "value_upm": 0.75
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 25.5,
+      "uv": 5.0
+     }
+    },
+    {
+     "plume_index": 5.1,
+     "plume_index_level": 1,
+     "timestamp": 1795503600,
+     "values": {
+      "PM25": {
+       "pi": 5.1,
+       "value_upm": 1.38
+      },
+      "NO2": {
+       "pi": 2.0,
+       "value_upm": 0.56
+      }
+     },
+     "weather": {
+      "icon": "partly-cloudy",
+      "temperature": 26.2,
+      "uv": 6.0
+     }
+    }
+   ],
+   "measured_at": "2026-11-23T07:00:00Z",
+   "fetched_at": "2026-11-23T07:03:12Z"
+  }
+ ]
+}

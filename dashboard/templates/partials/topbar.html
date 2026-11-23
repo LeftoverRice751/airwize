@@ -1,0 +1,89 @@
+{#
+  App shell header. static/js/features/topbar.js wires it up: current link,
+  triggered-alert count, "Updated N minutes ago", refresh state, theme toggle
+  and the mobile menu. Under 40rem the desktop row is replaced by icon buttons
+  and the links fold into the sheet below.
+#}
+{% from 'partials/icons.html' import icon %}
+
+{% macro nav() -%}
+<nav aria-label="Main" class="nav-wrap" data-nav>
+  <span class="nav__ind" aria-hidden="true"></span>
+  <ul class="nav">
+    <li><a href="?view=monitor" class="nav__link" data-view="monitor"><span class="nav__text">Monitor</span></a></li>
+    <li>
+      <a href="?view=alerts" class="nav__link" data-view="alerts">
+        <span class="nav__text">Alerts</span>
+        <span class="nav__count num" data-triggered hidden></span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{%- endmacro %}
+
+{% macro live_status() -%}
+<span class="live live--idle" aria-live="polite" data-live>
+  <span class="live__dot" aria-hidden="true"></span>
+  <span data-live-text>Waiting for first reading</span>
+</span>
+{%- endmacro %}
+
+{% macro refresh_button() -%}
+<button type="button" class="btn btn--ghost btn--sm" data-action="refresh">
+  {{ icon('refresh', 16, class='refresh-icon') }}
+  Refresh
+</button>
+{%- endmacro %}
+
+{% macro theme_toggle() -%}
+<button type="button" class="btn btn--icon theme-toggle" data-action="theme" aria-label="Switch theme">
+  <span class="theme-toggle__icon theme-toggle__icon--sun">{{ icon('sun', 17) }}</span>
+  <span class="theme-toggle__icon theme-toggle__icon--moon">{{ icon('moon', 17) }}</span>
+</button>
+{%- endmacro %}
+
+<header class="topbar">
+  <div class="topbar__inner container">
+    <a class="wordmark" href="./" aria-label="Laguna air, home">
+      {{ icon('wind', 20, stroke_width=1.9) }}
+      Laguna AirWize
+    </a>
+
+    <div class="topbar__desktop">
+      {{ nav() }}
+      <div class="topbar__tools">
+        {{ live_status() }}
+        {{ refresh_button() }}
+        <button type="button" class="search-trigger" data-action="search">
+          {{ icon('search', 15) }}
+          <span>Search</span>
+          <kbd class="kbd" data-kbd-mod>Ctrl K</kbd>
+        </button>
+        {{ theme_toggle() }}
+      </div>
+    </div>
+
+    <div class="topbar__mobile">
+      <button type="button" class="btn btn--icon" data-action="search">
+        {{ icon('search', 18) }}<span class="visually-hidden">Search</span>
+      </button>
+      {{ theme_toggle() }}
+      <button type="button" class="btn btn--icon" data-action="menu" aria-expanded="false" aria-controls="topbar-panel">
+        <span class="burger" aria-hidden="true"><span></span><span></span></span>
+        <span class="visually-hidden">Open menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="topbar-panel" class="topbar__sheet">
+    <div class="topbar__sheet-clip">
+      <div class="container topbar__sheet-inner">
+        {{ nav() }}
+        <div class="topbar__sheet-status">
+          {{ live_status() }}
+          {{ refresh_button() }}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
