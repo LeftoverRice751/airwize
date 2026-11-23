@@ -13,12 +13,30 @@ file and reload. See the root `README.md` for how to run everything.
   - `tokens.css` has every colour, font, space and radius, for the light and dark themes. Components never use literal values.
   - `base.css` has the reset, typography and the reduced-motion rule.
   - `app.css` holds the component styles, carried over from the React version.
+  - `energy.css` has the Energy tab layout (see below).
   - `motion.css` has the transitions and keyframes that replace the `motion` library, plus the single sliding indicators (nav, segmented control, table marker, palette highlight).
 - `static/js/`
   - `app.js` is the entry point. It owns one state object, derives rows/selection/triggered rules from it, and hands each component its props. `set({...})` batches a render.
   - `lib/` holds logic with no UI: `readings.js` (WebSocket updates plus HTTP fallback), `url-state.js`, `levels.js` (severity bands), `outlook.js` (forecast analysis), `alerts.js` (rules, localStorage, evaluation), `theme.js`, `format.js`, `motion.js` (springs and FLIP), `dom.js` (the `h()` element helper).
   - `ui/` holds reusable pieces: `primitives.js` (button, notice, level badge), `segmented.js`, `ticker.js`, `toast.js`, `palette.js` (Ctrl/Cmd+K or `/`), `alert-trigger.js`.
   - `features/` holds screen sections: `topbar.js`, `province-strip.js`, `municipality-table.js`, `sparkline.js`, `detail-panel.js`, `forecast-chart.js`, `alerts-view.js`.
+
+## Energy tab
+
+- `templates/index.html` has the `#view-energy` shell: heading and meta, site and mode controls, the "Simulated data" and connection panels, tiles, explanations, and the optimization and chart slots.
+- `static/js/lib/energy/`
+  - `sites.js` holds the site types and whether each has storage.
+  - `scenarios.js` holds the five scripted scenarios. Their values are illustrative.
+  - `simulation.js` holds the deterministic minute-by-minute model and the demo clock.
+  - `live.js` polls `/api/energy/live`.
+  - `explain.js` produces the estimated causes.
+  - `context.js` builds the input for a future AI provider.
+- `static/js/features/energy/`
+  - `energy-view.js` reduces either mode to one "situation" and renders it.
+  - `energy-tiles.js`, `energy-chart.js` and `optimization-panel.js` hold the panels. The optimization panel stays an empty placeholder until the server enables a provider.
+- `static/css/energy.css` holds the Energy layout and the Simulated, Scripted and Live tags.
+
+The demo clock and live polling run only while the Energy tab is visible.
 
 ## Conventions
 
