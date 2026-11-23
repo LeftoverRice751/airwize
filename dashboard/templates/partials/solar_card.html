@@ -1,0 +1,29 @@
+{#
+  Synthetic solar outlook and rules-based recommendations.
+  static/js/solar.js polls /api/solar-forecast and fills both slots.
+  Generation is synthetic demo data; PM2.5 is live Plume Labs data.
+#}
+<section id="solar-view" class="solar" aria-labelledby="solar-title">
+  <div class="solar__head">
+    <div>
+      <h2 id="solar-title">Solar outlook</h2>
+      <p class="view-head__sub">A demo rooftop array, forecast twice: once with weather only and once with live PM2.5. Generation is synthetic; air quality is real.</p>
+    </div>
+    <span class="solar__synthetic" title="The kW values are generated for this demo, not read from an inverter.">Synthetic solar data</span>
+  </div>
+
+  <div class="solar__grid">
+    <section id="solar-card" class="panel solar-card" aria-label="Synthetic solar generation forecast">
+      <div data-slot="solar-body"></div>
+      <p class="source-note" data-slot="solar-source">AQI: Plume Labs (live) · Solar: synthetic demo data</p>
+    </section>
+
+    <section id="solar-recommendations" class="panel solar-recs" aria-labelledby="solar-recs-title">
+      <div class="solar-recs__head">
+        <h3 id="solar-recs-title">Recommended actions</h3>
+        <span class="solar-recs__hint">Rules, not a model</span>
+      </div>
+      <div data-slot="solar-recs"></div>
+    </section>
+  </div>
+</section>

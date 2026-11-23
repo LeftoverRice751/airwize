@@ -10,6 +10,7 @@ def index():
     # The browser reads these from data attributes; see static/js/app.js.
     client_config = {
         "readings_url": url_for("api.readings"),
+        "solar_forecast_url": url_for("api.solar_forecast"),
         "poll_interval_ms": current_app.config["POLL_INTERVAL_MS"],
     }
     return render_template("index.html", client_config=client_config)

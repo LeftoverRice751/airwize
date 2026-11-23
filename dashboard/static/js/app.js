@@ -22,6 +22,7 @@ import { ProvinceStrip } from './features/province-strip.js'
 import { MunicipalityTable } from './features/municipality-table.js'
 import { DetailPanel } from './features/detail-panel.js'
 import { AlertsView } from './features/alerts-view.js'
+import { SolarCard } from './solar.js'
 
 const config = JSON.parse(document.getElementById('client-config').textContent)
 
@@ -125,6 +126,8 @@ const noMunicipalities = notice({ title: 'No Laguna municipalities found', body:
 
 const detail = new DetailPanel({ onSaveRule: saveRule })
 els.workspace.append(detail.el)
+
+const solar = new SolarCard(document.getElementById('solar-view'), config.solar_forecast_url, config.poll_interval_ms)
 
 const alerts = new AlertsView(els.alerts, {
   onSave: saveRule,
@@ -276,3 +279,4 @@ window.setInterval(() => set({ now: new Date() }), 30_000)
 
 render()
 poller.start()
+solar.start()

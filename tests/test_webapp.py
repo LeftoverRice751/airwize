@@ -37,8 +37,11 @@ class ReadingsClientTests(unittest.TestCase):
         self.assertIn("application/json", ctype)
 
     def test_unreachable_scraper(self):
+        # A reserved TLD cannot resolve. An unused localhost port is not a
+        # reliable "connection refused" on Windows: the firewall can drop the
+        # SYN, which the client correctly reports as a timeout instead.
         with self.assertRaises(ScraperUnavailable) as cm:
-            ReadingsClient(f"http://127.0.0.1:{free_port()}", timeout=2).fetch_readings()
+            ReadingsClient("http://nonexistent.invalid:8080", timeout=2).fetch_readings()
         self.assertNotIsInstance(cm.exception, ScraperTimeout)
         self.assertIn("could not be reached", str(cm.exception))
 
@@ -82,7 +85,7 @@ class ReadingsProxyTests(unittest.TestCase):
         self.assertTrue(data["municipalities"])
 
     def test_scraper_down_gives_502(self):
-        resp = make_app(f"http://127.0.0.1:{free_port()}").test_client().get("/api/readings")
+        resp = make_app("http://nonexistent.invalid:8080").test_client().get("/api/readings")
         self.assertEqual(resp.status_code, 502)
         self.assertIn("could not be reached", resp.get_json()["error"])
         self.assertEqual(resp.headers["Cache-Control"], "no-store")

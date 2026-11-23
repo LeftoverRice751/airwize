@@ -12,6 +12,7 @@ never contacts Plume Labs and is not used by the real app.
 import argparse
 import copy
 import json
+import math
 import threading
 import time
 from datetime import datetime, timezone
@@ -33,8 +34,14 @@ def _parse(iso: str) -> float:
     return datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp()
 
 
-def rebased_snapshot(now: float | None = None, mode: str = "ok") -> dict:
-    """The fixture with all times moved so the readings are current."""
+def rebased_snapshot(now: float | None = None, mode: str = "ok", scenario: str = "live") -> dict:
+    """The fixture with all times moved so the readings are current.
+
+    ``scenario`` changes only the air-quality numbers, for demo rehearsal:
+    ``hazy`` makes several municipalities exceed the 35 µg/m³ threshold with a
+    rising PM2.5 trend; ``clear`` keeps the province clean. ``live`` leaves the
+    fixture untouched.
+    """
     snap = copy.deepcopy(load_fixture())
     now = time.time() if now is None else now
     hour = now - now % 3600
@@ -50,6 +57,40 @@ def rebased_snapshot(now: float | None = None, mode: str = "ok") -> dict:
         snap["municipalities"] = []
     elif mode == "partial":
         snap["error"] = 'GET https://air.plumelabs.com/air-quality-in-Example: status 503'
+    return _apply_scenario(snap, scenario) if mode == "ok" else snap
+
+
+def _apply_scenario(snap: dict, scenario: str) -> dict:
+    """Overwrite the fixture's numbers so a hazy/clear demo repeats reliably."""
+    if scenario == "live":
+        return snap
+    hazy = scenario == "hazy"
+    for index, municipality in enumerate(snap["municipalities"]):
+        base = 65 + index * 6 if hazy else 5 + index
+        current_index = 90 + index * 6 if hazy else 18 + index * 2
+        municipality["plume_index"] = float(current_index)
+        municipality["level"] = (
+            "unhealthy" if hazy and index >= 3 else "poor" if hazy else "excellent" if index < 3 else "fair"
+        )
+        municipality["advice"] = "Polluted. Reduce outdoor exertion." if hazy else "Air quality is good."
+        pollutant = municipality.setdefault("pollutants", {}).setdefault("PM25", {"pi": 0, "value_upm": 0})
+        pollutant["value_upm"] = float(base)
+        pollutant["pi"] = float(base)
+
+        forecast = municipality.get("forecast") or []
+        past_hours = max(1, len(forecast) // 2)
+        for hour, point in enumerate(forecast):
+            # Haze builds from a cleaner 24h ago; the value at "now" (the
+            # midpoint) deliberately matches the current PM2.5 reading.
+            value = 12 + (base - 12) * (hour / max(1, len(forecast) - 1)) ** 2
+            values = point.setdefault("values", {})
+            values["PM25"] = {"pi": value, "value_upm": value}
+            if hour <= past_hours:
+                index_value = current_index * max(0.2, hour / past_hours)
+            else:
+                index_value = current_index + 5 * math.sin((hour - past_hours) / 4.0)
+            point["plume_index"] = index_value
+            point["plume_index_level"] = 4 if index_value >= 100 else 3 if index_value >= 50 else 2
     return snap
 
 
@@ -66,7 +107,7 @@ class _Handler(BaseHTTPRequestHandler):
         if cfg["status"] != 200:
             self.send_error(cfg["status"])
             return
-        body = cfg["body"] if cfg["body"] is not None else json.dumps(rebased_snapshot(mode=cfg["mode"])).encode()
+        body = cfg["body"] if cfg["body"] is not None else json.dumps(rebased_snapshot(mode=cfg["mode"], scenario=cfg["scenario"])).encode()
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Cache-Control", "no-store")
@@ -84,10 +125,10 @@ class _Handler(BaseHTTPRequestHandler):
 class FakeScraper:
     """Run the fake API on a background thread. ``port=0`` picks a free port."""
 
-    def __init__(self, port: int = 0, mode: str = "ok", delay: float = 0, status: int = 200, body: bytes | None = None):
+    def __init__(self, port: int = 0, mode: str = "ok", scenario: str = "live", delay: float = 0, status: int = 200, body: bytes | None = None):
         self.httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
         self.httpd.daemon_threads = True
-        self.httpd.fake = {"mode": mode, "delay": delay, "status": status, "body": body}  # type: ignore[attr-defined]
+        self.httpd.fake = {"mode": mode, "scenario": scenario, "delay": delay, "status": status, "body": body}  # type: ignore[attr-defined]
         self.thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
 
     @property
@@ -107,9 +148,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--port", type=int, default=8080)
     ap.add_argument("--mode", choices=["ok", "pending", "partial"], default="ok")
+    ap.add_argument("--scenario", choices=["live", "hazy", "clear"], default="live", help="demo numbers: hazy or clear air")
     args = ap.parse_args()
-    with FakeScraper(port=args.port, mode=args.mode) as fake:
-        print(f"fake scraper serving test fixture at {fake.url}/api/readings (mode={args.mode}); Ctrl+C to stop")
+    with FakeScraper(port=args.port, mode=args.mode, scenario=args.scenario) as fake:
+        print(f"fake scraper serving test fixture at {fake.url}/api/readings (mode={args.mode}, scenario={args.scenario}); Ctrl+C to stop")
         try:
             while True:
                 time.sleep(3600)
