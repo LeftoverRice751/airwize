@@ -112,13 +112,17 @@ class PageTests(unittest.TestCase):
         html = resp.get_data(as_text=True)
         self.assertIn("<title>Laguna AirWize</title>", html)
         self.assertIn('id="view-monitor"', html)
+        self.assertIn('id="view-outlook"', html)
         self.assertIn('id="view-alerts"', html)
         self.assertIn('id="nav-sidebar"', html)
         self.assertIn('data-action="menu"', html)
+        self.assertIn('data-view="outlook"', html)
+        self.assertNotIn('data-view="alerts"', html)
         self.assertNotIn('data-action="refresh"', html)
         cfg = json.loads(re.search(r'<script type="application/json" id="client-config">(.*?)</script>', html).group(1))
         self.assertEqual(cfg["readings_url"], "/api/readings")
         self.assertRegex(cfg["websocket_url"], r"^ws://127\.0\.0\.1:\d+/ws/readings$")
+        self.assertEqual(cfg["pm25_high"], 35.0)
 
     def test_dashboard_honors_public_websocket_url(self):
         app = create_app(

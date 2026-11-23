@@ -7,6 +7,40 @@ stream uses a different address.
 """
 
 import os
+from pathlib import Path
+
+
+def load_env_file(path: Path | None = None) -> None:
+    """Load simple ``KEY=value`` pairs from ``.env`` without extra dependencies.
+
+    Existing shell environment variables win, so a one-off
+    ``$env:AIRWIZE_AI_API_KEY=...`` still overrides the file. The file is
+    intentionally git-ignored; ``.env.example`` documents the keys.
+    """
+    env_path = path or Path(__file__).resolve().parent / ".env"
+    try:
+        lines = env_path.read_text(encoding="utf-8-sig").splitlines()
+    except OSError:
+        return
+    for raw in lines:
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[7:].lstrip()
+        key, separator, value = line.partition("=")
+        key = key.strip()
+        if not separator or not key or not (key[0].isalpha() or key[0] == "_"):
+            continue
+        if not all(char.isalnum() or char == "_" for char in key):
+            continue
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+            value = value[1:-1]
+        os.environ.setdefault(key, value)
+
+
+load_env_file()
 
 
 def _float(name: str, default: float) -> float:
@@ -46,6 +80,20 @@ class Config:
     # webapp/services/energy_optimization.py: "rules" shows the Solar outlook's
     # rules-based recommendations; set it empty to show an empty placeholder.
     ENERGY_OPTIMIZER = os.environ.get("AIRWIZE_ENERGY_OPTIMIZER", "rules").strip()
+
+    # --- Solar/energy advisor -------------------------------------------------
+    # auto: use the LLM when a key is configured, otherwise the grounded smart
+    # planner. smart: never call a model. ai: require a model, fall back to the
+    # planner on failure. rules: the previous rules-only behaviour.
+    ADVISOR = os.environ.get("AIRWIZE_ADVISOR", "auto").strip().lower()
+
+    # OpenAI-compatible chat-completions endpoint. The key is read here only and
+    # is never included in client config or an API response.
+    AI_API_KEY = os.environ.get("AIRWIZE_AI_API_KEY", "").strip()
+    AI_BASE_URL = os.environ.get("AIRWIZE_AI_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+    AI_MODEL = os.environ.get("AIRWIZE_AI_MODEL", "gpt-4o-mini").strip()
+    AI_TIMEOUT = _float("AIRWIZE_AI_TIMEOUT", 8.0)
+    AI_CACHE_SECONDS = _int("AIRWIZE_AI_CACHE_SECONDS", 300)
 
     # How often the Solar outlook asks Flask for a new forecast, in
     # milliseconds. Air-quality readings themselves arrive over the WebSocket;

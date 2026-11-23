@@ -21,5 +21,6 @@ def index():
         "optimization_enabled": energy_optimization.is_enabled(cfg),
         "solar_forecast_url": url_for("api.solar_forecast"),
         "poll_interval_ms": cfg["POLL_INTERVAL_MS"],
+        "pm25_high": cfg["AIRWIZE_PM25_HIGH"],
     }
     return render_template("index.html", client_config=client_config)

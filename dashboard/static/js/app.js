@@ -113,6 +113,7 @@ const els = {
   notices: document.getElementById('notices'),
   view: document.getElementById('view'),
   monitor: document.getElementById('view-monitor'),
+  outlook: document.getElementById('view-outlook'),
   alerts: document.getElementById('view-alerts'),
   energy: document.getElementById('view-energy'),
   monitorSub: document.getElementById('monitor-sub'),
@@ -120,7 +121,7 @@ const els = {
   listSlot: document.getElementById('ledger-slot'),
 }
 
-const strip = new ProvinceStrip(document.getElementById('strip'))
+const strip = new ProvinceStrip(document.getElementById('strip'), { pm25High: config.pm25_high })
 const levelFilter = new Segmented({ label: 'Filter by level', onChange: (level) => set({ level }) })
 document.getElementById('level-filter').append(levelFilter.el)
 
@@ -128,7 +129,7 @@ const table = new MunicipalityTable({ onSelect: (city) => selectMunicipality(cit
 const noRowsAtLevel = notice({ title: 'No municipality is at this level right now', action: button({ label: 'Show all', onClick: () => set({ level: 'all' }) }) })
 const noMunicipalities = notice({ title: 'No Laguna municipalities found', body: 'The last scan returned none. Check that Plume Labs still lists Laguna cities, then refresh.' })
 
-const detail = new DetailPanel({ onSaveRule: saveRule })
+const detail = new DetailPanel()
 els.workspace.append(detail.el)
 
 const solar = new SolarCard(document.getElementById('solar-view'), config.solar_forecast_url, config.poll_interval_ms)
@@ -164,6 +165,7 @@ function getCommands() {
   return [
     ...places,
     { id: 'go-monitor', group: 'Actions', label: 'Go to monitor', icon: 'wind', run: () => set({ view: 'monitor' }) },
+    { id: 'go-outlook', group: 'Actions', label: 'Go to outlook', icon: 'sun', keywords: 'solar forecast haze recommendations', run: () => set({ view: 'outlook' }) },
     { id: 'go-alerts', group: 'Actions', label: 'Go to alerts', icon: 'bell', run: () => set({ view: 'alerts' }) },
     { id: 'go-energy', group: 'Actions', label: 'Go to energy', icon: 'bolt', keywords: 'solar battery generator grid power', run: () => set({ view: 'energy' }) },
     ...Object.values(SITES).map((site) => ({ id: `site-${site.key}`, group: 'Energy', label: `Energy: ${site.label}`, icon: 'bolt', keywords: 'site type', run: () => set({ view: 'energy', site: site.key }) })),
@@ -195,10 +197,12 @@ function render() {
     lastView = state.view
   }
   const onAlerts = state.view === 'alerts'
+  const onOutlook = state.view === 'outlook'
   const onEnergy = state.view === 'energy'
   els.alerts.hidden = !onAlerts
+  els.outlook.hidden = !onOutlook
   els.energy.hidden = !onEnergy
-  els.monitor.hidden = onAlerts || onEnergy || status === 'error' || d.firstPassPending
+  els.monitor.hidden = onAlerts || onOutlook || onEnergy || status === 'error' || d.firstPassPending
 
   if (onAlerts) alerts.update(d.data, state.rules)
   else if (!els.monitor.hidden) renderMonitor(d)
@@ -212,7 +216,7 @@ function render() {
 function renderMonitor(d) {
   const { data, rows, counts, current } = d
   els.monitorSub.textContent = `Live Plume Labs readings${data ? ` for ${data.length} municipalities` : ''}, with each one’s 24-hour forecast.`
-  strip.update(data, state.rules)
+  strip.update(data)
 
   levelFilter.update(
     [

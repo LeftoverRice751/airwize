@@ -1,11 +1,11 @@
 /**
  * Province-wide figures that appear nowhere else on the screen: the coming
- * peak across every municipality, the day-on-day change of the mean, and
- * alert load.
+ * peak across every municipality, the day-on-day change of the mean, and how
+ * many municipalities are above the PM2.5 threshold that drives the haze and
+ * solar recommendations.
  */
 import { h, skeleton } from '../lib/dom.js'
 import { dayAgo, peak, splitForecast } from '../lib/outlook.js'
-import { evaluate } from '../lib/alerts.js'
 import { fmtDayTime, fmtIndex, fromUnix, signed } from '../lib/format.js'
 import { levelLabel, rankForIndex } from '../lib/levels.js'
 import { NumberTicker } from '../ui/ticker.js'
@@ -17,22 +17,23 @@ function stat(label) {
 }
 
 export class ProvinceStrip {
-  constructor(el) {
+  constructor(el, { pm25High = 35 } = {}) {
     this.el = el
+    this.pm25High = Number(pm25High)
     this.peak = stat('Province peak, next 24 hours')
     this.mean = stat('Mean index against 24 hours ago')
-    this.alerts = stat('Alerts triggered')
+    this.haze = stat(`PM2.5 above ${this.pm25High} µg/m³`)
     this.peakTicker = new NumberTicker({ fromZero: true })
     this.meanTicker = new NumberTicker({ fromZero: true, format: signed })
-    this.alertTicker = new NumberTicker()
+    this.hazeTicker = new NumberTicker()
     this.loading = null
   }
 
-  update(data, rules) {
+  update(data) {
     if (!data) return this.showSkeleton()
     if (this.loading !== false) {
       this.el.removeAttribute('aria-busy')
-      this.el.replaceChildren(this.peak.el, this.mean.el, this.alerts.el)
+      this.el.replaceChildren(this.peak.el, this.mean.el, this.haze.el)
       this.loading = false
     }
 
@@ -62,17 +63,22 @@ export class ProvinceStrip {
       this.mean.detail.textContent = 'Not enough history yet'
     }
 
-    const byCity = new Map(data.map((m) => [m.city, m]))
-    const statuses = rules.map((r) => evaluate(r, byCity.get(r.city)))
-    const now = statuses.filter((x) => x.kind === 'triggered').length
-    const soon = statuses.filter((x) => x.kind === 'forecast').length
-    if (rules.length) {
-      this.alertTicker.set(now)
-      this.alerts.value.replaceChildren(this.alertTicker.el, h('span', { class: 'stat__of' }, ` of ${rules.length}`))
-      this.alerts.detail.textContent = soon ? `${soon} more forecast to cross within 24 hours` : 'None forecast to cross within 24 hours'
+    const readings = data
+      .map((m) => {
+        const pm25 = m.pollutants?.PM25?.value_upm
+        return typeof pm25 === 'number' && Number.isFinite(pm25) ? { city: m.city, pm25 } : null
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.pm25 - a.pm25)
+    if (readings.length) {
+      const above = readings.filter((x) => x.pm25 > this.pm25High).length
+      const hottest = readings[0]
+      this.hazeTicker.set(above)
+      this.haze.value.replaceChildren(this.hazeTicker.el, h('span', { class: 'stat__of' }, ` of ${readings.length}`))
+      this.haze.detail.textContent = `Highest ${hottest.city}, ${hottest.pm25.toFixed(1)} µg/m³`
     } else {
-      this.alerts.value.replaceChildren(h('span', { class: 'num' }, '0'))
-      this.alerts.detail.textContent = 'No alert rules yet'
+      this.haze.value.textContent = 'n/a'
+      this.haze.detail.textContent = 'No PM2.5 readings'
     }
   }
 

@@ -8,8 +8,9 @@ the scraper cannot be reached, it answers 502 (or 504 on timeout) with
 ``GET /api/solar-forecast`` is the demo's synthetic-solar endpoint. It reads the
 same snapshot through the same client, builds a paired PM2.5/solar dataset,
 fits the baseline and AQI-augmented models, forecasts 24 hours and attaches the
-rules-based recommendations. The generation is synthetic; the PM2.5 input is
-real Plume Labs data forwarded by the scraper.
+grounded advisor plan (smart planner, optionally polished by a configured LLM).
+The generation is synthetic; the PM2.5 input is real Plume Labs data forwarded
+by the scraper.
 """
 
 from flask import Blueprint, Response, current_app, jsonify
@@ -41,7 +42,7 @@ def solar_forecast():
     """24-hour synthetic solar forecast plus rules-based recommendations."""
     cfg = current_app.config
     try:
-        payload = build_outlook(fetch_snapshot(cfg), cfg["AIRWIZE_SOLAR_SITE_NAME"])
+        payload = build_outlook(fetch_snapshot(cfg), cfg["AIRWIZE_SOLAR_SITE_NAME"], cfg)
     except ScraperTimeout as exc:
         return _error(str(exc), 504, source="solar forecast")
     except (ScraperUnavailable, OutlookUnavailable) as exc:

@@ -1,14 +1,13 @@
 /**
  * Detail for the selected municipality: advice, the 48-hour chart, forecast
- * analysis, current conditions and a quick alert form. Text blocks cross-fade
- * when the municipality changes; the chart sits outside them so it morphs.
+ * analysis and current conditions. Text blocks cross-fade when the
+ * municipality changes; the chart sits outside them so it morphs.
  */
 import { h, icon, replay, skeleton } from '../lib/dom.js'
 import { levelLabel, levelRank, rankForIndex } from '../lib/levels.js'
 import { fmtDayTime, fmtIndex, fmtTime, fmtWeekday, fromUnix, pollutantName, signed } from '../lib/format.js'
 import { bestWindow, dominantPollutant, peak, sixHourTrend, splitForecast } from '../lib/outlook.js'
 import { levelBadge } from '../ui/primitives.js'
-import { AlertTrigger } from '../ui/alert-trigger.js'
 import { NumberTicker } from '../ui/ticker.js'
 import { ForecastChart } from './forecast-chart.js'
 
@@ -22,7 +21,7 @@ function fact(label) {
 const sub = (...children) => h('span', { class: 'fact__sub' }, ...children)
 
 export class DetailPanel {
-  constructor({ onSaveRule }) {
+  constructor() {
     this.city = null
     this.mode = null // 'skeleton' | 'detail' | 'hidden'
     this.el = h('section', { class: 'panel' })
@@ -52,8 +51,6 @@ export class DetailPanel {
     this.uv = h('dd', { class: 'num' })
     this.sky = h('dd')
     this.readingNote = h('p', { class: 'source-note' })
-    this.alertTitle = h('h3')
-    this.trigger = new AlertTrigger({ onSubmit: onSaveRule })
 
     this.body = h(
       'div',
@@ -72,7 +69,6 @@ export class DetailPanel {
         ),
         this.readingNote,
       ),
-      h('div', { class: 'panel__section' }, this.alertTitle, this.trigger.el),
     )
   }
 
@@ -125,8 +121,6 @@ export class DetailPanel {
     this.uv.textContent = m.weather.uv.toFixed(0)
     this.sky.textContent = m.weather.icon ? m.weather.icon[0].toUpperCase() + m.weather.icon.slice(1).replace(/[-_]/g, ' ') : 'n/a'
     this.readingNote.textContent = `Reading for ${fmtTime(new Date(m.measured_at))} Manila time. Advice and forecast from Plume Labs.`
-    this.alertTitle.textContent = `Alert me about ${m.city}`
-    this.trigger.setCity(m.city)
   }
 
   fillOutlook(m, future) {

@@ -1,7 +1,7 @@
 {#
   The whole dashboard is this one page. Jinja renders the static shell
   (header, view headings, footer); static/js/app.js fills in live data from
-  /api/readings and switches between the monitor, alerts and energy views.
+  /api/readings and switches between the monitor, outlook, alerts and energy views.
 #}
 {% from 'partials/icons.html' import sprite %}
 <!doctype html>
@@ -52,6 +52,13 @@
           <div class="toolbar" id="level-filter"></div>
           <div class="workspace" id="workspace">
             <div id="ledger-slot" class="ledger-slot"></div>
+          </div>
+        </section>
+
+        <section id="view-outlook" class="outlook" aria-labelledby="outlook-title" hidden>
+          <div class="view-head">
+            <h1 id="outlook-title">Outlook</h1>
+            <p class="view-head__sub">Synthetic solar generation and a grounded smart plan for protecting output when PM2.5 rises.</p>
           </div>
           {% include 'partials/solar_card.html' %}
         </section>

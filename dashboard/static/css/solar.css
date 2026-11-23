@@ -6,6 +6,9 @@
   margin-top: var(--space-2xl);
 }
 
+/* The solar card lives in its own Outlook view, below that view's heading. */
+.outlook .solar { margin-top: 0; }
+
 .solar__head {
   display: flex;
   flex-wrap: wrap;
@@ -35,6 +38,14 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
+
+.solar__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.solar__modes .seg { background: var(--color-surface-3); }
 .solar__synthetic::before {
   content: "";
   width: 6px;
@@ -99,6 +110,11 @@
   font-size: var(--text-md);
   font-weight: 500;
 }
+.solar-card__clock {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
 .solar-card__meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -157,6 +173,17 @@
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
+}
+.solar-chart__now {
+  stroke: var(--color-accent);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  opacity: 0.6;
+}
+.solar-chart__now-dot {
+  fill: var(--color-accent);
+  stroke: var(--color-surface);
+  stroke-width: 1.5;
 }
 .solar-chart__legend {
   display: flex;

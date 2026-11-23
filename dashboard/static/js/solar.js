@@ -1,7 +1,13 @@
 /**
  * Solar outlook card. Polls GET /api/solar-forecast (same interval as the
  * readings) and draws the baseline vs AQI-aware forecast with a plain-language
- * note and the rules-based recommendations.
+ * note. Recommendations come from the server's grounded advisor: a smart plan
+ * computed from AQI, optionally rewritten by an LLM when one is configured.
+ *
+ * A built-in demo clock cycles the server's hourly simulation frames so the
+ * card is useful at night (when the live array is at 0 kW), showing the output,
+ * note and advisor advice move through the day. Switch to Live for the current
+ * snapshot.
  *
  * The generation behind this card is synthetic demo data; PM2.5 is live Plume
  * Labs data forwarded by the Go scraper. Nothing here estimates real inverter
@@ -10,10 +16,12 @@
 import { cx, h, s, skeleton } from './lib/dom.js'
 import { fmtTime, localHour } from './lib/format.js'
 import { button, notice } from './ui/primitives.js'
+import { Segmented } from './ui/segmented.js'
 
 const H = 170
 const PAD = { top: 10, right: 10, bottom: 24, left: 34 }
 const RETRY_MS = 15_000
+const DEMO_TICK_MS = 1_200
 
 const fmtKw = (value) => `${Number(value ?? 0).toFixed(1)}`
 const fmtPm = (value) => (value === null || value === undefined ? 'n/a' : `${Number(value).toFixed(1)} µg/m³`)
@@ -26,23 +34,28 @@ function niceMax(value) {
 class SolarChart {
   constructor() {
     this.points = []
+    this.active = null
     this.width = 0
 
     this.grid = s('g', { class: 'solar-chart__grid' })
     this.baseline = s('path', { class: 'solar-chart__baseline' })
     this.aqi = s('path', { class: 'solar-chart__aqi' })
     this.ticks = s('g', { class: 'solar-chart__ticks' })
+    this.nowLine = s('line', { class: 'solar-chart__now', y1: PAD.top, y2: H - PAD.bottom, x1: 0, x2: 0 })
+    this.nowDot = s('circle', { class: 'solar-chart__now-dot', r: 3.5, cx: 0, cy: 0 })
     this.svg = s(
       'svg',
       {
         height: H,
         role: 'img',
-        'aria-label': 'Hourly synthetic solar output for the next 24 hours: weather-only baseline versus AQI-aware forecast.',
+        'aria-label': 'Hourly synthetic solar output for the next 24 hours: weather-only baseline versus AQI-aware forecast, with the demo clock marker.',
       },
       this.grid,
       this.baseline,
       this.aqi,
       this.ticks,
+      this.nowLine,
+      this.nowDot,
     )
 
     this.el = h(
@@ -65,8 +78,9 @@ class SolarChart {
     }).observe(this.el)
   }
 
-  update(points) {
+  update(points, active = null) {
     this.points = Array.isArray(points) ? points : []
+    this.active = active
     this.draw()
   }
 
@@ -101,6 +115,18 @@ class SolarChart {
         s('text', { class: 'solar-chart__tick', x: x(i), y: H - 6, 'text-anchor': 'middle' }, fmtTime(date)),
       )
     this.ticks.replaceChildren(...ticks)
+
+    const active = Number.isInteger(this.active) && points[this.active] ? this.active : null
+    const shown = active !== null
+    this.nowLine.style.display = shown ? '' : 'none'
+    this.nowDot.style.display = shown ? '' : 'none'
+    if (shown) {
+      const xx = x(active)
+      this.nowLine.setAttribute('x1', xx)
+      this.nowLine.setAttribute('x2', xx)
+      this.nowDot.setAttribute('cx', xx)
+      this.nowDot.setAttribute('cy', y(Number(points[active].aqi_kw) || 0))
+    }
   }
 }
 
@@ -164,11 +190,28 @@ export class SolarCard {
     this.intervalMs = intervalMs || 60_000
     this.body = root.querySelector('[data-slot="solar-body"]')
     this.recs = root.querySelector('[data-slot="solar-recs"]')
+    this.recsHint = root.querySelector('[data-slot="solar-recs-hint"]')
     this.chart = new SolarChart()
     this.state = { status: 'loading', data: null, error: null }
+    this.mode = 'demo'
+    this.frames = []
+    this.frame = 0
     this.inflight = false
     this.retry = null
     this.timer = null
+    this.demoTimer = null
+
+    this.modeSeg = new Segmented({ label: 'Outlook clock', size: 'sm', onChange: (mode) => this.setMode(mode) })
+    const modeSlot = root.querySelector('[data-slot="solar-mode"]')
+    if (modeSlot) modeSlot.append(this.modeSeg.el)
+    this.modeSeg.update(
+      [
+        { value: 'demo', label: 'Demo' },
+        { value: 'live', label: 'Live' },
+      ],
+      this.mode,
+    )
+
     this.render()
   }
 
@@ -182,6 +225,49 @@ export class SolarCard {
     this.render()
   }
 
+  /** First daylight frame; at night the demo would otherwise open at 0 kW. */
+  firstDaylightFrame() {
+    const index = this.frames.findIndex((frame) => Number(frame.current_kw) > 0.05)
+    return index >= 0 ? index : 0
+  }
+
+  currentFrame() {
+    return this.mode === 'demo' && this.frames.length ? this.frames[this.frame] : null
+  }
+
+  setMode(mode) {
+    if (mode === this.mode) return
+    this.mode = mode
+    this.modeSeg.update(
+      [
+        { value: 'demo', label: 'Demo' },
+        { value: 'live', label: 'Live' },
+      ],
+      this.mode,
+    )
+    if (this.mode === 'demo') {
+      this.frame = this.firstDaylightFrame()
+      this.startDemo()
+    } else {
+      this.stopDemo()
+    }
+    this.render()
+  }
+
+  startDemo() {
+    this.stopDemo()
+    if (this.frames.length < 2) return
+    this.demoTimer = window.setInterval(() => {
+      this.frame = (this.frame + 1) % this.frames.length
+      this.render()
+    }, DEMO_TICK_MS)
+  }
+
+  stopDemo() {
+    if (this.demoTimer) window.clearInterval(this.demoTimer)
+    this.demoTimer = null
+  }
+
   async load() {
     if (this.inflight) return
     this.inflight = true
@@ -192,8 +278,16 @@ export class SolarCard {
       if (!data || !Array.isArray(data.forecast)) throw new Error('The solar forecast returned an unexpected payload.')
       window.clearTimeout(this.retry)
       this.retry = null
+      this.frames = Array.isArray(data.simulation) ? data.simulation : []
+      if (this.mode === 'demo' && this.frames.length) {
+        this.frame = this.firstDaylightFrame()
+        this.startDemo()
+      } else if (this.mode === 'live') {
+        this.stopDemo()
+      }
       this.set({ status: 'ready', data, error: null })
     } catch (error) {
+      this.stopDemo()
       this.set({ status: 'error', error: error instanceof TypeError ? 'The dashboard server could not be reached.' : error.message })
       // The scraper's first pass can still be running; try again soon without
       // waiting for the full polling interval.
@@ -211,8 +305,19 @@ export class SolarCard {
     const { status, data, error } = this.state
 
     if (status === 'ready' && data) {
-      this.renderReady(data)
-      this.recs.replaceChildren(renderRecommendations(data.recommendations))
+      const frame = this.currentFrame()
+      const advisor = frame?.advisor ?? data.advisor
+      this.renderReady(data, frame)
+      this.recs.replaceChildren(renderRecommendations(frame?.recommendations ?? data.recommendations))
+      if (this.recsHint) {
+        this.recsHint.textContent = this.mode === 'demo' ? `Demo · ${advisor?.label ?? 'Smart plan'}` : (advisor?.label ?? 'Smart plan')
+        this.recsHint.title =
+          this.mode === 'demo'
+            ? 'Simulated hourly frame, computed locally from the AQI forecast. Switch to Live for the current snapshot.'
+            : advisor?.mode === 'ai'
+              ? `Grounded actions rewritten by ${advisor.model ?? 'an AI model'}.`
+              : 'Computed locally from live AQI and the solar forecast. Configure an AI key to enable AI wording.'
+      }
       this.root.classList.remove('is-loading', 'is-error')
       return
     }
@@ -237,9 +342,13 @@ export class SolarCard {
     )
   }
 
-  renderReady(data) {
-    const note = noteFor(data.forecast)
+  renderReady(data, frame) {
+    const horizon = frame ? data.forecast.slice(this.frame) : data.forecast
+    const note = noteFor(horizon)
     const hazy = Boolean(note?.hazy)
+    const currentKw = frame ? Number(frame.current_kw) : Number(data.current_kw)
+    const pm25 = frame ? frame.pm25 : data.pm25
+    const clock = frame ? `Demo clock · ${fmtTime(new Date(frame.timestamp))}` : 'Live snapshot'
     const now = h(
       'div',
       { class: 'solar-card__now' },
@@ -249,27 +358,28 @@ export class SolarCard {
         h(
           'p',
           { class: 'solar-card__label' },
-          'Current output',
+          this.mode === 'demo' ? 'Simulated output' : 'Current output',
           h('span', { class: 'solar-card__flag' }, 'Synthetic'),
         ),
         h(
           'p',
           { class: 'solar-card__value' },
-          h('span', { class: 'solar-card__kw num' }, fmtKw(data.current_kw)),
+          h('span', { class: 'solar-card__kw num' }, fmtKw(currentKw)),
           h('span', { class: 'solar-card__unit' }, 'kW'),
         ),
-        data.current_kw === 0 && h('p', { class: 'source-note' }, 'The sun is down; output resumes after 06:00.'),
+        h('p', { class: 'solar-card__clock' }, clock),
+        currentKw === 0 && h('p', { class: 'source-note' }, 'The sun is down; output resumes after 06:00.'),
       ),
       h(
         'dl',
         { class: 'solar-card__meta' },
         h('div', {}, h('dt', {}, 'Demo site'), h('dd', {}, data.site)),
         h('div', {}, h('dt', {}, 'Municipality'), h('dd', {}, data.municipality)),
-        h('div', {}, h('dt', {}, 'PM2.5'), h('dd', { class: 'num' }, fmtPm(data.pm25))),
+        h('div', {}, h('dt', {}, 'PM2.5'), h('dd', { class: 'num' }, fmtPm(pm25))),
       ),
     )
 
-    this.chart.update(data.forecast)
+    this.chart.update(data.forecast, frame ? this.frame : null)
     const noteText = data.degraded
       ? 'PM2.5 is unavailable right now, so the AQI-aware line falls back to the weather-only forecast.'
       : note?.text

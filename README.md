@@ -2,7 +2,7 @@
 
 Live air quality, 24-hour forecasts and threshold alerts for the municipalities
 of one Philippine province (Laguna by default), from Plume Labs, plus a
-clearly labelled synthetic Solar outlook with rules-based recommendations that
+clearly labelled synthetic Solar outlook with grounded smart/AI suggestions that
 connect PM2.5 to rooftop generation, and an Energy tab for solar, grid,
 generator and battery sites.
 
@@ -43,6 +43,32 @@ venv/bin/pip install -r requirements.txt
 
 On Windows the interpreter and pip live under `venv\Scripts\` instead (for
 example `venv\Scripts\python -m unittest ...`).
+
+### 1b. Local environment (`.env`)
+
+`config.py` loads a project-root `.env` at startup (existing shell variables still
+win). Copy the example and fill in only what you need:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+```bash
+cp .env.example .env
+```
+
+`.env` is git-ignored. The important keys:
+
+```dotenv
+AIRWIZE_ADVISOR=auto
+AIRWIZE_AI_API_KEY=sk-...
+AIRWIZE_AI_BASE_URL=https://api.openai.com/v1
+AIRWIZE_AI_MODEL=gpt-4o-mini
+```
+
+Leave `AIRWIZE_AI_API_KEY` empty to keep the deterministic **Smart plan**. Fill it to
+switch the Outlook/Energy advisor to **AI advisor**. Restart Flask after editing
+`.env`; the file is read once at import.
 
 ### 2. Start the Go scraper (terminal 1)
 
@@ -129,7 +155,13 @@ Settings live in `config.py`. Each one can be overridden with an environment var
 | `AIRWIZE_ENERGY_DEVICE_ADDRESS` | empty | Network address of the module, passed to the adapter |
 | `AIRWIZE_ENERGY_DEVICE_TIMEOUT` | `3` | Seconds to wait for the module |
 | `AIRWIZE_ENERGY_POLL_INTERVAL_MS` | `10000` | How often the browser asks for a live energy reading |
-| `AIRWIZE_ENERGY_OPTIMIZER` | empty | Provider for the Energy tab's suggestions. `rules` (default) shows the Solar outlook's rules-based recommendations; empty turns the area back into a placeholder |
+| `AIRWIZE_ENERGY_OPTIMIZER` | `rules` | Provider for the Energy tab's suggestions. `rules` uses the shared Outlook advisor; empty turns the area back into a placeholder |
+| `AIRWIZE_ADVISOR` | `auto` | Outlook/Energy advisor: `auto` (LLM if a key is set, else the smart planner), `smart`, `ai`, or `rules` |
+| `AIRWIZE_AI_API_KEY` | empty | Server-only key for an OpenAI-compatible chat-completions service. Never sent to the browser |
+| `AIRWIZE_AI_BASE_URL` | `https://api.openai.com/v1` | OpenAI-compatible API base URL |
+| `AIRWIZE_AI_MODEL` | `gpt-4o-mini` | Model name sent to that service |
+| `AIRWIZE_AI_TIMEOUT` | `8` | Seconds to wait for the model before using the smart planner |
+| `AIRWIZE_AI_CACHE_SECONDS` | `300` | How long polished suggestions are reused for the same outlook |
 | `AIRWIZE_POLL_INTERVAL_MS` | `60000` | How often the Solar outlook refreshes its forecast (readings arrive over the WebSocket) |
 | `AIRWIZE_HOST` / `AIRWIZE_PORT` | `127.0.0.1` / `5000` | Where `python app.py` listens |
 | `AIRWIZE_SOLAR_SITE_NAME` | `demo-laguna-site` | Display name / cloud seed for the synthetic array |
@@ -154,7 +186,8 @@ webapp/
   services/readings_client.py  urllib client for the scraper, with an explicit timeout
   services/solar_sim.py        synthetic generation + paired PM2.5/solar dataset
   services/forecast.py         baseline and AQI-augmented LinearRegression models
-  services/recommendations.py  rules-based solar and air-quality actions
+  services/recommendations.py  rules-based air-quality actions (and rules-only advisor)
+  services/ai_advisor.py      smart solar/AQI planner + optional grounded LLM polish
   services/solar_outlook.py    builds the Solar outlook payload (shared by both endpoints)
   services/energy_device.py    solar Wi-Fi module interface (adapters), separate from the scraper
   services/energy_optimization.py  Energy tab suggestions: provider registry ("rules" built in)
@@ -184,11 +217,41 @@ filtering or server-side polling.
 `GET /api/solar-forecast` reads the same real snapshot, pairs each hour's PM2.5 with a
 generated kW value (half-sine daylight, deterministic clouds, PM2.5 attenuation), fits
 two `LinearRegression` models — weather-only and AQI-augmented — and returns a 24-hour
-forecast plus rules-based recommendations. Every row is marked `"synthetic": true` and
-the dashboard labels it in the card, the source line and the API. PM2.5 itself is real
-Plume Labs data. The card refreshes every `AIRWIZE_POLL_INTERVAL_MS`; only readings use
-the WebSocket. See `docs/mvp-plan.md` for the full contract and `docs/demo-script.md`
-for the walkthrough and the honesty line.
+forecast plus an advisor plan. Every row is marked `"synthetic": true` and the dashboard
+labels it in the card, the source line and the API. PM2.5 itself is real Plume Labs data.
+The card refreshes every `AIRWIZE_POLL_INTERVAL_MS`; only readings use the WebSocket. See
+`docs/mvp-plan.md` for the full contract and `docs/demo-script.md` for the walkthrough and
+the honesty line.
+
+## AI advisor
+
+The Outlook recommendations and the Energy optimization panel share one advisor
+(`webapp/services/ai_advisor.py`). It is grounded in the live snapshot and the synthetic
+solar forecast, and returns at most three actions:
+
+- **Smart planner (always available).** Computes the quantified case first: kWh lost over
+  the next 24 hours, the cleanest daylight window for panels, a haze-season maintenance
+  cadence, and the worst three-hour window to pre-charge or defer loads. Air-quality
+  actions still come from `recommendations.py`. No model or key is involved.
+- **Optional LLM (AI mode).** When a key is configured, the same candidate actions are
+  sent to an OpenAI-compatible chat-completions endpoint. The model may only rewrite and
+  reorder them — it cannot invent new actions, and every suggestion keeps the planner's
+  evidence. Invalid output, timeouts and HTTP failures fall back to the smart planner.
+  Responses are cached for `AIRWIZE_AI_CACHE_SECONDS` and the key stays server-side.
+
+`AIRWIZE_ADVISOR=auto` (default) uses the LLM when `AIRWIZE_AI_API_KEY` is set and the
+smart planner otherwise. `smart` never calls a model, `ai` requires one with fallback, and
+`rules` restores the previous rules-only list. The payload's `advisor` object says which
+mode produced the list; the UI badge shows “AI advisor” or “Smart plan”. These are
+estimates and suggestions, not measured savings.
+
+**Demo clock.** The Outlook card defaults to **Demo**, which cycles 24 precomputed hourly
+frames from `simulation` in the API payload. Each frame moves the observation time and
+current PM2.5, so the current kW, the chart marker, the plain-language note and the
+advisor plan change through the day; it starts at the first daylight frame, so it is not
+stuck at 0 kW at night. **Live** switches back to the current snapshot and the live AI
+advisor. The frames use the deterministic smart planner even when a live AI key is
+configured, so the demo is reproducible and does not spend 24 model calls.
 
 **Browser state.** Alert rules (`laguna-air.alerts`) and the theme (`laguna-air.theme`)
 are kept in `localStorage`, under the same keys the earlier React dashboard used, so
@@ -259,41 +322,33 @@ the outside forecast into plain-language guesses, such as heat driving cooling l
 dimming the panels, a jump in load, or a forecast temperature change. They are labelled
 as estimates. A rule stays silent when a value it needs is missing.
 
-### Energy optimization (rules now, AI later)
+### Energy optimization (grounded advisor)
 
 The panel right after "Why is it behaving this way?" shows suggestions from the provider
 named in `AIRWIZE_ENERGY_OPTIMIZER` (`webapp/services/energy_optimization.py`).
 
-**`rules` (the default)** reuses the Solar outlook's rules-based recommendations
-(`webapp/services/recommendations.py`). Both use the same live snapshot and the same
-pipeline in `webapp/services/solar_outlook.py`, so the Energy tab and the Solar outlook
-card always say the same thing. Only the energy-related rules are offered, matched to
-the site type:
+**`rules` (the default)** reuses the shared Outlook advisor described above. Both tabs
+use the same live snapshot and the same pipeline in `webapp/services/solar_outlook.py`,
+so they always say the same thing. Only the energy-related actions are offered, matched
+to the site type:
 
-| Rule | Shown for |
+| Action | Shown for |
 |---|---|
-| Haze is cutting output, clean the panels | Solar site |
-| Haze forecast: pre-charge batteries or defer loads in a time window | Solar, battery and generator sites |
+| Clean the panels, with kWh recovery, window and cadence | Solar site |
+| Pre-charge batteries or defer loads in the worst three-hour window | Solar, battery and generator sites |
 
 Grid connections get none. The air-quality actions (LGU patrols, rice-straw collection,
-clean cooking) stay on the Solar outlook card. Each suggestion says what it was based on.
+clean cooking) stay on the Outlook card. Each suggestion says what it was based on.
 In simulation mode that is the *live* air quality, not the demo scenario, and the
 suggestion says so. If the scraper is down, the panel says suggestions are unavailable
 rather than showing old or invented ones. Set `AIRWIZE_ENERGY_OPTIMIZER=` (empty) to turn
 the panel back into a placeholder that makes no requests.
 
-**To swap in an AI service:**
-
-1. Implement a provider with `suggest(context) -> list[Suggestion]` and a `label`
-   attribute (shown as the panel badge) in `webapp/services/energy_optimization.py`.
-   Read the API key from an environment variable there, on the server only.
-2. Register it in `PROVIDERS`, then start Flask with `AIRWIZE_ENERGY_OPTIMIZER=<name>`.
-3. The page sends the context from `dashboard/static/js/lib/energy/context.js` to
-   `POST /api/energy/suggestions` and lists the `{title, body, basis}` suggestions it gets back.
-   The context holds the site type, mode, scenario, clock, current readings, drain rate,
-   outside conditions, forecast and the explanations shown. Its exact schema is in the
-   module docstring. A provider can also call `solar_outlook.build_outlook()` to use the
-   Solar outlook forecast. The panel's markup does not change.
+To use the LLM here too, set `AIRWIZE_ADVISOR=auto` and `AIRWIZE_AI_API_KEY` (or
+`AIRWIZE_ADVISOR=ai`). The Energy panel's badge changes with the advisor mode. A custom
+provider can still be registered in `PROVIDERS` and selected with
+`AIRWIZE_ENERGY_OPTIMIZER=<name>`; the page sends the context from
+`dashboard/static/js/lib/energy/context.js` to `POST /api/energy/suggestions`.
 
 ## Tests
 
