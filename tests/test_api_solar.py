@@ -34,7 +34,17 @@ class SolarForecastEndpointTests(unittest.TestCase):
         self.assertEqual(data["peak_kw"], 5.0)
         self.assertIsInstance(data["degraded"], bool)
         self.assertIsInstance(data["recommendations"], list)
+        self.assertIn(data["advisor"]["mode"], {"smart", "ai", "rules"})
+        self.assertIn(data["advisor"]["label"], {"Smart plan", "AI advisor", "Rules, not a model"})
         self.assertTrue(data["generated_at"].endswith("Z"))
+
+        simulation = data["simulation"]
+        self.assertEqual(len(simulation), 24)
+        for frame in simulation:
+            self.assertEqual(set(frame), {"timestamp", "current_kw", "pm25", "recommendations", "advisor"})
+            self.assertGreaterEqual(frame["current_kw"], 0.0)
+            self.assertIn(frame["advisor"]["label"], {"Smart plan", "AI advisor", "Rules, not a model"})
+        self.assertGreater(max(frame["current_kw"] for frame in simulation), 0.0)
         self.assertIn("province", data)
 
         fixture = rebased_snapshot()

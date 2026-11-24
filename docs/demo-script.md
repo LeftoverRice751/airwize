@@ -44,12 +44,14 @@ one page; no slides, no second app.
 
 ### 2. The solar card (45 s)
 
-- Scroll to **Solar outlook**.
+- Open **Outlook** in the side navigation and point at the **Solar outlook** card.
 - Point at the **Synthetic solar data** badge and the source line before anyone
   asks: "AQI: Plume Labs (live) · Solar: synthetic demo data".
 - Read the current output and the site: a 5 kW demo array attached to the
-  worst-reading municipality. At night it honestly reads 0.0 kW; after 06:00 it
-  climbs toward the 5 kW nameplate (less when cloudy).
+  worst-reading municipality. The card defaults to the **Demo** clock, starting
+  at the first daylight frame; it cycles through the day so output, note and
+  advice move. Switch to **Live** for the current snapshot. At night, live mode
+  honestly reads 0.0 kW.
 - Explain the model in one sentence: half-sine daylight, deterministic clouds,
   and PM2.5 attenuation `clamp(1 − 0.002 × PM2.5, 0.6, 1.0)`.
 
@@ -61,24 +63,30 @@ one page; no slides, no second app.
   Read the note under the chart: **"Haze expected — AQI-aware forecast is up to
   roughly 20% lower than weather-only."** The exact percentage is computed from
   the current forecast.
-- Switch to the clear fixture (`--scenario clear`) and refresh: the lines sit on
-  top of each other and the note flips to **"Air quality is not expected to
-  reduce solar output significantly."** That contrast is the product.
+- Switch to the clear fixture (`--scenario clear`) and restart the fake: the page
+  reconnects automatically, the lines sit on top of each other, and the note flips
+  to **"Air quality is not expected to reduce solar output significantly."** That
+  contrast is the product.
 - If asked why the forecast is linear regression on 48 hours of paired data:
   "It is deliberately small and inspectable. The deliverable is the pipeline
   and the decision, not a claim of photovoltaic accuracy."
 
-### 4. Recommendations (60 s)
+### 4. The advisor plan (60 s)
 
 - Stay on the hazy fixture. The **Recommended actions** panel shows at most
-  three rules, warnings first:
+  three grounded suggestions, warnings first:
   - **Solar / Warning** — panel cleaning, with the estimated recovery in
-    kWh/day. Evidence lists the municipalities driving the haze.
+    kWh/day, the cleanest daylight window and a haze-season cadence. Evidence
+    lists the municipalities driving the haze.
+  - **Solar / Advice** — pre-charge the battery or move loads out of the worst
+    three-hour window.
   - **Air quality / Advice** — during a harvest month, centralized rice-straw
     collection, citing the Pila facility precedent.
-- Open the browser console? No. Instead say: "Every recommendation carries its
-  evidence — the municipalities, the PM2.5 maximum, the mean forecast delta.
-  These are rules, not a black box."
+- Say: "The smart planner computes the kWh loss and the windows locally. If an
+  AI model is configured, it only rewrites and reorders those grounded actions;
+  it cannot invent a number. Every suggestion keeps its evidence."
+- The badge says **Smart plan** without a model, or **AI advisor** when
+  `AIRWIZE_AI_API_KEY` is configured.
 
 ### 5. Close (30 s)
 
@@ -111,7 +119,7 @@ they show the settled state.
 
 | Symptom | Recovery |
 |---|---|
-| `Readings are unavailable` banner | The Go scraper is down. Start it, then press **Refresh**. If it stays down, switch to `python -m tests.fake_scraper` and keep presenting on the fixture (say so). |
+| `Readings are unavailable` banner | The Go scraper is down. Start it and use the notice's **Try again** (or reload the page). If it stays down, switch to `python -m tests.fake_scraper` and keep presenting on the fixture (say so). |
 | Solar card says "first pass may still be running" | The scraper has not completed its first pass. Wait ~30 s; the card retries by itself every 15 s. |
 | Chart is flat or current output is 0 | It is night in Manila. Use the hazy screenshot above, or run the demo during daylight. |
 | Lines do not diverge on a hazy day | Check that the municipality with the highest PM2.5 has PM2.5 in the snapshot and that the forecast series varies. The card marks `degraded` when PM2.5 is missing. |
@@ -132,6 +140,12 @@ they show the settled state.
 - **What would you validate next?** Held-out generation data from a real
   rooftop, a non-linear model, and a lag between PM2.5 and panel soiling rather
   than instantaneous attenuation.
+- **Is the advisor really AI?** The default is a deterministic smart planner, so
+  the demo works offline and every number is reproducible. Set
+  `AIRWIZE_AI_API_KEY` (and optionally `AIRWIZE_AI_MODEL`) to let an
+  OpenAI-compatible model rewrite and prioritise the same grounded actions.
+  The badge changes to **AI advisor**; failures fall back to the planner.
 - **Where do the recommendation thresholds come from?** `AIRWIZE_PM25_HIGH`
   (35 µg/m³) and `AIRWIZE_PM25_CRITICAL` (75 µg/m³) are configurable; the
-  −5 % / −10 % solar thresholds live in `recommendations.py` next to the rules.
+  cleaning and pre-charge windows come from the 24-hour forecast, and the
+  maintenance cadence from the peak PM2.5.

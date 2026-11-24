@@ -7,6 +7,7 @@ never contacts Plume Labs and is not used by the real app.
     python -m tests.fake_scraper                 # http://localhost:8080/api/readings
     python -m tests.fake_scraper --mode pending  # first pass not finished yet
     python -m tests.fake_scraper --mode partial  # last pass had failures
+    python -m tests.fake_scraper --scenario hazy # demo-ready hazy air
 """
 
 import argparse

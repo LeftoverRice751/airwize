@@ -47,11 +47,11 @@ available value within two hours is used.
 | File | Confirmed behaviour |
 |---|---|
 | `webapp/routes/api.py` | `/api/readings` forwards the scraper body byte for byte, `502` on unreachable, `504` on timeout, `Cache-Control: no-store`. The solar route is added alongside it; the proxy is untouched. |
-| `webapp/services/readings_client.py` | Standard-library `urllib` with a configurable timeout; raises `ScraperTimeout` (a `ScraperUnavailable`) so the route can map timeouts to `504` and everything else to `502`. |
+| `webapp/services/readings_client.py` | Standard-library `urllib` with a configurable timeout; raises `ScraperTimeout` (a `ScraperUnavailable`) so the route can map timeouts to `504` and everything else to `502`. Also derives the browser-facing WebSocket URL for live readings. |
 | `config.py` | `Config` class attributes, every one overridable by an `AIRWIZE_*` environment variable via `_float`/`_int`. New settings follow the same pattern. |
-| `dashboard/static/js/app.js` | One ES-module entry point. `ReadingsPoller` polls `/api/readings` every `poll_interval_ms` (60 s) and calls `set()`; the render function owns view switching. The solar module is imported here and gets the same interval from `client-config`. |
-| `dashboard/templates/index.html` | Single page; the monitor view is `#view-monitor` (province strip, table, detail panel). **The partial added there is `dashboard/templates/partials/solar_card.html`, included after `#workspace`.** |
-| `tests/fake_scraper.py` + `tests/fixtures/snapshot.json` | In-process HTTP fake serving the fixture with timestamps rebased to "now". The solar tests reuse it, so no test contacts Plume Labs. |
+| `dashboard/static/js/app.js` | One ES-module entry point. Live readings arrive via `ReadingsStream` over `WS /ws/readings` (HTTP `/api/readings` remains the retry fallback). The solar module is imported here and polls `/api/solar-forecast` on `poll_interval_ms` (60 s). |
+| `dashboard/templates/index.html` | Single page; the monitor view is `#view-monitor` (province strip, table, detail panel). **The partial added for the solar feature is `dashboard/templates/partials/solar_card.html`, inside the separate `#view-outlook` tab.** |
+| `tests/fake_scraper.py` + `tests/fixtures/snapshot.json` | In-process HTTP and WebSocket fake serving the fixture with timestamps rebased to "now". The solar tests reuse it, so no test contacts Plume Labs. |
 | `dashboard/static/js/features/forecast-chart.js` | Hand-rolled SVG chart with `ResizeObserver`, time ticks in Manila time, and CSS-variable styling. The solar chart follows the same approach but stays self-contained in `solar.js`. |
 
 ## Design decisions for the synthetic layer
@@ -99,6 +99,11 @@ These are the choices that turn the plan into deterministic, testable code.
    snapshot has no observation time.
 9. **One endpoint.** The solar endpoint returns the forecast *and* the
    recommendations, so the dashboard makes one extra request per minute.
+10. **Grounded advisor.** The Outlook and Energy tabs now share
+    `services/ai_advisor.py`. A deterministic planner computes the kWh loss,
+    cleaning window, maintenance cadence and pre-charge window; an optional
+    LLM may only rewrite/reorder those candidates. Without a key (or on any
+    model failure) the planner's output is used, so the demo works offline.
 
 ## API contract added
 
@@ -115,6 +120,11 @@ These are the choices that turn the plan into deterministic, testable code.
   "peak_kw": 5.0,
   "synthetic": true,
   "degraded": false,
+  "advisor": {
+    "mode": "smart",
+    "label": "Smart plan",
+    "fallback": false
+  },
   "forecast": [
     {
       "timestamp": "2026-11-23T15:00:00Z",
@@ -130,11 +140,22 @@ These are the choices that turn the plan into deterministic, testable code.
       "category": "solar",
       "severity": "warn",
       "text": "…",
-      "evidence": {"municipalities": ["Calamba", "Los Baños"]}
+      "evidence": {
+        "municipalities": ["Calamba", "Los Baños"],
+        "estimated_recovery_kwh_day": 2.1,
+        "window_start": "2026-11-24T23:00:00Z",
+        "window_end": "2026-11-25T02:00:00Z",
+        "maintenance": "Clean every 2–3 days while PM2.5 stays above 75 µg/m³."
+      }
     }
   ]
 }
 ```
+
+`advisor.mode` is `smart` (local planner), `ai` (LLM-rewritten) or `rules`
+(legacy). The LLM never replaces the evidence; it only rewrites and reorders
+the planner's candidates. `fallback` is true when an AI mode was requested but
+the planner answered instead.
 
 `forecast` has 24 hourly rows. `delta_pct` is zero when `baseline_kw` is zero
 (night) to avoid dividing by zero. Errors mirror the proxy: `502` when the
@@ -148,8 +169,9 @@ python -m unittest discover -s tests -v
 ```
 
 The suite uses only `tests/fake_scraper.py` and fixtures; no network. The new
-tests are `test_solar_sim.py`, `test_forecast.py`, `test_api_solar.py` and
-`test_recommendations.py`.
+tests are `test_solar_sim.py`, `test_forecast.py`, `test_api_solar.py`,
+`test_recommendations.py` and `test_ai_advisor.py` (the latter uses a local fake
+chat-completions server for the optional LLM path).
 
 ## Explicit non-goals
 

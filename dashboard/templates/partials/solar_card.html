@@ -7,9 +7,12 @@
   <div class="solar__head">
     <div>
       <h2 id="solar-title">Solar outlook</h2>
-      <p class="view-head__sub">A demo rooftop array, forecast twice: once with weather only and once with live PM2.5. Generation is synthetic; air quality is real.</p>
+      <p class="view-head__sub">A demo rooftop array, forecast twice: once with weather only and once with live PM2.5. Generation is synthetic; the smart plan is grounded in real air quality.</p>
     </div>
-    <span class="solar__synthetic" title="The kW values are generated for this demo, not read from an inverter.">Synthetic solar data</span>
+    <div class="solar__controls">
+      <div class="solar__modes" data-slot="solar-mode"></div>
+      <span class="solar__synthetic" title="The kW values are generated for this demo, not read from an inverter.">Synthetic solar data</span>
+    </div>
   </div>
 
   <div class="solar__grid">
@@ -21,7 +24,7 @@
     <section id="solar-recommendations" class="panel solar-recs" aria-labelledby="solar-recs-title">
       <div class="solar-recs__head">
         <h3 id="solar-recs-title">Recommended actions</h3>
-        <span class="solar-recs__hint">Rules, not a model</span>
+        <span class="solar-recs__hint" data-slot="solar-recs-hint">Smart plan</span>
       </div>
       <div data-slot="solar-recs"></div>
     </section>

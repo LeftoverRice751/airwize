@@ -149,7 +149,7 @@ class RulesProviderTests(unittest.TestCase):
             data = self.post(fake, "grid")
         self.assertEqual(data["status"], "ok")
         self.assertEqual(data["suggestions"], [])
-        self.assertEqual(data["label"], "Rules, not a model")
+        self.assertEqual(data["label"], "Smart plan")
 
     def test_scraper_down_is_reported_not_invented(self):
         app = make_app(SCRAPER_URL=f"http://127.0.0.1:{free_port()}", ENERGY_OPTIMIZER="rules")

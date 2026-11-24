@@ -3,19 +3,19 @@
 Providers are looked up by name from ``AIRWIZE_ENERGY_OPTIMIZER``:
 
 ``rules`` (the default)
-    The Solar outlook's rules-based recommendations
-    (webapp/services/recommendations.py), computed from the live Go scraper
-    snapshot and the synthetic solar forecast, filtered to the ones that apply
-    to the selected site type. No model and no API key.
+    The shared Solar outlook advisor (webapp/services/ai_advisor.py), computed
+    from the live Go scraper snapshot and the synthetic solar forecast and
+    filtered to the ones that apply to the selected site type. With
+    ``AIRWIZE_ADVISOR=auto`` this is the smart planner, or the LLM when a key is
+    configured; both are grounded in the same evidence.
 empty
     The area stays an empty placeholder and the page makes no request.
 
-To connect an AI service instead:
+To connect a different provider:
 
 1. Write a provider class with ``suggest(context) -> list[Suggestion]``. Keep
-   the API key on the server: read it from an environment variable inside the
-   provider (for example ``AIRWIZE_AI_API_KEY``); never send it to the browser
-   and never commit it.
+   any API key on the server: read it from an environment variable inside the
+   provider; never send it to the browser and never commit it.
 2. Register it: ``PROVIDERS["my-ai"] = lambda cfg: MyProvider(...)``.
 3. Start Flask with ``AIRWIZE_ENERGY_OPTIMIZER=my-ai``. The page then sees
    ``optimization_enabled: true`` and the Energy tab starts POSTing the
@@ -61,11 +61,11 @@ class OptimizationProvider(Protocol):
 
 
 class RulesProvider:
-    """The Solar outlook's recommendations, tailored to the Energy tab's site type.
+    """The shared Outlook advisor, tailored to the Energy tab's site type.
 
-    Uses the *live* air-quality snapshot even in simulation mode (the rules
-    have no notion of a demo scenario), and says so in each suggestion's basis.
-    Only energy-related ("solar") rules are offered; the air-quality actions
+    Uses the *live* air-quality snapshot even in simulation mode (the advisor
+    has no notion of a demo scenario), and says so in each suggestion's basis.
+    Only energy-related ("solar") actions are offered; the air-quality actions
     stay on the Solar outlook card.
     """
 
@@ -81,10 +81,11 @@ class RulesProvider:
     def suggest(self, context: Mapping[str, Any]) -> list[Suggestion]:
         from .solar_outlook import build_outlook, fetch_snapshot
 
-        outlook = build_outlook(fetch_snapshot(self.cfg), self.cfg["AIRWIZE_SOLAR_SITE_NAME"])
+        outlook = build_outlook(fetch_snapshot(self.cfg), self.cfg["AIRWIZE_SOLAR_SITE_NAME"], self.cfg)
         site = context.get("site_type")
         where = outlook.get("municipality") or "Laguna"
-        basis = f"Rules-based, from live air quality in {where} and the Solar outlook forecast"
+        basis = f"Advisor, from live air quality in {where} and the Solar outlook forecast"
+        self.label = (outlook.get("advisor") or {}).get("label", self.label)
         if context.get("mode") == "simulation":
             basis += " (live conditions, not the demo scenario)"
 
@@ -93,7 +94,15 @@ class RulesProvider:
             if rec.get("category") != "solar":
                 continue
             evidence = rec.get("evidence") or {}
-            if "estimated_recovery_kwh_day" in evidence and site in self.CLEAN_PANELS:
+            action = evidence.get("action")
+            if action == "clean_panels" and site in self.CLEAN_PANELS:
+                out.append(Suggestion("Clean the panels", rec["text"], basis))
+            elif action == "schedule_cleaning" and site in self.CLEAN_PANELS:
+                out.append(Suggestion("Schedule the next panel clean", rec["text"], basis))
+            elif action == "shift_loads" and site in self.SHIFT_LOADS:
+                out.append(Suggestion("Pre-charge before the haze window", rec["text"], basis))
+            elif "estimated_recovery_kwh_day" in evidence and site in self.CLEAN_PANELS:
+                # Backward-compatible path for the rules-only advisor.
                 out.append(Suggestion("Clean the panels", rec["text"], basis))
             elif "window_start" in evidence and site in self.SHIFT_LOADS:
                 out.append(Suggestion("Pre-charge before the haze window", rec["text"], basis))
